@@ -30,3 +30,8 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+/* Dialog */
+.p-dialog .p-dialog-header #filter {
+  padding: 0;
+}

@@ -1,12 +1,12 @@
-import HomePageFilters from "@/components/HomePageFilters";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchActualCars } from "@/services/cars";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import ProductsSkeleton from "@/components/ProductsSkeleton";
-import ProductCard from "@/components/ProductCard";
+import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
+import ProductCard from "@/components/Product/ProductCard";
+import HomePageMenu from "@/components/HomePageMenu/HomePageMenu";
 
 export default function Home() {
   const router = useRouter();
@@ -28,13 +28,12 @@ export default function Home() {
   useEffect(() => {}, [page]);
   return (
     <DefaultLayout>
-      <HomePageFilters />
+      <HomePageMenu />
       <div className="mt-4 flex flex-col gap-3">
-        {loading ? (
-          <ProductsSkeleton />
-        ) : (
-          cars.map((car: any) => <ProductCard key={car.id} product={car} />)
-        )}
+        {cars.map((car: any) => (
+          <ProductCard key={car.id} product={car} />
+        ))}
+        {loading && <ProductsSkeleton />}
       </div>
     </DefaultLayout>
   );
