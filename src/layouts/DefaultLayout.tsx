@@ -13,7 +13,8 @@ const items = [
         <span className="flex justify-center items-center">
           <i className="pi pi-home text-lg"></i>
         </span>
-        <p className="text-sm">DoStar-Auto</p>
+        <p className="hidden lg:block text-sm">DoStar-Auto</p>
+        <p className="lg:hidden">DoStar</p>
       </div>
     ),
     command: () => {
@@ -69,9 +70,9 @@ const DefaultLayout = ({ children }: Props) => {
       className={`flex min-h-screen flex-col items-center justify-between relative pt-[44px] pb-12`}
     >
       <Header />
-      <div>{children}</div>
+      <div className="w-full pb-8">{children}</div>
 
-      <div className="fixed bottom-0 max-w-[768px]">
+      <div className="fixed bottom-0 max-w-[768px] w-full">
         <TabMenu
           model={items as any}
           activeIndex={activeIndex}
