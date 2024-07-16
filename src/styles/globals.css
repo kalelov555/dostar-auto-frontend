@@ -18,3 +18,15 @@ body {
   width: 100%;
   margin: 0 auto;
 }
+
+/* Tab Menu */
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem {
+  width: 100%;
+}
+
+.p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
