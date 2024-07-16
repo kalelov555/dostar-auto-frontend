@@ -1,29 +1,39 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useMemo } from "react";
 
-const items = [
-  {
-    label: "Машины",
-    icon: "pi pi-car",
-    command: () => {},
-  },
-  {
-    label: "Коммерческие",
-    icon: "pi pi-truck",
-    command: () => {},
-  },
-  {
-    label: "Мототехника",
-    icon: "pi pi-car",
-    command: () => {},
-  },
-  {
-    label: "Машины2",
-    icon: "pi pi-truck",
-    command: () => {},
-  },
-];
-
-const HomePageFilters = () => {
+const HomePageMenu = () => {
+  const router = useRouter();
+  const items = useMemo(() => {
+    return [
+      {
+        label: "Машины",
+        icon: "pi pi-car",
+        command: () => {
+          router.push({ pathname: "/product/cars" });
+        },
+      },
+      {
+        label: "Коммерческие",
+        icon: "pi pi-truck",
+        command: () => {
+          router.push({ pathname: "/product/commercial" });
+        },
+      },
+      {
+        label: "Мототехника",
+        icon: "pi pi-car",
+        command: () => {
+          router.push({ pathname: "/product/moto" });
+        },
+      },
+      {
+        label: "Машины2",
+        icon: "pi pi-truck",
+        command: () => {},
+      },
+    ];
+  }, []);
   return (
     <div className="bg-white shadow-md">
       <div className="grid grid-cols-4">
@@ -31,6 +41,7 @@ const HomePageFilters = () => {
           <div
             key={item.label}
             className="p-3 flex items-center justify-center gap-2 flex-col border border-[0.5px] border-gray-primary h-24 cursor-pointer"
+            onClick={() => item.command()}
           >
             <i className={`${item.icon} text-primary`}></i>
             <p className="text-xs">{item.label}</p>
@@ -55,4 +66,4 @@ const HomePageFilters = () => {
   );
 };
 
-export default HomePageFilters;
+export default HomePageMenu;
