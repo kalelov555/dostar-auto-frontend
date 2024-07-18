@@ -10,21 +10,21 @@ const HomePageMenu = () => {
         label: "Машины",
         icon: "pi pi-car",
         command: () => {
-          router.push({ pathname: "/product/cars" });
+          router.push({ pathname: "/products/cars" });
         },
       },
       {
         label: "Коммерческие",
         icon: "pi pi-truck",
         command: () => {
-          router.push({ pathname: "/product/commercial" });
+          router.push({ pathname: "/products/commercial" });
         },
       },
       {
         label: "Мототехника",
         icon: "pi pi-car",
         command: () => {
-          router.push({ pathname: "/product/moto" });
+          router.push({ pathname: "/products/moto" });
         },
       },
       {

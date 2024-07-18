@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "primereact/button";
 import { SplitButton } from "primereact/splitbutton";
 
@@ -19,7 +20,12 @@ const Header = () => {
   return (
     <header className="h-[44px] flex items-center justify-between w-full bg-primary py-2 px-4 fixed top-0 max-w-[768px] mx-auto">
       <div>
-        <h1 className="text-xl font-semibold text-white">DoStar-auto</h1>
+        <Link
+          href={{ pathname: "/" }}
+          className="text-xl font-semibold text-white"
+        >
+          DoStar-auto
+        </Link>
       </div>
       <div>
         <SplitButton

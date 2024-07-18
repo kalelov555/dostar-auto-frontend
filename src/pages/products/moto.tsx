@@ -1,7 +1,7 @@
 import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import DefaultLayout from "@/layouts/DefaultLayout";
 
-const ProductTypePage = () => {
+const ProductMotoPage = () => {
   return (
     <DefaultLayout>
       <ProductPageFilters />
@@ -9,4 +9,4 @@ const ProductTypePage = () => {
   );
 };
 
-export default ProductTypePage;
+export default ProductMotoPage;
