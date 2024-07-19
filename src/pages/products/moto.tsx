@@ -4,7 +4,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 const ProductMotoPage = () => {
   return (
     <DefaultLayout>
-      <ProductPageFilters />
+      <ProductPageFilters filtersLabel="Мото" />
     </DefaultLayout>
   );
 };

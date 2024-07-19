@@ -1,13 +1,52 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import FiltersDialog from "./FiltersDialog";
-import TypesMenuDialog from "./TypesMenuDialog";
+import TypesMenuDialog, { TypeMenuItem } from "./TypesMenuDialog";
 
-const ProductPageFilters = () => {
+type Props = {
+  filtersLabel: string;
+};
+
+export const mainMenuItems = [
+  {
+    name: "cars",
+    pathname: "/products/cars",
+    label: "Лекговые",
+    icon: "pi pi-car",
+  },
+  {
+    name: "commercial",
+    pathname: "/products/commercial",
+    label: "Коммерческие",
+    icon: "pi pi-truck",
+    children: [
+      {
+        pathname: "/products/commercial/bus",
+        label: "Автобусы",
+        icon: "pi pi-car",
+      },
+      {
+        pathname: "/products/commercial/trucks",
+        label: "Грузовики",
+        icon: "pi pi-truck",
+      },
+    ],
+  },
+  {
+    name: "moto",
+    pathname: "/products/moto",
+    label: "Мото",
+    icon: "pi pi-car",
+  },
+];
+
+const ProductPageFilters = ({ filtersLabel }: Props) => {
   const [typeModalOpened, setTypeModalOpened] = useState(false);
   const [filtersModalOpened, setFiltersModalOpened] = useState(false);
+
   return (
     <>
       <TypesMenuDialog
+        // items={mainMenuItems as TypeMenuItem[]}
         typeModalOpened={typeModalOpened}
         setTypeModalOpened={setTypeModalOpened}
       />
@@ -21,7 +60,7 @@ const ProductPageFilters = () => {
           onClick={() => setTypeModalOpened(true)}
           className="flex items-center gap-2 cursor-pointer"
         >
-          <p>Легковые</p>
+          <p>{filtersLabel}</p>
           <i className="pi pi-angle-down"></i>
         </div>
         <div

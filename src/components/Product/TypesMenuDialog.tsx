@@ -1,31 +1,62 @@
 import Link from "next/link";
 import { Dialog } from "primereact/dialog";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import TypesMenuChildrenDialog from "./TypeMenuChildrenDialog";
+import { useRouter } from "next/router";
 
-type Props = {
-  typeModalOpened: boolean;
-  setTypeModalOpened: Dispatch<SetStateAction<boolean>>;
-};
-
-const items = [
+const mainMenuItems: TypeMenuItem[] = [
   {
+    name: "cars",
     pathname: "/products/cars",
     label: "Лекговые",
     icon: "pi pi-car",
   },
   {
+    name: "commercial",
     pathname: "/products/commercial",
     label: "Коммерческие",
     icon: "pi pi-truck",
+    children: [
+      {
+        name: "bus",
+        pathname: "/products/commercial/bus",
+        label: "Автобусы",
+        icon: "pi pi-car",
+      },
+      {
+        name: "trucks",
+        pathname: "/products/commercial/trucks",
+        label: "Грузовики",
+        icon: "pi pi-truck",
+      },
+    ],
   },
   {
+    name: "moto",
     pathname: "/products/moto",
     label: "Мото",
     icon: "pi pi-car",
   },
 ];
 
+export type TypeMenuItem = {
+  name: string;
+  pathname: string;
+  label: string;
+  icon: string;
+  command?: () => void;
+  children?: TypeMenuItem[];
+};
+
+type Props = {
+  typeModalOpened: boolean;
+  setTypeModalOpened: Dispatch<SetStateAction<boolean>>;
+};
+
 const TypesMenuDialog = ({ typeModalOpened, setTypeModalOpened }: Props) => {
+  const [isChildrenMenuOpened, setIsChildrenMenuOpened] = useState(false);
+  const [selectedItem, setSelectedItem] = useState("");
+
   return (
     <Dialog
       contentStyle={{ borderBottomLeftRadius: 0, borderBottomRightRadius: 0 }}
@@ -38,7 +69,7 @@ const TypesMenuDialog = ({ typeModalOpened, setTypeModalOpened }: Props) => {
         if (!typeModalOpened) return;
         setTypeModalOpened(false);
       }}
-      className="bg-[#f1f1f1]"
+      className="bg-[#f1f1f1] min-h-[250px]"
       content={
         <div style={{ padding: "1.5rem" }}>
           <div className="flex w-full items-center justify-between">
@@ -49,28 +80,54 @@ const TypesMenuDialog = ({ typeModalOpened, setTypeModalOpened }: Props) => {
             ></i>
           </div>
           <ul className="text-lg mt-6">
-            {items.map((item) => (
-              <li
-                className="border-b-[0.5px] border-gray-primary first:pt-0 py-2 last:border-b-0"
-                key={item.pathname}
-                onClick={() => setTypeModalOpened(false)}
-              >
-                <Link
-                  className="flex justify-between items-center "
-                  href={{ pathname: item.pathname }}
+            {mainMenuItems.map((item) => {
+              let hasChildren = item.children;
+              return (
+                <li
+                  className="border-b-[0.5px] border-gray-primary first:pt-0 py-2 last:border-b-0"
+                  key={item.pathname}
+                  onClick={() => {
+                    setSelectedItem(item.name);
+                    item.children
+                      ? setIsChildrenMenuOpened(true)
+                      : setTypeModalOpened(false);
+                  }}
                 >
-                  <div className="flex gap-3 items-center">
-                    <i
-                      className={`${item.icon} pi-pw text-lg text-primary`}
-                    ></i>
-                    <p>{item.label}</p>
-                  </div>
-                  <span>
-                    <i className="pi pi-chevron-right text-sm"></i>
-                  </span>
-                </Link>
-              </li>
-            ))}
+                  {item.children && item.name === selectedItem && (
+                    <TypesMenuChildrenDialog
+                      items={item.children}
+                      typeModalOpened={isChildrenMenuOpened}
+                      hideAllDialogs={() => {
+                        setTimeout(() => setIsChildrenMenuOpened(false));
+                        setTypeModalOpened(false);
+                      }}
+                      onBack={() =>
+                        setTimeout(() => setIsChildrenMenuOpened(false))
+                      }
+                      headerText="Выберите коммерческий продукт"
+                    />
+                  )}
+                  <Link
+                    className={`flex justify-between items-center ${
+                      hasChildren ? "pointer-events-none" : ""
+                    } `}
+                    href={{ pathname: item.pathname }}
+                    aria-disabled={hasChildren as unknown as boolean}
+                    tabIndex={hasChildren ? -1 : undefined}
+                  >
+                    <div className="flex gap-3 items-center">
+                      <i
+                        className={`${item.icon} pi-pw text-lg text-primary`}
+                      ></i>
+                      <p>{item.label}</p>
+                    </div>
+                    <span>
+                      <i className="pi pi-chevron-right text-sm"></i>
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
       }
