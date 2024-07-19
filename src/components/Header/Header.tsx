@@ -27,14 +27,12 @@ const Header = () => {
           DoStar-auto
         </Link>
       </div>
-      <div>
-        <SplitButton
-          label="RU"
-          outlined
-          model={items}
-          text
-          severity="danger"
-          className="h-8"
+      <div className="flex items-center gap-1">
+        <p className="text-white text-lg font-medium">RU</p>
+        <Button
+          icon="pi pi-angle-down"
+          className="bg-primary h-8 border-primary"
+          aria-label="Filter"
         />
       </div>
     </header>
