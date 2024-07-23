@@ -70,7 +70,7 @@ const HomePageMenu = () => {
       </div>
       <div>
         <Link
-          href="/"
+          href="/blog/news"
           className="flex items-center justify-between p-3 hover:text-primary"
         >
           <div className="flex gap-4 items-center justify-between">

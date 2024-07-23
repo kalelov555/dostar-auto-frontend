@@ -46,7 +46,6 @@ const ProductPageFilters = ({ filtersLabel }: Props) => {
   return (
     <>
       <TypesMenuDialog
-        // items={mainMenuItems as TypeMenuItem[]}
         typeModalOpened={typeModalOpened}
         setTypeModalOpened={setTypeModalOpened}
       />
