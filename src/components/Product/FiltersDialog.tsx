@@ -1,9 +1,10 @@
 import { dataInputs } from "@/services/filters/product";
+import { useRouter } from "next/router";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type Props = {
@@ -42,6 +43,7 @@ const FiltersDialog = ({
   filtersModalOpened,
   setFiltersModalOpened,
 }: Props) => {
+  const router = useRouter();
   const defaultValues: IFilter = {
     name: "",
     mark: "",
@@ -68,10 +70,58 @@ const FiltersDialog = ({
     formState: { errors },
     handleSubmit,
     reset,
+    setValue,
+    getValues,
+    watch,
+    trigger,
   } = useForm<IFilter>({ defaultValues });
 
+  useEffect(() => {
+    for (let key in router.query) {
+      if (router.query[key] !== "") {
+        setValue(key as keyof IFilter, router.query[key] as string);
+      }
+    }
+  }, [router.query, setValue]);
+
   const onSubmit = (data: IFilter) => {
-    alert(JSON.stringify(data));
+    let query = {};
+    for (let key in data) {
+      let elem = data[key as keyof IFilter];
+      if (elem !== "") {
+        query = { ...query, [key]: elem };
+      }
+    }
+    const url = {
+      pathname: router.pathname,
+      query: { ...router.query, ...query },
+    };
+    router.push(url, undefined, { shallow: true });
+    setFiltersModalOpened(false);
+  };
+
+  const onReset = useCallback(() => {
+    reset();
+    trigger();
+    for (let key in getValues()) {
+      if (router.query[key] !== "") {
+        setValue(key as keyof IFilter, "");
+      }
+    }
+    const url = {
+      pathname: router.pathname,
+      query: {},
+    };
+    router.push(url, undefined, { shallow: true });
+  }, []);
+
+  const disabled = () => {
+    for (let key in watch()) {
+      if (watch(key as keyof IFilter) !== "") {
+        return false;
+      }
+    }
+    return true;
   };
 
   return (
@@ -166,6 +216,12 @@ const FiltersDialog = ({
                 </span>
               </div>
             ))}
+            <div
+              onClick={onReset}
+              className="max-w-[300px] h-10 w-full mt-4 flex items-center justify-center bg-red-600 rounded-md text-white cursor-pointer hover:bg-red-500"
+            >
+              Очистить фильтр
+            </div>
 
             <div className="fixed bottom-4 max-w-[600px] w-full mx-auto self-center">
               <Button
@@ -173,6 +229,7 @@ const FiltersDialog = ({
                 className="w-full h-12 shadow-[0_8px_25px_0_rgba(42,129,221,.6)]"
                 label="Поиск..."
                 type="submit"
+                disabled={disabled()}
               />
             </div>
           </form>
