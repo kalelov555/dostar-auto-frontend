@@ -40,3 +40,14 @@ h1 {
 .p-dialog-bottom .p-dialog {
   margin: 0;
 }
+
+/* Password */
+.p-icon-field > .p-input-icon {
+  margin-top: -0.8rem;
+}
+
+.p-password,
+.p-password > div,
+.p-password > div > input {
+  width: 100%;
+}
