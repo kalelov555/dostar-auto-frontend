@@ -1,31 +1,60 @@
 import AuthPagesLayout from "@/layouts/AuthPagesLayout";
-import { loginInputs } from "@/services/auth/login/helpers";
-import { ILoginData } from "@/services/auth/login/interface";
 import Link from "next/link";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { classNames } from "primereact/utils";
-import React from "react";
+import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InputMask } from "primereact/inputmask";
-import { registerInputs } from "@/services/auth/register/helpers";
-import { IRegisterData } from "@/services/auth/register/interface";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import InputErrorText from "@/components/shared/InputErrorText";
+import { useMutation } from "@tanstack/react-query";
+import api from "@/services/api/client";
+import { IRegisterData } from "@/modules/auth/register/interface";
+import { registerInputs } from "@/modules/auth/register/helpers";
+import { AxiosError, AxiosResponse } from "axios";
+
+const RegisterSchema = z.object({
+  first_name: z.string(),
+  last_name: z.string(),
+  password: z.string(),
+  // tel: z.string(),
+  email: z.string().email(),
+});
 
 const RegisterPage = () => {
   const defaultValues: IRegisterData = {
     password: "",
-    username: "",
-    tel: "",
-    fullName: "",
-    city: "",
+    email: "",
+    // tel: "",
+    first_name: "",
+    last_name: "",
   };
 
-  const { control, reset, watch, handleSubmit } = useForm({ defaultValues });
+  const { control, reset, watch, handleSubmit } = useForm({
+    defaultValues,
+    resolver: zodResolver(RegisterSchema),
+  });
+
+  const { isPending, mutate } = useMutation({
+    mutationFn: (data: IRegisterData) => {
+      return api.post("/signup", { user: data });
+    },
+    onSuccess: (res: AxiosResponse) => {
+      let bearerToken: string = res.headers.authorization;
+      localStorage.setItem("token", bearerToken.replace("Bearer ", ""));
+    },
+    onError: (err: AxiosError) => {
+      alert(JSON.stringify(err.response?.data));
+    },
+  });
 
   const onSubmit = (data: IRegisterData) => {
-    alert(JSON.stringify(data));
+    // alert(JSON.stringify(data));
+    mutate(data);
   };
 
   const passwordHeader = <h6>Pick a password</h6>;
@@ -58,12 +87,20 @@ const RegisterPage = () => {
                   name={input.name}
                   control={control}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      placeholder={input.placeholder}
-                      className="w-full"
-                      {...(field as any)}
-                    />
+                    <>
+                      <InputText
+                        required
+                        id={field.name}
+                        placeholder={input.placeholder}
+                        className={`${
+                          fieldState.invalid && "p-invalid"
+                        } w-full`}
+                        {...(field as any)}
+                      />
+                      <InputErrorText
+                        msg={fieldState.error?.message as string}
+                      />
+                    </>
                   )}
                 />
               </div>
@@ -95,14 +132,21 @@ const RegisterPage = () => {
                   key={input.name}
                   name={input.name}
                   control={control}
+                  rules={{ required: true }}
                   render={({ field, fieldState }) => (
-                    <InputMask
-                      id={field.name}
-                      placeholder={input.placeholder}
-                      className="w-full"
-                      mask="+7(999)-999-99-99"
-                      {...(field as any)}
-                    />
+                    <>
+                      <InputMask
+                        id={field.name}
+                        placeholder={input.placeholder}
+                        className={`w-full `}
+                        mask="+7(999)-999-99-99"
+                        {...(field as any)}
+                        required
+                      />
+                      <InputErrorText
+                        msg={fieldState.error?.message as string}
+                      />
+                    </>
                   )}
                 />
               </div>
@@ -117,7 +161,7 @@ const RegisterPage = () => {
             className="text-xs text-primary hover:brightness-75"
             href="/login"
           >
-            Зайдите в систему
+            Есть аккаунт?
           </Link>
         </div>
 
@@ -127,6 +171,7 @@ const RegisterPage = () => {
             className="w-full h-12"
             label="Регистрация"
             type="submit"
+            loading={isPending}
           />
         </div>
       </form>

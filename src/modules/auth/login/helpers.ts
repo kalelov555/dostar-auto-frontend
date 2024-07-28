@@ -2,9 +2,9 @@ import { LoginFormData } from "./interface";
 
 export const loginInputs: LoginFormData[] = [
   {
-    name: "username",
+    name: "email",
     type: "text",
-    placeholder: "Имя пользователя",
+    placeholder: "Почта",
   },
   {
     name: "password",

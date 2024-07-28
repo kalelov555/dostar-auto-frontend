@@ -1,9 +1,9 @@
 export interface IRegisterData {
   password: string;
-  username: string;
-  tel: string;
-  fullName: string;
-  city: string;
+  email: string;
+  // tel: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface RegisterFormData {

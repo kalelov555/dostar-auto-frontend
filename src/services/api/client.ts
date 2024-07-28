@@ -1,7 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://dummyjson.com/",
+  baseURL: "https://splendid-weekly-eft.ngrok-free.app",
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json",
+  },
 });
 
 export default api;

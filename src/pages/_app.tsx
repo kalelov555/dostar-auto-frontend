@@ -4,6 +4,9 @@ import { Poppins } from "next/font/google";
 import { PrimeReactProvider } from "primereact/api";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const roboto = Poppins({
   weight: ["400", "600", "700", "900"],
@@ -15,9 +18,11 @@ const roboto = Poppins({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <div className={roboto.className}>
-      <PrimeReactProvider>
-        <Component {...pageProps} />
-      </PrimeReactProvider>
+      <QueryClientProvider client={queryClient}>
+        <PrimeReactProvider>
+          <Component {...pageProps} />
+        </PrimeReactProvider>
+      </QueryClientProvider>
     </div>
   );
 }

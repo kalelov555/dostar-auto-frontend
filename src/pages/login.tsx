@@ -1,47 +1,82 @@
+import InputErrorText from "@/components/shared/InputErrorText";
 import AuthPagesLayout from "@/layouts/AuthPagesLayout";
+import { loginInputs } from "@/modules/auth/login/helpers";
+import { ILoginData } from "@/modules/auth/login/interface";
 import api from "@/services/api/client";
-import { loginInputs } from "@/services/auth/login/helpers";
-import { ILoginData } from "@/services/auth/login/interface";
-import { atom, useAtom } from "jotai";
-import { atomWithMutation, atomWithQuery } from "jotai-tanstack-query";
-import { loadable } from "jotai/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { Button } from "primereact/button";
-import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
+import { Toast } from "primereact/toast";
 import { classNames } from "primereact/utils";
-import React from "react";
+import React, { useCallback, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
 
-const userAtom = atomWithMutation(() => ({
-  mutationKey: ["auth"],
-  mutationFn: async (data: ILoginData) => {
-    try {
-      const res = await api.post(`/auth/login`, { ...data, expiration: 1 });
-      //   alert("SUCCESS");
-      console.log(res.data);
-      return res.data;
-    } catch (err) {
-      throw new Error("Error");
-    }
-  },
-}));
+const LoginSchema = z.object({
+  email: z.string(),
+  password: z.string(),
+});
 
 const LoginPage = () => {
-  const [{ data, isError, isPending, mutateAsync }] = useAtom(userAtom);
+  const toast = useRef<Toast>(null);
+  const router = useRouter();
+
+  const showSuccess = useCallback(() => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Успешно!",
+      life: 3000,
+    });
+  }, []);
+  const showError = useCallback((msg: string) => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Что-то пошло не так!",
+      detail: msg,
+      life: 3000,
+    });
+  }, []);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: ILoginData) => {
+      return api.post("/login", { user: data });
+    },
+    onSuccess: (res: AxiosResponse) => {
+      let bearerToken: string = res.headers.authorization;
+      localStorage.setItem("token", bearerToken.replace("Bearer ", ""));
+      showSuccess();
+      router.push("/");
+    },
+    onError: (err: AxiosError) => {
+      showError(
+        err.response?.data
+          ? String(err.response?.data)
+          : "Перепроверьте данные!"
+      );
+    },
+  });
+
   const defaultValues: ILoginData = {
-    username: "",
+    email: "",
     password: "",
   };
-  const { control, reset, watch, handleSubmit } = useForm({ defaultValues });
+  const { control, reset, watch, handleSubmit } = useForm({
+    defaultValues,
+    resolver: zodResolver(LoginSchema),
+  });
 
   const onSubmit = async (formValues: ILoginData) => {
-    await mutateAsync(formValues);
+    mutate(formValues);
   };
 
   return (
     <AuthPagesLayout>
+      <Toast ref={toast} />
       <form
         className="flex flex-col max-w-sm w-full p-6 sm:p-5 gap-3 bg-white rounded-md shadow-xl"
         onSubmit={handleSubmit(onSubmit)}
@@ -56,12 +91,20 @@ const LoginPage = () => {
                   name={input.name}
                   control={control}
                   render={({ field, fieldState }) => (
-                    <InputText
-                      id={field.name}
-                      placeholder={input.placeholder}
-                      className="w-full"
-                      {...(field as any)}
-                    />
+                    <>
+                      <InputText
+                        required
+                        id={field.name}
+                        placeholder={input.placeholder}
+                        className={`${
+                          fieldState.invalid && "p-invalid"
+                        } w-full`}
+                        {...(field as any)}
+                      />
+                      <InputErrorText
+                        msg={fieldState.error?.message as string}
+                      />
+                    </>
                   )}
                 />
               </div>
@@ -72,16 +115,22 @@ const LoginPage = () => {
                   name={input.name}
                   control={control}
                   render={({ field, fieldState }) => (
-                    <Password
-                      id={field.name}
-                      {...field}
-                      toggleMask
-                      className={classNames({
-                        "p-invalid": fieldState.invalid,
-                      })}
-                      feedback={false}
-                      placeholder={input.placeholder}
-                    />
+                    <>
+                      <Password
+                        required
+                        id={field.name}
+                        {...field}
+                        toggleMask
+                        className={classNames({
+                          "p-invalid": fieldState.invalid,
+                        })}
+                        feedback={false}
+                        placeholder={input.placeholder}
+                      />
+                      <InputErrorText
+                        msg={fieldState.error?.message as string}
+                      />
+                    </>
                   )}
                 />
               </div>
@@ -94,7 +143,7 @@ const LoginPage = () => {
         <div className="text-center">
           <Link
             className="text-xs text-primary hover:brightness-75"
-            href="/register"
+            href="/signup"
           >
             Создайте аккаунт
           </Link>
