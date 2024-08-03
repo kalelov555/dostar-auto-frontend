@@ -16,6 +16,8 @@ import api from "@/services/api/client";
 import { IRegisterData } from "@/modules/auth/register/interface";
 import { registerInputs } from "@/modules/auth/register/helpers";
 import { AxiosError, AxiosResponse } from "axios";
+import { useAtom } from "jotai";
+import { tokenStorage } from "@/store/token";
 
 const RegisterSchema = z.object({
   first_name: z.string(),
@@ -26,6 +28,7 @@ const RegisterSchema = z.object({
 });
 
 const RegisterPage = () => {
+  const [token, setToken] = useAtom(tokenStorage)
   const defaultValues: IRegisterData = {
     password: "",
     email: "",
@@ -45,7 +48,7 @@ const RegisterPage = () => {
     },
     onSuccess: (res: AxiosResponse) => {
       let bearerToken: string = res.headers.authorization;
-      localStorage.setItem("token", bearerToken.replace("Bearer ", ""));
+      setToken(bearerToken.replace("Bearer ", ""))
     },
     onError: (err: AxiosError) => {
       alert(JSON.stringify(err.response?.data));

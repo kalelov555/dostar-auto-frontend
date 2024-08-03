@@ -1,20 +1,24 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ICar } from "@/modules/cars/interfaces";
 
 type Props = {
-  product: any;
+  product: ICar;
+  authorized: boolean;
 };
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product, authorized = false }: Props) => {
   return (
     <div className="bg-white shadow-sm p-4" key={product.id}>
       <div className="flex items-center justify-between">
         <Link className="text-lg font-semibold text-primary" href="/">
-          {product.title}
+          {product.manufacturer_name} {product.vehicle_model_name}
         </Link>
-        <span>
-          <i className="pi pi-heart"></i>
-        </span>
+        {authorized && (
+          <span>
+            <i className="pi pi-heart"></i>
+          </span>
+        )}
       </div>
       <div className="flex gap-4 text-sm">
         <p>{product.price} T</p>
@@ -24,12 +28,14 @@ const ProductCard = ({ product }: Props) => {
         <Image
           width={150}
           height={150}
-          src={product.images[0]}
-          alt={product.title}
+          src="https://source.unsplash.com/random?cars "
+          alt={product.vehicle_model_name}
         />
         <div className="text-sm">
           <p>{product.description}</p>
-          <p className="mt-3 text-gray-secondary">{product.brand}</p>
+          <p className="mt-3 text-gray-secondary">
+            {product.manufacturer_name}
+          </p>
         </div>
       </div>
     </div>

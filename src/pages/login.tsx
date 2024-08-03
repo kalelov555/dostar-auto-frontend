@@ -3,9 +3,11 @@ import AuthPagesLayout from "@/layouts/AuthPagesLayout";
 import { loginInputs } from "@/modules/auth/login/helpers";
 import { ILoginData } from "@/modules/auth/login/interface";
 import api from "@/services/api/client";
+import { tokenStorage } from "@/store/token";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
@@ -25,6 +27,7 @@ const LoginSchema = z.object({
 const LoginPage = () => {
   const toast = useRef<Toast>(null);
   const router = useRouter();
+  const [_, setToken] = useAtom(tokenStorage);
 
   const showSuccess = useCallback(() => {
     toast.current?.show({
@@ -48,7 +51,7 @@ const LoginPage = () => {
     },
     onSuccess: (res: AxiosResponse) => {
       let bearerToken: string = res.headers.authorization;
-      localStorage.setItem("token", bearerToken.replace("Bearer ", ""));
+      setToken(bearerToken.replace("Bearer ", ""));
       showSuccess();
       router.push("/");
     },
