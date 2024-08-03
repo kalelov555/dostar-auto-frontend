@@ -5,7 +5,7 @@ import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { classNames } from "primereact/utils";
-import React, { useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InputMask } from "primereact/inputmask";
 import { z } from "zod";
@@ -13,11 +13,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import InputErrorText from "@/components/shared/InputErrorText";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/services/api/client";
-import { IRegisterData } from "@/modules/auth/register/interface";
-import { registerInputs } from "@/modules/auth/register/helpers";
 import { AxiosError, AxiosResponse } from "axios";
 import { useAtom } from "jotai";
 import { tokenStorage } from "@/store/token";
+import { IRegisterDTO } from "@/interfaces/auth/auth.dto";
+import { registerInputs } from "@/helpers/auth";
+import { useRouter } from "next/router";
+import { Toast } from "primereact/toast";
 
 const RegisterSchema = z.object({
   first_name: z.string(),
@@ -28,8 +30,10 @@ const RegisterSchema = z.object({
 });
 
 const RegisterPage = () => {
-  const [token, setToken] = useAtom(tokenStorage)
-  const defaultValues: IRegisterData = {
+  const [_, setToken] = useAtom(tokenStorage);
+  const toast = useRef<Toast>();
+  const router = useRouter();
+  const defaultValues: IRegisterDTO = {
     password: "",
     email: "",
     // tel: "",
@@ -37,26 +41,45 @@ const RegisterPage = () => {
     last_name: "",
   };
 
+  const showSuccess = useCallback(() => {
+    toast.current?.show({
+      severity: "success",
+      summary: "Успешно!",
+      life: 3000,
+    });
+  }, []);
+  const showError = useCallback((msg: string) => {
+    toast.current?.show({
+      severity: "error",
+      summary: "Что-то пошло не так!",
+      detail: msg,
+      life: 3000,
+    });
+  }, []);
+
   const { control, reset, watch, handleSubmit } = useForm({
     defaultValues,
     resolver: zodResolver(RegisterSchema),
   });
 
   const { isPending, mutate } = useMutation({
-    mutationFn: (data: IRegisterData) => {
+    mutationFn: (data: IRegisterDTO) => {
       return api.post("/signup", { user: data });
     },
     onSuccess: (res: AxiosResponse) => {
       let bearerToken: string = res.headers.authorization;
-      setToken(bearerToken.replace("Bearer ", ""))
+      setToken(bearerToken.replace("Bearer ", ""));
+      showSuccess();
+      router.push("/");
     },
     onError: (err: AxiosError) => {
-      alert(JSON.stringify(err.response?.data));
+      showError(
+        err.response?.data ? String(err.response?.data) : "Что то пошло не так!"
+      );
     },
   });
 
-  const onSubmit = (data: IRegisterData) => {
-    // alert(JSON.stringify(data));
+  const onSubmit = (data: IRegisterDTO) => {
     mutate(data);
   };
 

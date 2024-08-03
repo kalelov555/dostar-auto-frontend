@@ -1,4 +1,17 @@
-import { RegisterFormData } from "./interface";
+import { LoginFormData, RegisterFormData } from "@/interfaces/auth/auth.dto";
+
+export const loginInputs: LoginFormData[] = [
+  {
+    name: "email",
+    type: "text",
+    placeholder: "Почта",
+  },
+  {
+    name: "password",
+    type: "password",
+    placeholder: "Пароль",
+  },
+];
 
 export const registerInputs: RegisterFormData[] = [
   {

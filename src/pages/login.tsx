@@ -1,7 +1,7 @@
 import InputErrorText from "@/components/shared/InputErrorText";
+import { loginInputs } from "@/helpers/auth";
+import { ILoginDTO } from "@/interfaces/auth/auth.dto";
 import AuthPagesLayout from "@/layouts/AuthPagesLayout";
-import { loginInputs } from "@/modules/auth/login/helpers";
-import { ILoginData } from "@/modules/auth/login/interface";
 import api from "@/services/api/client";
 import { tokenStorage } from "@/store/token";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,7 +46,7 @@ const LoginPage = () => {
   }, []);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: ILoginData) => {
+    mutationFn: async (data: ILoginDTO) => {
       return api.post("/login", { user: data });
     },
     onSuccess: (res: AxiosResponse) => {
@@ -64,7 +64,7 @@ const LoginPage = () => {
     },
   });
 
-  const defaultValues: ILoginData = {
+  const defaultValues: ILoginDTO = {
     email: "",
     password: "",
   };
@@ -73,7 +73,7 @@ const LoginPage = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-  const onSubmit = async (formValues: ILoginData) => {
+  const onSubmit = async (formValues: ILoginDTO) => {
     mutate(formValues);
   };
 

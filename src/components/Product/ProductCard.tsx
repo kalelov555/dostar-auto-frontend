@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ICar } from "@/modules/cars/interfaces";
+import { ICar } from "@/interfaces/car";
 
 type Props = {
   product: ICar;

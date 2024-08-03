@@ -13,7 +13,7 @@ const ProfilePage = () => {
     toast.current?.show({
       severity: "error",
       summary: "Error",
-      detail: error.response?.data as string,
+      detail: String(error?.response?.data),
       life: 3000,
     });
   };

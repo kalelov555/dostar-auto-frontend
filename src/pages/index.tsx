@@ -1,40 +1,72 @@
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { fetchActualCars } from "@/services/cars";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import ProductCard from "@/components/Product/ProductCard";
 import HomePageMenu from "@/components/HomePageMenu/HomePageMenu";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import api from "@/services/api/client";
+import { Toast } from "primereact/toast";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [cars, setCars] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const auth = useAuth();
 
-  useEffect(() => {
-    setLoading(true);
-    fetchActualCars()
-      .then((response) => {
-        console.log(response);
-        setCars(response.data.products);
-      })
-      .catch((err) => console.log("Error fetching cars", err))
-      .finally(() => setLoading(false));
-  }, []);
+  const toast = useRef<Toast>(null);
 
-  useEffect(() => {}, [page]);
+  const fetchProjects = (page = 1) =>
+    api.get("/cars?page=" + page).then((res) => res.data);
+
+  const {
+    isPending,
+    isSuccess,
+    data: cars,
+  } = useQuery({
+    queryKey: ["projects", page],
+    queryFn: () => fetchProjects(page),
+    placeholderData: keepPreviousData,
+  });
+
   return (
     <DefaultLayout>
       <HomePageMenu />
+      <Toast ref={toast} />
       <div className="mt-4 flex flex-col gap-3">
-        {cars.map((car: any) => (
-          <ProductCard key={car.id} product={car} />
-        ))}
-        {loading && <ProductsSkeleton />}
+        {isPending && <ProductsSkeleton />}
+        {isSuccess &&
+          cars.data.map((car: any) => (
+            <ProductCard
+              authorized={auth.isSuccess}
+              key={car.id}
+              product={car}
+            />
+          ))}
       </div>
+      {/* <div className="flex flex-col">
+
+
+        <span>Current Page: {page + 1}</span>
+        <button
+          onClick={() => setPage((old) => Math.max(old - 1, 0))}
+          disabled={page === 0}
+        >
+          Previous Page
+        </button>
+        <button
+          onClick={() => {
+            if (!isPlaceholderData && data.hasMore) {
+              setPage((old) => old + 1);
+            }
+          }}
+          // Disable the Next Page button until we know a next page is available
+          disabled={isPlaceholderData || !data?.hasMore}
+        >
+          Next Page
+        </button>
+        {isFetching ? <span> Loading...</span> : null}
+      </div> */}
     </DefaultLayout>
   );
 }

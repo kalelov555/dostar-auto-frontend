@@ -1,20 +1,16 @@
+import { IUser } from "@/interfaces/auth";
 import api from "@/services/api/client";
 import { tokenStorage } from "@/store/token";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useAtom } from "jotai";
 
-type AuthResponse = {
-  data: any;
-  isLoading: boolean;
-  isError: boolean;
-  isSuccess: boolean;
-  error: AxiosError;
-};
-
-export const useAuth = (): AuthResponse => {
+export const useAuth = () => {
   const [token, _] = useAtom(tokenStorage);
-  const { data, isLoading, isError, isSuccess, error } = useQuery({
+  const { data, isLoading, isError, isSuccess, error } = useQuery<
+    IUser,
+    AxiosError
+  >({
     queryKey: ["auth/me"],
     queryFn: async () => {
       const response = await api.get("/me", {
