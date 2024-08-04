@@ -5,7 +5,7 @@ import { Toast } from "primereact/toast";
 import { useEffect, useRef } from "react";
 
 const ProfilePage = () => {
-  const { data, isLoading, isError, isSuccess, error } = useAuth();
+  const { user, isLoading, isError, isSuccess, error } = useAuth();
   const toast = useRef<Toast>(null);
   const router = useRouter();
 
@@ -28,13 +28,18 @@ const ProfilePage = () => {
   return (
     <DefaultLayout>
       <div className="min-h-screen flex items-center justify-center">
-        {/* {isSuccess && <h1>{JSON.stringify(data)}</h1>} */}
         {(isLoading || isError) && (
           <i
             className="pi pi-spin pi-spinner text-primary"
             style={{ fontSize: "4rem" }}
           ></i>
         )}
+        <div className="flex flex-col gap-3">
+          <p>
+            {user?.data?.first_name} {user?.data?.last_name}
+          </p>
+          <p>{user?.data?.email}</p>
+        </div>
       </div>
       <Toast ref={toast} />
     </DefaultLayout>

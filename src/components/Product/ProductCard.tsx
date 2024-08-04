@@ -22,13 +22,12 @@ const ProductCard = ({ product, authorized = false }: Props) => {
       </div>
       <div className="flex gap-4 text-sm">
         <p>{product.price} T</p>
-        {/* <p>330 300 T/мес</p> */}
       </div>
       <div className="flex gap-4">
         <Image
           width={150}
           height={150}
-          src="https://source.unsplash.com/random?cars "
+          src="https://source.unsplash.com/random"
           alt={product.vehicle_model_name}
         />
         <div className="text-sm">

@@ -5,10 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useAtom } from "jotai";
 
+type AuthResponse = {
+  data: IUser;
+};
+
 export const useAuth = () => {
   const [token, _] = useAtom(tokenStorage);
   const { data, isLoading, isError, isSuccess, error } = useQuery<
-    IUser,
+    AuthResponse,
     AxiosError
   >({
     queryKey: ["auth/me"],
@@ -20,5 +24,5 @@ export const useAuth = () => {
     },
   });
 
-  return { data, isLoading, isError, isSuccess, error };
+  return { user: data, isLoading, isError, isSuccess, error };
 };
