@@ -1,4 +1,4 @@
-import { dataInputs } from "@/services/filters/product";
+import { dataInputs } from "@/helpers/filters";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -13,20 +13,20 @@ type Props = {
 };
 
 export interface IFilter {
-  name: string;
-  mark: string;
-  model: string;
-  priceFrom: string;
-  priceTo: string;
-  releaseDateFrom: string;
-  releaseDateTo: string;
+  // name: string;
+  // mark: string;
+  // model: string;
+  price_from: string;
+  price_to: string;
+  manufacture_year_from: string;
+  manufacture_year_to: string;
   transmission: string; //коробка передач
-  carcase: string; //кузов
-  fuel: string;
-  capacityFrom: string | null;
-  capacityTo: string | null;
-  wheelSide: "left" | "right" | ""; //left or right
-  driveUnit: string; // привод
+  body: string; //кузов // done
+  fuel_type: string; //done
+  // capacityFrom: string | null;
+  // capacityTo: string | null;
+  steering_wheel_side: "left_hand_drive" | "right_hand_drive" | ""; //left or right
+  // driveUnit: string; // привод
   color: string;
   paymentType: "credit" | "instllment" | "";
   crushState: "critical" | "notMoving" | "";
@@ -45,20 +45,20 @@ const FiltersDialog = ({
 }: Props) => {
   const router = useRouter();
   const defaultValues: IFilter = {
-    name: "",
-    mark: "",
-    model: "",
-    priceFrom: "",
-    priceTo: "",
-    releaseDateFrom: "",
-    releaseDateTo: "",
+    // name: "",
+    // mark: "",
+    // model: "",
+    price_from: "",
+    price_to: "",
+    manufacture_year_from: "",
+    manufacture_year_to: "",
     transmission: "", //коробка передач
-    carcase: "",
-    fuel: "",
-    capacityFrom: "",
-    capacityTo: "",
-    wheelSide: "", //left or right
-    driveUnit: "", // привод
+    body: "",
+    fuel_type: "",
+    // capacityFrom: "",
+    // capacityTo: "",
+    steering_wheel_side: "", //left or right
+    // driveUnit: "", // привод
     color: "",
     paymentType: "",
     crushState: "",

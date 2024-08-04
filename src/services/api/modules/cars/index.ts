@@ -25,3 +25,10 @@ export const fetchAllCars = async ({
     nextPage: pageParam + 1,
   };
 };
+
+export const fetchCarsByFilters = async (
+  params: any
+): Promise<ICarResponse> => {
+  const response = await api.get(`/cars`, { params: { ...params } });
+  return response.data;
+};
