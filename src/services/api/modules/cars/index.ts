@@ -1,4 +1,4 @@
-import { ICar, ICarResponse } from "@/interfaces/car";
+import { ICar, ICarsResponse } from "@/interfaces/car";
 import api from "../../client";
 
 type PaginatedCarsResponse = {
@@ -28,7 +28,7 @@ export const fetchAllCars = async ({
 
 export const fetchCarsByFilters = async (
   params: any
-): Promise<ICarResponse> => {
+): Promise<ICarsResponse> => {
   const response = await api.get(`/cars`, { params: { ...params } });
   return response.data;
 };

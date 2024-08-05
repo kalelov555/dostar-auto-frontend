@@ -20,7 +20,7 @@ export interface ICar {
   vehicle_model_name: string;
 }
 
-export interface ICarResponse {
+export interface ICarsResponse {
   data: ICar[];
   meta: {
     total_pages: number;

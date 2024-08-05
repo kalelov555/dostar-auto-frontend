@@ -3,18 +3,18 @@ import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import Pagination from "@/components/shared/Pagination";
 import { useAuth } from "@/hooks/useAuth";
-import { ICar, ICarResponse } from "@/interfaces/car";
+import { ICar, ICarsResponse } from "@/interfaces/car";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchCarsByFilters } from "@/services/api/modules/cars";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const ProductCarPage = () => {
+const ProductCarsPage = () => {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
-  const [carsResponse, setCarsResponse] = useState<ICarResponse | null>(null);
+  const [carsResponse, setCarsResponse] = useState<ICarsResponse | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -60,4 +60,4 @@ const ProductCarPage = () => {
   );
 };
 
-export default ProductCarPage;
+export default ProductCarsPage;
