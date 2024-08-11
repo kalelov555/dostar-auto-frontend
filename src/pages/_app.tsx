@@ -5,6 +5,7 @@ import { PrimeReactProvider } from "primereact/api";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { StrictMode } from "react";
 
 const queryClient = new QueryClient();
 
@@ -17,12 +18,14 @@ const roboto = Poppins({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={roboto.className}>
-      <QueryClientProvider client={queryClient}>
-        <PrimeReactProvider>
-          <Component {...pageProps} />
-        </PrimeReactProvider>
-      </QueryClientProvider>
-    </div>
+    <StrictMode>
+      <div className={roboto.className}>
+        <QueryClientProvider client={queryClient}>
+          <PrimeReactProvider>
+            <Component {...pageProps} />
+          </PrimeReactProvider>
+        </QueryClientProvider>
+      </div>
+    </StrictMode>
   );
 }

@@ -5,6 +5,7 @@ type PaginatedCarsResponse = {
   data: ICar[];
   currentPage: number;
   nextPage: number | null;
+  totalPages: number;
 };
 
 type Props = {
@@ -23,6 +24,7 @@ export const fetchAllCars = async ({
     data: response.data,
     currentPage: pageParam,
     nextPage: pageParam + 1,
+    totalPages: response.meta.total_pages,
   };
 };
 

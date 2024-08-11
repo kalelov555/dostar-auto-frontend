@@ -28,14 +28,18 @@ export default function Home() {
         restParams: { ...router.query },
       }),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextPage,
+    getNextPageParam: (lastPage, allPages) => {
+      const maxPages = lastPage.totalPages;
+      const nextPage = allPages.length;
+      return nextPage < maxPages ? nextPage : undefined;
+    },
   });
 
   useEffect(() => {
-    if (inView) {
+    if (inView && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [fetchNextPage, inView]);
+  }, [fetchNextPage, inView, isFetchingNextPage]);
 
   return (
     <DefaultLayout>

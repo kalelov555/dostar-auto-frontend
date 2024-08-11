@@ -4,7 +4,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 const ProductMotoPage = () => {
   return (
     <DefaultLayout>
-      <ProductPageFilters filtersLabel="Грузовики" />
+      <ProductPageFilters dataInputs={[]} filtersLabel="Грузовики" />
     </DefaultLayout>
   );
 };
