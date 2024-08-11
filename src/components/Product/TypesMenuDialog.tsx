@@ -18,8 +18,8 @@ const mainMenuItems: TypeMenuItem[] = [
     icon: "pi pi-truck",
     children: [
       {
-        name: "bus",
-        pathname: "/products/commercial/bus",
+        name: "buses",
+        pathname: "/products/commercial/buses",
         label: "Автобусы",
         icon: "pi pi-car",
       },
@@ -28,6 +28,12 @@ const mainMenuItems: TypeMenuItem[] = [
         pathname: "/products/commercial/trucks",
         label: "Грузовики",
         icon: "pi pi-truck",
+      },
+      {
+        name: "spec-technics",
+        pathname: "/products/commercial/spec-technics",
+        label: "Спец. техника",
+        icon: "pi pi-car",
       },
     ],
   },
