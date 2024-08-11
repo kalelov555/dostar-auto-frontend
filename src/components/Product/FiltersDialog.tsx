@@ -91,44 +91,26 @@ const FiltersDialog = ({
   }, [router.query, setValue]);
 
   const onSubmit = (data: IFilter) => {
-    let query = {};
+    let query: Partial<IFilter> = {};
     for (let key in data) {
       let elem = data[key as keyof IFilter];
       if (elem !== "") {
         query = { ...query, [key]: elem };
+      } else if (elem === "" && query[key as keyof IFilter]) {
+        query[key as keyof IFilter] = "";
       }
     }
     const url = {
       pathname: router.pathname,
-      query: { ...router.query, ...query },
+      query,
     };
-    router.push(url, undefined, { shallow: true });
+    router.push(url, undefined);
     setFiltersModalOpened(false);
   };
 
   const onReset = useCallback(() => {
     reset();
-    trigger();
-    for (let key in getValues()) {
-      if (router.query[key] !== "") {
-        setValue(key as keyof IFilter, "");
-      }
-    }
-    const url = {
-      pathname: router.pathname,
-      query: {},
-    };
-    router.push(url, undefined, { shallow: true });
   }, []);
-
-  const disabled = () => {
-    for (let key in watch()) {
-      if (watch(key as keyof IFilter) !== "") {
-        return false;
-      }
-    }
-    return true;
-  };
 
   return (
     <Dialog
@@ -253,7 +235,6 @@ const FiltersDialog = ({
                 className="w-full h-12 shadow-[0_8px_25px_0_rgba(42,129,221,.6)]"
                 label="Поиск..."
                 type="submit"
-                disabled={disabled()}
               />
             </div>
           </form>
