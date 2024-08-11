@@ -1,3 +1,5 @@
 import { atomWithStorage } from "jotai/utils";
 
-export const tokenStorage = atomWithStorage("token", "");
+export const tokenStorage = atomWithStorage("token", "", undefined, {
+  getOnInit: true,
+});
