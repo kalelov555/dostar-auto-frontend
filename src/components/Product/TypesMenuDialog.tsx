@@ -73,7 +73,7 @@ const TypesMenuDialog = ({ typeModalOpened, setTypeModalOpened }: Props) => {
       content={
         <div style={{ padding: "1.5rem" }}>
           <div className="flex w-full items-center justify-between">
-            <h1>Выберите Категорию</h1>
+            <h2>Выберите Категорию</h2>
             <i
               onClick={() => setTypeModalOpened(false)}
               className="pi pi-plus pi-pw rotate-45 text-2xl cursor-pointer"

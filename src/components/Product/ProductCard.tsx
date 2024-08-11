@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ICar } from "@/interfaces/car";
+import { IBus } from "@/interfaces/bus";
+import { IProduct } from "@/interfaces";
 
 type Props = {
-  product: ICar;
+  product: any;
   authorized: boolean;
 };
 
@@ -11,8 +13,13 @@ const ProductCard = ({ product, authorized = false }: Props) => {
   return (
     <div className="bg-white shadow-sm p-4" key={product.id}>
       <div className="flex items-center justify-between">
-        <Link className="text-lg font-semibold text-primary" href="/">
-          {product.manufacturer_name} {product.vehicle_model_name}
+        <Link
+          className="text-lg font-semibold text-primary"
+          href={`/products/cars/${product.id}`}
+        >
+          {product.manufacturer_name
+            ? `${product.manufacturer_name} ${product.vehicle_model_name}`
+            : `${product.model}`}
         </Link>
         {authorized && (
           <span>

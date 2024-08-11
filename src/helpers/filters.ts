@@ -1,12 +1,11 @@
-import { IFilter } from "@/components/Product/FiltersDialog";
-import { KeyFilterType } from "primereact/keyfilter";
+import { IDataInput } from "@/interfaces";
 
-// const sortingFilters = [
-//   { name: "По возрастанию цены", value: "price-asc" },
-//   { name: "По убыванию цены", value: "price-desc" },
-//   { name: "Сначала свежие объявления", value: "date-asc" },
-//   { name: "Сначала старые объявления", value: "date-desc" },
-// ];
+const sortingFilters = [
+  { name: "По возрастанию цены", value: "price-asc" },
+  { name: "По убыванию цены", value: "price-desc" },
+  { name: "Сначала свежие объявления", value: "created_at-asc" },
+  { name: "Сначала старые объявления", value: "created_at-desc" },
+];
 
 // const markFilters = [
 //   { name: "Toyota", value: "toyota" },
@@ -43,6 +42,19 @@ const bodyFilters = [
   { name: "Hardtop", value: "hardtop" },
 ];
 
+// [city shift suburban intercity tourist universal minibus other]
+
+const vehiclePurposeFilters = [
+  { name: "Город", value: "city" },
+  { name: "Шифт", value: "shift" },
+  { name: "Субурбан", value: "suburban" },
+  { name: "Межгород", value: "intercity" },
+  { name: "Турист", value: "tourist" },
+  { name: "Универсал", value: "universal" },
+  { name: "Минибус", value: "minibus" },
+  { name: "Остальное", value: "other" },
+];
+
 const fuelTypeFilters = [
   { name: "Бензин", value: "petrol" },
   { name: "Дизель", value: "diesel" },
@@ -76,29 +88,15 @@ const colorFilters = [
   { name: "Черный", value: "черный" },
 ];
 
-type DataInput = {
-  name: keyof IFilter;
-  type: string;
-  keyfilter?: KeyFilterType | undefined;
-  options?: {
-    name: string;
-    value: string;
-  }[];
-  placeholder?: string;
-  floatingLabel: boolean;
-  label?: string;
-  children?: DataInput[];
-};
-
-export const dataInputs: DataInput[] = [
-  // {
-  //   name: "sortBy",
-  //   type: "select",
-  //   options: sortingFilters,
-  //   placeholder: "Выбрать",
-  //   floatingLabel: false,
-  //   label: "Сортировать по",
-  // },
+export const carsInputs: IDataInput[] = [
+  {
+    name: "sort",
+    type: "select",
+    options: sortingFilters,
+    placeholder: "Выбрать",
+    floatingLabel: false,
+    label: "Сортировать по",
+  },
   // {
   //   name: "mark",
   //   type: "select",
@@ -221,4 +219,112 @@ export const dataInputs: DataInput[] = [
     floatingLabel: true,
     label: "Цвет",
   },
+];
+
+export const busesInput: IDataInput[] = [
+  {
+    name: "sort",
+    type: "select",
+    options: sortingFilters,
+    placeholder: "Выбрать",
+    floatingLabel: false,
+    label: "Сортировать по",
+  },
+  {
+    name: "key_words",
+    type: "text",
+    placeholder: "Ключевые слова",
+    floatingLabel: false,
+    label: "Что ищите?",
+  },
+  {
+    name: "price_from",
+    type: "range",
+    floatingLabel: false,
+    label: "Цена, ₸",
+    children: [
+      {
+        name: "price_from",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "от",
+        floatingLabel: false,
+      },
+      {
+        name: "price_to",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "до",
+        floatingLabel: false,
+      },
+    ],
+  },
+  {
+    name: "manufacture_year_from",
+    type: "range",
+    floatingLabel: false,
+    label: "Год выпуска",
+    children: [
+      {
+        name: "manufacture_year_from",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "с",
+        floatingLabel: false,
+      },
+      {
+        name: "manufacture_year_to",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "по",
+        floatingLabel: false,
+      },
+    ],
+  },
+  {
+    name: "transmission",
+    type: "select",
+    options: transmissionFilters,
+    placeholder: "Выбрать кпп",
+    floatingLabel: true,
+    label: "Коробка передач",
+  },
+  {
+    name: "vehicle_purpose",
+    type: "select",
+    options: vehiclePurposeFilters,
+    placeholder: "Выбрать цель транспорта",
+    floatingLabel: true,
+    label: "Цель",
+  },
+  {
+    name: "fuel_type",
+    type: "select",
+    options: fuelTypeFilters,
+    placeholder: "Выбрать тип топлива",
+    floatingLabel: true,
+    label: "Топливо",
+  },
+  // {
+  //   name: "capacityFrom",
+  //   type: "range",
+  //   floatingLabel: false,
+  //   label: "Объем двигателя, л",
+  //   children: [
+  //     {
+  //       name: "capacityFrom",
+  //       type: "text",
+  //       keyfilter: "pnum",
+  //       placeholder: "от",
+  //       floatingLabel: false,
+  //     },
+  //     {
+  //       name: "capacityTo",
+  //       type: "text",
+  //       keyfilter: "pnum",
+  //       placeholder: "до",
+  //       floatingLabel: false,
+  //     },
+  //   ],
+  // },
 ];

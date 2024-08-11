@@ -1,9 +1,11 @@
 import { useMemo, useState } from "react";
 import FiltersDialog from "./FiltersDialog";
 import TypesMenuDialog, { TypeMenuItem } from "./TypesMenuDialog";
+import { IDataInput } from "@/interfaces";
 
 type Props = {
   filtersLabel: string;
+  dataInputs: IDataInput[];
 };
 
 export const mainMenuItems = [
@@ -39,7 +41,7 @@ export const mainMenuItems = [
   },
 ];
 
-const ProductPageFilters = ({ filtersLabel }: Props) => {
+const ProductPageFilters = ({ filtersLabel, dataInputs }: Props) => {
   const [typeModalOpened, setTypeModalOpened] = useState(false);
   const [filtersModalOpened, setFiltersModalOpened] = useState(false);
 
@@ -51,6 +53,7 @@ const ProductPageFilters = ({ filtersLabel }: Props) => {
       />
 
       <FiltersDialog
+        dataInputs={dataInputs}
         filtersModalOpened={filtersModalOpened}
         setFiltersModalOpened={setFiltersModalOpened}
       />

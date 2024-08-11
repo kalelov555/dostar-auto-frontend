@@ -8,6 +8,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchCarsByFilters } from "@/services/api/modules/cars";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { carsInputs } from "@/helpers/filters";
 
 const ProductCarsPage = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const ProductCarsPage = () => {
   }, [router.query, page]);
   return (
     <DefaultLayout>
-      <ProductPageFilters filtersLabel="Легковые" />
+      <ProductPageFilters dataInputs={carsInputs} filtersLabel="Легковые" />
       <div className="mt-10 flex flex-col gap-3">
         {loading ? (
           <ProductsSkeleton />

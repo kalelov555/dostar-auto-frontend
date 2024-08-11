@@ -1,4 +1,4 @@
-import { dataInputs } from "@/helpers/filters";
+import { IDataInput } from "@/interfaces";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -10,6 +10,7 @@ import { Controller, useForm } from "react-hook-form";
 type Props = {
   filtersModalOpened: boolean;
   setFiltersModalOpened: Dispatch<SetStateAction<boolean>>;
+  dataInputs: IDataInput[];
 };
 
 export interface IFilter {
@@ -31,7 +32,9 @@ export interface IFilter {
   paymentType: "credit" | "instllment" | "";
   crushState: "critical" | "notMoving" | "";
   descriptionText: "";
-  sortBy: string;
+  sort: string;
+  vehicle_purpose: string;
+  key_words: string;
 }
 
 type FilterObject = {
@@ -42,6 +45,7 @@ type FilterObject = {
 const FiltersDialog = ({
   filtersModalOpened,
   setFiltersModalOpened,
+  dataInputs,
 }: Props) => {
   const router = useRouter();
   const defaultValues: IFilter = {
@@ -63,7 +67,9 @@ const FiltersDialog = ({
     paymentType: "",
     crushState: "",
     descriptionText: "",
-    sortBy: "",
+    sort: "",
+    vehicle_purpose: "",
+    key_words: "",
   };
   const {
     control,
@@ -208,7 +214,25 @@ const FiltersDialog = ({
                       ))}
                     </div>
                   ) : (
-                    <></>
+                    <div className="w-full">
+                      <Controller
+                        key={input.name}
+                        name={input.name}
+                        control={control}
+                        render={({ field, fieldState }) => (
+                          <>
+                            <InputText
+                              id={field.name}
+                              placeholder={input.placeholder}
+                              className={`${
+                                fieldState.invalid && "p-invalid"
+                              } w-full`}
+                              {...(field as any)}
+                            />
+                          </>
+                        )}
+                      />
+                    </div>
                   )}
                   {input.floatingLabel && (
                     <label htmlFor={input.name}>{input.label}</label>

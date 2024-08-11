@@ -41,7 +41,7 @@ const TypesMenuChildrenDialog = ({
                   className="pi pi-arrow-left pi-pw text-lg cursor-pointer"
                 ></i>
               )}
-              <h1>{headerText}</h1>
+              <h2>{headerText}</h2>
             </div>
             <i
               onClick={() => hideAllDialogs()}
