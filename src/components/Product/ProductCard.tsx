@@ -34,8 +34,8 @@ const ProductCard = ({ product, authorized = false }: Props) => {
         <Image
           width={150}
           height={150}
-          src="https://source.unsplash.com/random"
-          alt={product.vehicle_model_name}
+          src="https://hips.hearstapps.com/hmg-prod/images/a218141-medium-1635867809.jpg?crop=0.723xw:0.811xh;0.133xw,0.127xh&resize=768:*"
+          alt={product.vehicle_model_name || ""}
         />
         <div className="text-sm">
           <p>{product.description}</p>

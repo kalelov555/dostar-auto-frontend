@@ -3,16 +3,18 @@ import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import Pagination from "@/components/shared/Pagination";
 import { useAuth } from "@/hooks/useAuth";
-import { ICar, ICarsResponse } from "@/interfaces/car";
+import { ICarsResponse } from "@/interfaces/car";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchCarsByFilters } from "@/services/api/modules/cars";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { carsInputs } from "@/helpers/filters";
+import { useAtom } from "jotai";
+import { pageAtom } from "@/store/page";
 
 const ProductCarsPage = () => {
   const router = useRouter();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useAtom(pageAtom);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const [carsResponse, setCarsResponse] = useState<ICarsResponse | null>(null);

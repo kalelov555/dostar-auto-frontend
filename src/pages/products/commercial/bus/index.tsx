@@ -7,12 +7,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { IBusesResponse } from "@/interfaces/bus";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchBusesByFilters } from "@/services/api/modules/buses";
+import { pageAtom } from "@/store/page";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const ProductMotoPage = () => {
   const router = useRouter();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useAtom(pageAtom);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const [busesResponse, setBusesResponse] = useState<IBusesResponse | null>(

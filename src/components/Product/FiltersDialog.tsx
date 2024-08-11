@@ -1,4 +1,6 @@
 import { IDataInput } from "@/interfaces";
+import { pageAtom } from "@/store/page";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -47,6 +49,7 @@ const FiltersDialog = ({
   setFiltersModalOpened,
   dataInputs,
 }: Props) => {
+  const [page, setPage] = useAtom(pageAtom);
   const router = useRouter();
   const defaultValues: IFilter = {
     // name: "",
@@ -106,6 +109,7 @@ const FiltersDialog = ({
     };
     router.push(url, undefined);
     setFiltersModalOpened(false);
+    setPage(1);
   };
 
   const onReset = useCallback(() => {
