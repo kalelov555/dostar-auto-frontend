@@ -33,7 +33,16 @@ const ProductCard = ({ product, authorized = false }: Props) => {
         )}
       </div>
       <div className="flex gap-4 text-sm">
-        <p>{formatPrice(product.price)}</p>
+        {product?.discounted_price ? (
+          <div>
+            <p className="line-through">{formatPrice(product.price)}</p>
+            <p>{formatPrice(product.discounted_price)}</p>
+          </div>
+        ) : (
+          <div>
+            <p>{formatPrice(product.price)}</p>
+          </div>
+        )}
       </div>
       <div className="flex gap-4 mt-4">
         <Image
