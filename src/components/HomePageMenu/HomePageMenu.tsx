@@ -64,7 +64,7 @@ const HomePageMenu = () => {
               <i className={`${item.icon} pi-pw text-primary`}></i>
             )}
 
-            <p className="text-xs">{item.label}</p>
+            <p className="text-xs text-center">{item.label}</p>
           </div>
         ))}
       </div>

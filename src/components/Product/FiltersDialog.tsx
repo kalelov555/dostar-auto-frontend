@@ -226,11 +226,13 @@ const FiltersDialog = ({
                 </span>
               </div>
             ))}
-            <div
-              onClick={onReset}
-              className="max-w-[300px] h-10 w-full mt-4 flex items-center justify-center bg-red-600 rounded-md text-white cursor-pointer hover:bg-red-500"
-            >
-              Очистить фильтр
+            <div className="flex w-full justify-center mt-6">
+              <div
+                onClick={onReset}
+                className="max-w-[300px] h-10 w-full flex items-center justify-center bg-red-600 rounded-md text-white cursor-pointer hover:bg-red-500"
+              >
+                Очистить фильтр
+              </div>
             </div>
 
             <div className="fixed bottom-4 max-w-[600px] w-full mx-auto self-center">

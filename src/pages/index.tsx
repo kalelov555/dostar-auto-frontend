@@ -9,11 +9,9 @@ import { Toast } from "primereact/toast";
 import { useAuth } from "@/hooks/useAuth";
 import { fetchAllCars } from "@/services/api/modules/cars";
 import { useInView } from "react-intersection-observer";
-import { useParams } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  const params = useParams();
   const auth = useAuth();
 
   const toast = useRef<Toast>(null);
