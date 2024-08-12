@@ -23,13 +23,15 @@ export interface IFilter {
   price_to: string;
   manufacture_year_from: string;
   manufacture_year_to: string;
-  transmission: string; //коробка передач
-  body: string; //кузов // done
-  fuel_type: string; //done
+  manufacture_country: string;
+  transmission: string;
+  body: string;
+  fuel_type: string;
   // capacityFrom: string | null;
   // capacityTo: string | null;
-  steering_wheel_side: "left_hand_drive" | "right_hand_drive" | ""; //left or right
-  // driveUnit: string; // привод
+  mileage: string;
+  steering_wheel_side: "left_hand_drive" | "right_hand_drive" | "";
+  drive_unit: string;
   color: string;
   paymentType: "credit" | "instllment" | "";
   crushState: "critical" | "notMoving" | "";
@@ -64,8 +66,9 @@ const FiltersDialog = ({
     fuel_type: "",
     // capacityFrom: "",
     // capacityTo: "",
+    mileage: "",
     steering_wheel_side: "", //left or right
-    // driveUnit: "", // привод
+    drive_unit: "", // привод
     color: "",
     paymentType: "",
     crushState: "",
@@ -73,6 +76,7 @@ const FiltersDialog = ({
     sort: "",
     vehicle_purpose: "",
     key_words: "",
+    manufacture_country: "",
   };
   const {
     control,
@@ -177,11 +181,14 @@ const FiltersDialog = ({
                           className="w-full rounded-none"
                           checkmark={true}
                           name={input.name}
+                          scrollHeight={
+                            input.name === "sort" ? "400px" : "200px"
+                          }
                         />
                       )}
                     />
                   ) : input.type === "range" ? (
-                    <div className="flex w-full items-center">
+                    <div className="flex gap-2 w-full items-center">
                       {input.children?.map((child) => (
                         <Controller
                           key={child.name}
@@ -210,6 +217,7 @@ const FiltersDialog = ({
                             <InputText
                               id={field.name}
                               placeholder={input.placeholder}
+                              keyfilter={input.keyfilter}
                               className={`${
                                 fieldState.invalid && "p-invalid"
                               } w-full`}

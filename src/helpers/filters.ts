@@ -1,24 +1,19 @@
 import { IDataInput } from "@/interfaces";
 
 const sortingFilters = [
+  { name: "Сначала с большим пробегом", value: "mileage-desc" },
+  { name: "Сначала с меньшим пробегом", value: "mileage-asc" },
   { name: "По возрастанию цены", value: "price-asc" },
   { name: "По убыванию цены", value: "price-desc" },
   { name: "Сначала свежие объявления", value: "created_at-asc" },
   { name: "Сначала старые объявления", value: "created_at-desc" },
 ];
-
-// const markFilters = [
-//   { name: "Toyota", value: "toyota" },
-//   { name: "Kia", value: "kia" },
-//   { name: "bmw", value: "bmw" },
-// ];
-
 const transmissionFilters = [
   { name: "Автомат", value: "at" },
   { name: "Механика", value: "mt" },
-  { name: "Автомат-Механика", value: "amt" },
-  { name: "CVT", value: "cvt" },
-  { name: "Tiptronic", value: "tiptronic" },
+  { name: "Робот", value: "amt" },
+  { name: "Вариатор", value: "cvt" },
+  { name: "Типтроник", value: "tiptronic" },
 ];
 
 const bodyFilters = [
@@ -42,17 +37,15 @@ const bodyFilters = [
   { name: "Хардтоп", value: "hardtop" },
 ];
 
-// [city shift suburban intercity tourist universal minibus other]
-
 const vehiclePurposeFilters = [
-  { name: "Город", value: "city" },
-  { name: "Шифт", value: "shift" },
-  { name: "Субурбан", value: "suburban" },
-  { name: "Межгород", value: "intercity" },
-  { name: "Турист", value: "tourist" },
-  { name: "Универсал", value: "universal" },
-  { name: "Минибус", value: "minibus" },
-  { name: "Остальное", value: "other" },
+  { name: "Городской", value: "city" },
+  { name: "Вахтовый", value: "shift" },
+  { name: "Пригородный", value: "suburban" },
+  { name: "Междугородный", value: "intercity" },
+  { name: "Туристический", value: "tourist" },
+  { name: "Универсальный", value: "universal" },
+  { name: "Микроавтобус", value: "minibus" },
+  { name: "Другие", value: "other" },
 ];
 
 const fuelTypeFilters = [
@@ -69,11 +62,11 @@ const steeringWheelSideFilters = [
   { name: "Слева", value: "left_hand_drive" },
 ];
 
-// const driveUnitFilters = [
-//   { name: "Задний привод", value: "back" },
-//   { name: "Передний привод", value: "front" },
-//   { name: "Полный привод", value: "full" },
-// ];
+const driveUnitFilters = [
+  { name: "Задний привод", value: "rear_wheel_drive" },
+  { name: "Передний привод", value: "front_wheel_drive" },
+  { name: "Полный привод", value: "four_wheel_drive" },
+];
 
 const colorFilters = [
   { name: "Белый", value: "белый" },
@@ -86,6 +79,27 @@ const colorFilters = [
   { name: "Серый", value: "серый" },
   { name: "Синий", value: "синий" },
   { name: "Черный", value: "черный" },
+];
+
+const manufactureCountryFilters = [
+  { name: "Казахстан", value: "kazakhstan" },
+  { name: "Россия", value: "russia" },
+  { name: "Беларусь", value: "belarus" },
+  { name: "Англия", value: "england" },
+  { name: "Австрия", value: "austria" },
+  { name: "Германия", value: "germany" },
+  { name: "Европа", value: "europe" },
+  { name: "Индия", value: "india" },
+  { name: "Испания", value: "spain" },
+  { name: "Италия", value: "italy" },
+  { name: "Канада", value: "canada" },
+  { name: "Китай", value: "china" },
+  { name: "Корея", value: "korea" },
+  { name: "США", value: "usa" },
+  { name: "Турция", value: "turkiye" },
+  { name: "Украина", value: "ukraine" },
+  { name: "Япония", value: "japan" },
+  { name: "Другие", value: "other" },
 ];
 
 export const carsInputs: IDataInput[] = [
@@ -150,6 +164,13 @@ export const carsInputs: IDataInput[] = [
     ],
   },
   {
+    name: "mileage",
+    type: "text",
+    keyfilter: "pnum",
+    placeholder: "Пробег не более, км",
+    floatingLabel: false,
+  },
+  {
     name: "transmission",
     type: "select",
     options: transmissionFilters,
@@ -203,14 +224,14 @@ export const carsInputs: IDataInput[] = [
     floatingLabel: true,
     label: "Руль",
   },
-  // {
-  //   name: "driveUnit",
-  //   type: "select",
-  //   options: driveUnitFilters,
-  //   placeholder: "Выбрать привод",
-  //   floatingLabel: true,
-  //   label: "Привод",
-  // },
+  {
+    name: "drive_unit",
+    type: "select",
+    options: driveUnitFilters,
+    placeholder: "Выбрать привод",
+    floatingLabel: true,
+    label: "Привод",
+  },
   {
     name: "color",
     type: "select",
@@ -282,6 +303,21 @@ export const busesInput: IDataInput[] = [
     ],
   },
   {
+    name: "mileage",
+    type: "text",
+    keyfilter: "pnum",
+    placeholder: "Пробег не более, км",
+    floatingLabel: false,
+  },
+  {
+    name: "drive_unit",
+    type: "select",
+    options: driveUnitFilters,
+    placeholder: "Выбрать привод",
+    floatingLabel: true,
+    label: "Привод",
+  },
+  {
     name: "transmission",
     type: "select",
     options: transmissionFilters,
@@ -293,9 +329,9 @@ export const busesInput: IDataInput[] = [
     name: "vehicle_purpose",
     type: "select",
     options: vehiclePurposeFilters,
-    placeholder: "Выбрать цель транспорта",
+    placeholder: "Выбрать тип транспорта",
     floatingLabel: true,
-    label: "Цель",
+    label: "Тип",
   },
   {
     name: "fuel_type",
@@ -327,4 +363,16 @@ export const busesInput: IDataInput[] = [
   //     },
   //   ],
   // },
+];
+
+export const specTechInputs: IDataInput[] = [
+  ...busesInput,
+  {
+    name: "manufacture_country",
+    type: "select",
+    options: manufactureCountryFilters,
+    placeholder: "Выбрать",
+    floatingLabel: true,
+    label: "Страна производителя",
+  },
 ];

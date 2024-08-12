@@ -2,15 +2,15 @@ import ProductCard from "@/components/Product/ProductCard";
 import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import Pagination from "@/components/shared/Pagination";
-import { busesInput } from "@/helpers/filters";
+import { specTechInputs } from "@/helpers/filters";
 import { useAuth } from "@/hooks/useAuth";
 import { IBusesResponse } from "@/interfaces/bus";
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { fetchBusesByFilters } from "@/services/api/modules/buses";
+import { fetchSpecTechnicsByFilters } from "@/services/api/modules/spec-technics";
 import { pageAtom } from "@/store/page";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const ProductSpecTechnicsPage = () => {
   const router = useRouter();
@@ -20,25 +20,29 @@ const ProductSpecTechnicsPage = () => {
   const [specTechnicsResponse, setSpecTechnicsResponse] =
     useState<IBusesResponse | null>(null);
 
+  const fetch = useCallback(() => {
+    fetchSpecTechnicsByFilters({
+      ...router.query,
+      page,
+    })
+      .then((response) => {
+        setSpecTechnicsResponse(response);
+      })
+      .catch((err) => alert(JSON.stringify(err)))
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [page, router.query]);
+
   useEffect(() => {
     setLoading(true);
 
-    const fetch = async () => {
-      try {
-        const response = await fetchBusesByFilters({ ...router.query, page });
-        setSpecTechnicsResponse(response);
-      } catch (err) {
-        alert(JSON.stringify(err));
-      } finally {
-        setLoading(false);
-      }
-    };
     fetch();
-  }, [router.query, page]);
+  }, [router.query, page, fetch]);
   return (
     <DefaultLayout>
       <ProductPageFilters
-        dataInputs={busesInput}
+        dataInputs={specTechInputs}
         filtersLabel="Спец. Техника"
       />
       <div className="mt-10 flex flex-col gap-3">
