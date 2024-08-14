@@ -78,12 +78,14 @@ const ProductPageFilters = ({ filtersLabel, dataInputs }: Props) => {
           onClick={() => setFiltersModalOpened(true)}
           className="flex items-center gap-2 cursor-pointer relative"
         >
-          <Badge
-            className="absolute -top-3 -right-3 min-w-5 w-5 h-5 flex items-center justify-center"
-            value={filtersLength}
-            severity="danger"
-            style={{ fontSize: "0.7rem" }}
-          ></Badge>
+          {filtersLength > 0 && (
+            <Badge
+              className="absolute -top-3 -right-3 min-w-5 w-5 h-5 flex items-center justify-center"
+              value={filtersLength}
+              severity="danger"
+              style={{ fontSize: "0.7rem" }}
+            ></Badge>
+          )}
           <p>Фильтр</p>
           <i className="pi pi-sliders-v"></i>
         </div>
