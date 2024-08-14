@@ -11,6 +11,7 @@ export interface IProduct {
   owner_phone_number: string;
   price: number;
   user_id: number;
+  mileage: number;
 }
 
 export interface IMetaReponse {

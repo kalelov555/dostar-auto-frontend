@@ -8,7 +8,7 @@ const sortingFilters = [
   { name: "Сначала свежие объявления", value: "created_at-asc" },
   { name: "Сначала старые объявления", value: "created_at-desc" },
 ];
-const transmissionFilters = [
+export const transmissionFilters = [
   { name: "Автомат", value: "at" },
   { name: "Механика", value: "mt" },
   { name: "Робот", value: "amt" },
@@ -16,7 +16,7 @@ const transmissionFilters = [
   { name: "Типтроник", value: "tiptronic" },
 ];
 
-const bodyFilters = [
+export const bodyFilters = [
   { name: "Седан", value: "sedan" },
   { name: "Кабриолет", value: "cabriolet" },
   { name: "Фургон", value: "van" },
@@ -37,7 +37,7 @@ const bodyFilters = [
   { name: "Хардтоп", value: "hardtop" },
 ];
 
-const vehiclePurposeFilters = [
+export const vehiclePurposeFilters = [
   { name: "Городской", value: "city" },
   { name: "Вахтовый", value: "shift" },
   { name: "Пригородный", value: "suburban" },
@@ -48,7 +48,7 @@ const vehiclePurposeFilters = [
   { name: "Другие", value: "other" },
 ];
 
-const fuelTypeFilters = [
+export const fuelTypeFilters = [
   { name: "Бензин", value: "petrol" },
   { name: "Дизель", value: "diesel" },
   { name: "Газ-бензин", value: "gas_petrol" },
@@ -57,18 +57,18 @@ const fuelTypeFilters = [
   { name: "Электричество", value: "electricity" },
 ];
 
-const steeringWheelSideFilters = [
+export const steeringWheelSideFilters = [
   { name: "Справа", value: "right_hand_drive" },
   { name: "Слева", value: "left_hand_drive" },
 ];
 
-const driveUnitFilters = [
+export const driveUnitFilters = [
   { name: "Задний привод", value: "rear_wheel_drive" },
   { name: "Передний привод", value: "front_wheel_drive" },
   { name: "Полный привод", value: "four_wheel_drive" },
 ];
 
-const colorFilters = [
+export const colorFilters = [
   { name: "Белый", value: "белый" },
   { name: "Вишня", value: "вишня" },
   { name: "Хамелеон", value: "хамелеон" },
@@ -81,7 +81,7 @@ const colorFilters = [
   { name: "Черный", value: "черный" },
 ];
 
-const manufactureCountryFilters = [
+export const manufactureCountryFilters = [
   { name: "Казахстан", value: "kazakhstan" },
   { name: "Россия", value: "russia" },
   { name: "Беларусь", value: "belarus" },
