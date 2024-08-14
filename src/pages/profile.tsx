@@ -4,6 +4,21 @@ import { useRouter } from "next/router";
 import { Toast } from "primereact/toast";
 import { useEffect, useRef } from "react";
 
+const LabeledText = ({
+  label,
+  text,
+}: {
+  label: string;
+  text: string | undefined;
+}) => {
+  return (
+    <div className="flex flex-col">
+      <label className="text-xs font-bold">{label}</label>
+      <p>{text}</p>
+    </div>
+  );
+};
+
 const ProfilePage = () => {
   const { user, isLoading, isError, isSuccess, error } = useAuth();
   const toast = useRef<Toast>(null);
@@ -27,18 +42,34 @@ const ProfilePage = () => {
 
   return (
     <DefaultLayout>
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen">
         {(isLoading || isError) && (
-          <i
-            className="pi pi-spin pi-spinner text-primary"
-            style={{ fontSize: "4rem" }}
-          ></i>
+          <div className="min-h-screen flex items-center justify-center">
+            <i
+              className="pi pi-spin pi-spinner text-primary"
+              style={{ fontSize: "4rem" }}
+            ></i>
+          </div>
         )}
         <div className="flex flex-col gap-3">
-          <p>
-            {user?.data?.first_name} {user?.data?.last_name}
-          </p>
-          <p>{user?.data?.email}</p>
+          <h2 className="mt-2 px-3">Персональная информация</h2>
+          <div className="bg-white p-3">
+            <LabeledText label="Почта:" text={user?.data.email} />
+          </div>
+          <div className="bg-white p-3 flex flex-col gap-3">
+            <div>
+              <LabeledText
+                label="Полное имя:"
+                text={`${user?.data?.first_name} ${user?.data?.last_name}`}
+              />
+            </div>
+            <div>
+              <LabeledText label="Город:" text={user?.data.city_name} />
+            </div>
+            <div>
+              <LabeledText label="Номер:" text={user?.data.phone as string} />
+            </div>
+          </div>
         </div>
       </div>
       <Toast ref={toast} />
