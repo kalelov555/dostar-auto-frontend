@@ -20,25 +20,24 @@ const ProductSpecTechnicsPage = () => {
   const [specTechnicsResponse, setSpecTechnicsResponse] =
     useState<IBusesResponse | null>(null);
 
-  const fetch = useCallback(() => {
-    fetchSpecTechnicsByFilters({
-      ...router.query,
-      page,
-    })
-      .then((response) => {
-        setSpecTechnicsResponse(response);
-      })
-      .catch((err) => alert(JSON.stringify(err)))
-      .finally(() => {
-        setLoading(false);
+  const fetch = useCallback(async () => {
+    try {
+      const response = await fetchSpecTechnicsByFilters({
+        ...router.query,
+        page,
       });
+      setSpecTechnicsResponse(response);
+    } catch (err) {
+      alert(JSON.stringify(err));
+    } finally {
+      setLoading(false);
+    }
   }, [page, router.query]);
 
   useEffect(() => {
     setLoading(true);
-
-    fetch();
-  }, [router.query, page, fetch]);
+    if (router.isReady) fetch();
+  }, [router.query, page, fetch, router.isReady]);
   return (
     <DefaultLayout>
       <ProductPageFilters

@@ -10,7 +10,7 @@ import { fetchTrucksByFilters } from "@/services/api/modules/trucks";
 import { pageAtom } from "@/store/page";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const ProductTrucksPage = () => {
   const router = useRouter();
@@ -21,21 +21,24 @@ const ProductTrucksPage = () => {
     null
   );
 
+  const fetch = useCallback(async () => {
+    try {
+      const response = await fetchTrucksByFilters({
+        ...router.query,
+        page,
+      });
+      setTrucksResponse(response);
+    } catch (err) {
+      alert(JSON.stringify(err));
+    } finally {
+      setLoading(false);
+    }
+  }, [page, router.query]);
+
   useEffect(() => {
     setLoading(true);
-
-    const fetch = async () => {
-      try {
-        const response = await fetchTrucksByFilters({ ...router.query, page });
-        setTrucksResponse(response);
-      } catch (err) {
-        alert(JSON.stringify(err));
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch();
-  }, [router.query, page]);
+    if (router.isReady) fetch();
+  }, [router.query, page, fetch, router.isReady]);
   return (
     <DefaultLayout>
       <ProductPageFilters dataInputs={busesInput} filtersLabel="Грузовики" />

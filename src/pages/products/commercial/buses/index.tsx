@@ -10,7 +10,7 @@ import { fetchBusesByFilters } from "@/services/api/modules/buses";
 import { pageAtom } from "@/store/page";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const ProductMotoPage = () => {
   const router = useRouter();
@@ -21,21 +21,24 @@ const ProductMotoPage = () => {
     null
   );
 
+  const fetch = useCallback(async () => {
+    try {
+      const response = await fetchBusesByFilters({
+        ...router.query,
+        page,
+      });
+      setBusesResponse(response);
+    } catch (err) {
+      alert(JSON.stringify(err));
+    } finally {
+      setLoading(false);
+    }
+  }, [page, router.query]);
+
   useEffect(() => {
     setLoading(true);
-
-    const fetch = async () => {
-      try {
-        const response = await fetchBusesByFilters({ ...router.query, page });
-        setBusesResponse(response);
-      } catch (err) {
-        alert(JSON.stringify(err));
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch();
-  }, [router.query, page]);
+    if (router.isReady) fetch();
+  }, [router.query, page, fetch, router.isReady]);
   return (
     <DefaultLayout>
       <ProductPageFilters dataInputs={busesInput} filtersLabel="Автобусы" />

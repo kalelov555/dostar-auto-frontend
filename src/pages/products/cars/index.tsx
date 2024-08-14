@@ -7,7 +7,7 @@ import { ICarsResponse } from "@/interfaces/car";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchCarsByFilters } from "@/services/api/modules/cars";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { carsInputs } from "@/helpers/filters";
 import { useAtom } from "jotai";
 import { pageAtom } from "@/store/page";
@@ -19,21 +19,22 @@ const ProductCarsPage = () => {
   const auth = useAuth();
   const [carsResponse, setCarsResponse] = useState<ICarsResponse | null>(null);
 
+  const fetch = useCallback(async () => {
+    try {
+      const response = await fetchCarsByFilters({ ...router.query, page });
+      setCarsResponse(response);
+    } catch (err) {
+      alert(JSON.stringify(err));
+    } finally {
+      setLoading(false);
+    }
+  }, [page, router.query]);
+
   useEffect(() => {
     setLoading(true);
+    if (router.isReady) fetch();
+  }, [router.query, page, fetch, router.isReady]);
 
-    const fetch = async () => {
-      try {
-        const response = await fetchCarsByFilters({ ...router.query, page });
-        setCarsResponse(response);
-      } catch (err) {
-        alert(JSON.stringify(err));
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetch();
-  }, [router.query, page]);
   return (
     <DefaultLayout>
       <ProductPageFilters dataInputs={carsInputs} filtersLabel="Легковые" />
