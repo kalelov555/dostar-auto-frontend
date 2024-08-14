@@ -11,6 +11,7 @@ import { useCallback, useEffect, useState } from "react";
 import { carsInputs } from "@/helpers/filters";
 import { useAtom } from "jotai";
 import { pageAtom } from "@/store/page";
+import { EmptyList } from "@/components/Product/EmptyLitst";
 
 const ProductCarsPage = () => {
   const router = useRouter();
@@ -43,19 +44,25 @@ const ProductCarsPage = () => {
           <ProductsSkeleton />
         ) : (
           <>
-            {carsResponse?.data.map((car) => (
-              <ProductCard
-                authorized={!!auth.user}
-                product={car}
-                key={car.id}
-              />
-            ))}
-            {carsResponse?.data.length && (
-              <Pagination
-                totalPages={carsResponse?.meta.total_pages}
-                page={page}
-                setPage={setPage}
-              />
+            {!carsResponse?.data.length ? (
+              <EmptyList />
+            ) : (
+              <>
+                {carsResponse?.data.map((car) => (
+                  <ProductCard
+                    authorized={!!auth.user}
+                    product={car}
+                    key={car.id}
+                  />
+                ))}
+                {carsResponse?.data.length && (
+                  <Pagination
+                    totalPages={carsResponse?.meta.total_pages}
+                    page={page}
+                    setPage={setPage}
+                  />
+                )}
+              </>
             )}
           </>
         )}
