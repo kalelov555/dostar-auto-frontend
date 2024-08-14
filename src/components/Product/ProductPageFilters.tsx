@@ -1,7 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import FiltersDialog from "./FiltersDialog";
 import TypesMenuDialog, { TypeMenuItem } from "./TypesMenuDialog";
 import { IDataInput } from "@/interfaces";
+import { useRouter } from "next/router";
+import { Badge } from "primereact/badge";
 
 type Props = {
   filtersLabel: string;
@@ -44,7 +46,14 @@ export const mainMenuItems = [
 const ProductPageFilters = ({ filtersLabel, dataInputs }: Props) => {
   const [typeModalOpened, setTypeModalOpened] = useState(false);
   const [filtersModalOpened, setFiltersModalOpened] = useState(false);
+  const [filtersLength, setFiltersLength] = useState(0);
+  const router = useRouter();
 
+  useEffect(() => {
+    if (router.isReady) {
+      setFiltersLength(Object.entries(router.query).length);
+    }
+  }, [router.isReady, router.query]);
   return (
     <>
       <TypesMenuDialog
@@ -67,8 +76,14 @@ const ProductPageFilters = ({ filtersLabel, dataInputs }: Props) => {
         </div>
         <div
           onClick={() => setFiltersModalOpened(true)}
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center gap-2 cursor-pointer relative"
         >
+          <Badge
+            className="absolute -top-3 -right-3 min-w-5 w-5 h-5 flex items-center justify-center"
+            value={filtersLength}
+            severity="danger"
+            style={{ fontSize: "0.7rem" }}
+          ></Badge>
           <p>Фильтр</p>
           <i className="pi pi-sliders-v"></i>
         </div>

@@ -2,11 +2,18 @@ import { IDataInput } from "@/interfaces";
 import { pageAtom } from "@/store/page";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
+import { Badge } from "primereact/badge";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { Controller, useForm } from "react-hook-form";
 
 type Props = {
@@ -90,12 +97,14 @@ const FiltersDialog = ({
   } = useForm<IFilter>({ defaultValues });
 
   useEffect(() => {
-    for (let key in router.query) {
-      if (router.query[key] !== "") {
-        setValue(key as keyof IFilter, router.query[key] as string);
+    if (router.isReady) {
+      for (let key in router.query) {
+        if (router.query[key] !== "") {
+          setValue(key as keyof IFilter, router.query[key] as string);
+        }
       }
     }
-  }, [router.query, setValue]);
+  }, [router.isReady, router.query, setValue]);
 
   const onSubmit = (data: IFilter) => {
     let query: Partial<IFilter> = {};
