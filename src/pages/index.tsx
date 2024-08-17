@@ -18,7 +18,7 @@ export default function Home() {
 
   const { ref, inView } = useInView();
 
-  const { data, status, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+  const { data, status, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
     queryKey: ["items"],
     queryFn: ({ pageParam }) =>
       fetchAllCars({

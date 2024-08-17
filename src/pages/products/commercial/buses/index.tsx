@@ -1,3 +1,4 @@
+import { EmptyList } from "@/components/Product/EmptyLitst";
 import ProductCard from "@/components/Product/ProductCard";
 import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
@@ -47,19 +48,25 @@ const ProductMotoPage = () => {
           <ProductsSkeleton />
         ) : (
           <>
-            {busesResponse?.data.map((bus) => (
-              <ProductCard
-                authorized={!!auth.user}
-                product={bus}
-                key={bus.id}
-              />
-            ))}
-            {busesResponse?.data.length && (
-              <Pagination
-                totalPages={busesResponse?.meta.total_pages}
-                page={page}
-                setPage={setPage}
-              />
+            {!busesResponse?.data.length ? (
+              <EmptyList />
+            ) : (
+              <>
+                {busesResponse?.data.map((truck) => (
+                  <ProductCard
+                    authorized={!!auth.user}
+                    product={truck}
+                    key={truck.id}
+                  />
+                ))}
+                {busesResponse?.data.length && (
+                  <Pagination
+                    totalPages={busesResponse?.meta.total_pages}
+                    page={page}
+                    setPage={setPage}
+                  />
+                )}
+              </>
             )}
           </>
         )}
