@@ -53,6 +53,7 @@ export default function Home() {
                   authorized={auth.user?.data}
                   key={product.id}
                   product={product}
+                  type="cars"
                 />
               ))
             )}

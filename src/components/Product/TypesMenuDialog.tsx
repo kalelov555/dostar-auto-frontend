@@ -30,8 +30,8 @@ const mainMenuItems: TypeMenuItem[] = [
         icon: "pi pi-truck",
       },
       {
-        name: "spec-technics",
-        pathname: "/products/commercial/spec-technics",
+        name: "spec_technics",
+        pathname: "/products/commercial/spec_technics",
         label: "Спец. техника",
         icon: "pi pi-car",
       },

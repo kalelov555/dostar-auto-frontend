@@ -7,9 +7,10 @@ import { IUser } from "@/interfaces/auth";
 type Props = {
   product: any;
   authorized: boolean | undefined | IUser;
+  type: "cars" | "buses" | "trucks" | "moto" | "spec_technics";
 };
 
-const ProductCard = ({ product, authorized = false }: Props) => {
+const ProductCard = ({ product, authorized = false, type = "cars" }: Props) => {
   const onClick = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
@@ -17,15 +18,19 @@ const ProductCard = ({ product, authorized = false }: Props) => {
   };
   return (
     <Link
-      href={`/products/cars/${product.id}`}
+      href={`/products/${type !== "cars" ? "commercial/" : ""}${type}/${
+        product.id
+      }`}
       className="bg-white shadow-sm p-4"
       key={product.id}
     >
       <div className="flex items-center justify-between">
         <p className="text-lg font-semibold text-primary">
           {product.manufacturer_name
-            ? `${product.manufacturer_name} ${product.vehicle_model_name}`
-            : `${product.model}`}
+            ? `${product.manufacturer_name || ""} ${
+                product.vehicle_model_name || ""
+              }`
+            : `${product.model || ""}`}
         </p>
         {authorized && (
           <span onClick={onClick}>

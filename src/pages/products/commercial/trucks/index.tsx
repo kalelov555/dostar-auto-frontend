@@ -57,6 +57,7 @@ const ProductTrucksPage = () => {
                     authorized={!!auth.user}
                     product={truck}
                     key={truck.id}
+                    type="trucks"
                   />
                 ))}
                 {trucksResponse?.data.length && (

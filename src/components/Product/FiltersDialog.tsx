@@ -131,7 +131,7 @@ const FiltersDialog = ({
           ? "truck"
           : router.pathname.includes("bus")
           ? "bus"
-          : router.pathname.includes("spec-technic")
+          : router.pathname.includes("spec_technic")
           ? "spectechnic"
           : router.pathname.includes("moto")
           ? "moto"

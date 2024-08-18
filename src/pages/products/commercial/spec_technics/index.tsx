@@ -59,6 +59,7 @@ const ProductSpecTechnicsPage = () => {
                     authorized={!!auth.user}
                     product={truck}
                     key={truck.id}
+                    type="spec_technics"
                   />
                 ))}
                 {specTechnicsResponse?.data.length && (
