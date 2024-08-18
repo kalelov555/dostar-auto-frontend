@@ -18,20 +18,21 @@ export default function Home() {
 
   const { ref, inView } = useInView();
 
-  const { data, status, fetchNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
-    queryKey: ["items"],
-    queryFn: ({ pageParam }) =>
-      fetchAllCars({
-        pageParam,
-        restParams: { ...router.query },
-      }),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages) => {
-      const maxPages = lastPage.totalPages;
-      const nextPage = allPages.length;
-      return nextPage < maxPages ? nextPage : undefined;
-    },
-  });
+  const { data, status, fetchNextPage, isFetchingNextPage, isLoading } =
+    useInfiniteQuery({
+      queryKey: ["items"],
+      queryFn: ({ pageParam }) =>
+        fetchAllCars({
+          pageParam,
+          restParams: { ...router.query },
+        }),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, allPages) => {
+        const maxPages = lastPage.totalPages;
+        const nextPage = allPages.length;
+        return nextPage < maxPages ? nextPage : undefined;
+      },
+    });
 
   useEffect(() => {
     if (inView && !isFetchingNextPage) {
@@ -49,7 +50,7 @@ export default function Home() {
             {data.pages.map((pageItems) =>
               pageItems.data.map((product) => (
                 <ProductCard
-                  authorized={auth.isSuccess}
+                  authorized={auth.user?.data}
                   key={product.id}
                   product={product}
                 />

@@ -15,12 +15,23 @@ export const useAuth = () => {
     AuthResponse,
     AxiosError
   >({
-    queryKey: ["auth/me"],
+    queryKey: ["auth"],
+    // Cache for 5 minutes
+    staleTime: 5 * 60 * 1000,
+    refetchOnMount: false,
+    // Invalidate cache after 10 minutes
+    gcTime: 10 * 60 * 1000,
     queryFn: async () => {
-      const response = await api.get("/me", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
+      try {
+        const response = await api.get("/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        return response.data;
+      } catch (err) {
+        if (err instanceof AxiosError) {
+          if (err.response?.status === 401) localStorage.removeItem("token");
+        }
+      }
     },
   });
 
