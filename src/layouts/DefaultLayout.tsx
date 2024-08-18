@@ -1,7 +1,7 @@
 import Header from "@/components/Header/Header";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import { TabMenu } from "primereact/tabmenu";
 import { useRouter } from "next/router";
+import TabMenu from "@/components/Tab/TabMenu";
 
 type Props = {
   children: ReactNode;
@@ -79,8 +79,10 @@ const DefaultLayout = ({ children }: Props) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const elem = items.find((item) => item.url === router.pathname);
-    if (elem) setActiveIndex(elem.id);
+    if (router.isReady) {
+      const elem = items.find((item) => item.url === router.pathname);
+      if (elem) setActiveIndex(elem.id);
+    }
   }, [router.pathname]);
   return (
     <main
@@ -90,11 +92,7 @@ const DefaultLayout = ({ children }: Props) => {
       <div className="w-full pb-8">{children}</div>
 
       <div className="fixed bottom-0 max-w-[768px] w-full">
-        <TabMenu
-          model={items as any}
-          activeIndex={activeIndex}
-          onTabChange={(e) => setActiveIndex(e.index)}
-        />
+        <TabMenu items={items} activeIndex={activeIndex} />
       </div>
     </main>
   );
