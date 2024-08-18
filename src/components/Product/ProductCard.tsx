@@ -2,10 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import BaseDivider from "../shared/BaseDivider";
 import { dateFormatter, formatPrice } from "@/helpers/functions";
+import { IUser } from "@/interfaces/auth";
 
 type Props = {
   product: any;
-  authorized: boolean;
+  authorized: boolean | undefined | IUser;
 };
 
 const ProductCard = ({ product, authorized = false }: Props) => {
@@ -53,7 +54,7 @@ const ProductCard = ({ product, authorized = false }: Props) => {
         />
         <div className="text-sm">
           <p className="h-16 text-ellipsis overflow-hidden ... w-full">
-            {product.description ||
+            {product.info ||
               "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."}
           </p>
           <p className="mt-3 text-gray-secondary">

@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Poppins } from "next/font/google";
+import { Lora, Poppins, Roboto } from "next/font/google";
 import { PrimeReactProvider } from "primereact/api";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -9,8 +9,8 @@ import { StrictMode } from "react";
 
 const queryClient = new QueryClient();
 
-const roboto = Poppins({
-  weight: ["400", "600", "700", "900"],
+const font = Roboto({
+  weight: ["100", "300", "400", "500", "700", "900"],
   style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
@@ -19,7 +19,7 @@ const roboto = Poppins({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <StrictMode>
-      <div className={roboto.className}>
+      <div className={font.className}>
         <QueryClientProvider client={queryClient}>
           <PrimeReactProvider>
             <Component {...pageProps} />
