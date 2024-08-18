@@ -61,3 +61,7 @@ h3 {
 .p-password > div > input {
   width: 100%;
 }
+
+.mark-button .p-button-label {
+  font-weight: 400;
+}

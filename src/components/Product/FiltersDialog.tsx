@@ -15,6 +15,11 @@ import {
   useState,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
+import ManufactureFiltersModal from "./ManufactureFiltersModal";
+import api from "@/services/api/client";
+import { useQuery } from "@tanstack/react-query";
+import { IMark } from "@/interfaces/marks";
+import { AxiosError } from "axios";
 
 type Props = {
   filtersModalOpened: boolean;
@@ -23,19 +28,16 @@ type Props = {
 };
 
 export interface IFilter {
-  // name: string;
-  // mark: string;
-  // model: string;
   price_from: string;
   price_to: string;
   manufacture_year_from: string;
   manufacture_year_to: string;
   manufacture_country: string;
+  manufacturer_id: string;
+  vehicle_model_id: string;
   transmission: string;
   body: string;
   fuel_type: string;
-  // capacityFrom: string | null;
-  // capacityTo: string | null;
   mileage: string;
   steering_wheel_side: "left_hand_drive" | "right_hand_drive" | "";
   drive_unit: string;
@@ -48,34 +50,29 @@ export interface IFilter {
   key_words: string;
 }
 
-type FilterObject = {
-  name: string;
-  value: string;
-};
-
 const FiltersDialog = ({
   filtersModalOpened,
   setFiltersModalOpened,
   dataInputs,
 }: Props) => {
   const [page, setPage] = useAtom(pageAtom);
+  const [type, setType] = useState("");
+  const [openManufactureModal, setOpenManufactureModal] = useState(false);
   const router = useRouter();
+  const [manufactureModelText, setManufactureModelText] = useState("");
   const defaultValues: IFilter = {
-    // name: "",
-    // mark: "",
-    // model: "",
     price_from: "",
     price_to: "",
     manufacture_year_from: "",
     manufacture_year_to: "",
-    transmission: "", //коробка передач
+    manufacturer_id: "",
+    vehicle_model_id: "",
+    transmission: "",
     body: "",
     fuel_type: "",
-    // capacityFrom: "",
-    // capacityTo: "",
     mileage: "",
-    steering_wheel_side: "", //left or right
-    drive_unit: "", // привод
+    steering_wheel_side: "",
+    drive_unit: "",
     color: "",
     paymentType: "",
     crushState: "",
@@ -96,6 +93,28 @@ const FiltersDialog = ({
     trigger,
   } = useForm<IFilter>({ defaultValues });
 
+  const fetchManufactures = useCallback(async () => {
+    if (router.isReady && type && filtersModalOpened) {
+      try {
+        const response = await api.get(`/manufacturers?vehicle_type=${type}`);
+        return response.data;
+      } catch (err) {
+        alert("something went wronf");
+      }
+    }
+  }, [router.pathname, type, filtersModalOpened]);
+
+  const { data: manufacturesData, isLoading: isLoadingManufactures } = useQuery<
+    { data: IMark[] },
+    AxiosError
+  >({
+    queryKey: ["manufactures", type],
+    queryFn: fetchManufactures,
+    staleTime: 5 * 60 * 1000,
+    refetchOnMount: false,
+    gcTime: 10 * 60 * 1000,
+  });
+
   useEffect(() => {
     if (router.isReady) {
       for (let key in router.query) {
@@ -104,7 +123,45 @@ const FiltersDialog = ({
         }
       }
     }
-  }, [router.isReady, router.query, setValue]);
+    if (router.isReady && filtersModalOpened) {
+      setType(
+        router.pathname.includes("car")
+          ? "car"
+          : router.pathname.includes("truck")
+          ? "truck"
+          : router.pathname.includes("bus")
+          ? "bus"
+          : router.pathname.includes("spec-technic")
+          ? "spectechnic"
+          : router.pathname.includes("moto")
+          ? "moto"
+          : ""
+      );
+    }
+    // if (type && manufacturesData && !isLoadingManufactures) {
+    //   if (type === "car") {
+    //     try {
+    //       api.get("/manufacturers/:manufacture_id/vehicle_models");
+    //     } catch {
+    //       alert("something went wrong with fetching models with marks");
+    //     }
+    //   } else {
+    //     let mark = manufacturesData?.data.find(
+    //       (item) => item.id == router.query.manufacturer_id
+    //     );
+    //     console.log(manufacturesData);
+    //     if (mark) setManufactureModelText(mark.name);
+    //   }
+    // }
+  }, [
+    router.isReady,
+    router.query,
+    setValue,
+    type,
+    filtersModalOpened,
+    manufacturesData,
+    isLoadingManufactures,
+  ]);
 
   const onSubmit = (data: IFilter) => {
     let query: Partial<IFilter> = {};
@@ -126,6 +183,7 @@ const FiltersDialog = ({
   };
 
   const onReset = useCallback(() => {
+    setManufactureModelText("");
     reset();
   }, []);
 
@@ -160,6 +218,31 @@ const FiltersDialog = ({
             className="px-2 pt-0 pb-20 flex flex-col"
             onSubmit={handleSubmit(onSubmit)}
           >
+            <Button
+              className="mark-button rounded-none text-left mt-4 bg-white text-[1rem] h-12 text-[#6b7280] font-normal border-[1px] border-[#d1d5db] p-3"
+              label={`${manufactureModelText || "Выбрать марку"}`}
+              icon={`pi ${
+                isLoadingManufactures
+                  ? "pi-spin pi-spinner"
+                  : "pi-chevron-right"
+              } text-xs`}
+              iconPos="left"
+              text
+              severity="secondary"
+              disabled={isLoadingManufactures}
+              onClick={(e) => {
+                e.preventDefault();
+                setOpenManufactureModal(true);
+              }}
+            />
+            <ManufactureFiltersModal
+              open={openManufactureModal}
+              setOpen={setOpenManufactureModal}
+              setValue={setValue}
+              setManufactureModel={setManufactureModelText}
+              data={manufacturesData}
+              type={type}
+            />
             {dataInputs.map((input) => (
               <div
                 key={input.name}

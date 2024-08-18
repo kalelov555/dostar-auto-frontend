@@ -376,3 +376,34 @@ export const specTechInputs: IDataInput[] = [
     label: "Страна производителя",
   },
 ];
+
+export const popularMarks = [
+  {
+    name: "Toyota",
+    logo: "/marks/toyota.svg",
+  },
+  {
+    name: "Kia",
+    logo: "/marks/kia.svg",
+  },
+  {
+    name: "Hyundai",
+    logo: "/marks/hyundai.svg",
+  },
+  {
+    name: "Mercedes-Benz",
+    logo: "/marks/mercedes.svg",
+  },
+  {
+    name: "Volkswagen",
+    logo: "/marks/volkswagen.svg",
+  },
+  {
+    name: "Nissan",
+    logo: "/marks/nissan.svg",
+  },
+  {
+    name: "BMW",
+    logo: "/marks/bmw.svg",
+  },
+];
