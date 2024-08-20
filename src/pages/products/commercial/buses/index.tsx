@@ -13,7 +13,7 @@ import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
-const ProductMotoPage = () => {
+const ProductBusesPage = () => {
   const router = useRouter();
   const [page, setPage] = useAtom(pageAtom);
   const [loading, setLoading] = useState(false);
@@ -76,4 +76,4 @@ const ProductMotoPage = () => {
   );
 };
 
-export default ProductMotoPage;
+export default ProductBusesPage;

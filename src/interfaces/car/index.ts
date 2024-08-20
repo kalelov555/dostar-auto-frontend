@@ -11,6 +11,8 @@ export interface ICar extends IProduct {
   transmission: string;
   vehicle_model_id: number;
   vehicle_model_name: string;
+  vehicle_purpose: string;
+  model: string;
 }
 
 export interface ICarsResponse {

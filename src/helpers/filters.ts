@@ -366,7 +366,7 @@ export const busesInput: IDataInput[] = [
 ];
 
 export const specTechInputs: IDataInput[] = [
-  ...busesInput,
+  ...busesInput.filter((item) => item.name !== "vehicle_purpose"),
   {
     name: "manufacture_country",
     type: "select",

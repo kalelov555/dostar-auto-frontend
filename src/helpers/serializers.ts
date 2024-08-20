@@ -5,6 +5,7 @@ import {
   fuelTypeFilters,
   steeringWheelSideFilters,
   transmissionFilters,
+  vehiclePurposeFilters,
 } from "./filters";
 
 const findInFiltersObjectAndReturnName = (
@@ -39,6 +40,10 @@ export const serializeCarData = (response: ICar) => {
     "Коробка передач": findInFiltersObjectAndReturnName(
       transmissionFilters,
       response?.transmission
+    ),
+    Тип: findInFiltersObjectAndReturnName(
+      vehiclePurposeFilters,
+      response.vehicle_purpose
     ),
   };
 };
