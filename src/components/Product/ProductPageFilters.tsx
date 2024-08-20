@@ -36,8 +36,8 @@ export const mainMenuItems = [
     ],
   },
   {
-    name: "moto",
-    pathname: "/products/moto",
+    name: "motos",
+    pathname: "/products/motos",
     label: "Мото",
     icon: "pi pi-car",
   },

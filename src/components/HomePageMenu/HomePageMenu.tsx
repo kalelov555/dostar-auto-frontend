@@ -27,7 +27,7 @@ const HomePageMenu = () => {
         customSvg: (
           <svg
             width={22}
-            fill="#2a81dd"
+            className="text-primary"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 512"
           >
@@ -35,7 +35,7 @@ const HomePageMenu = () => {
           </svg>
         ),
         command: () => {
-          router.push({ pathname: "/products/moto" });
+          router.push({ pathname: "/products/motos" });
         },
       },
       {

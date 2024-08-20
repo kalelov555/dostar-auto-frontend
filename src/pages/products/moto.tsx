@@ -1,7 +1,7 @@
 import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import DefaultLayout from "@/layouts/DefaultLayout";
 
-const ProductMotoPage = () => {
+const ProductMotosPage = () => {
   return (
     <DefaultLayout>
       <ProductPageFilters dataInputs={[]} filtersLabel="Мото" />
@@ -9,4 +9,4 @@ const ProductMotoPage = () => {
   );
 };
 
-export default ProductMotoPage;
+export default ProductMotosPage;
