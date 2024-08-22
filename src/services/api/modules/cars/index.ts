@@ -19,7 +19,8 @@ export const fetchAllCars = async ({
 }: Props): Promise<PaginatedCarsResponse> => {
   const response = await api
     .get(`/cars?page=${pageParam + 1}`, { params: { ...restParams } })
-    .then((res) => res.data);
+    .then((res) => res.data)
+    .catch((err) => err);
   return {
     data: response.data,
     currentPage: pageParam,

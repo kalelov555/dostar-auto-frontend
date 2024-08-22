@@ -3,26 +3,69 @@ import Image from "next/image";
 import BaseDivider from "../shared/BaseDivider";
 import { dateFormatter, formatPrice } from "@/helpers/functions";
 import { IUser } from "@/interfaces/auth";
+import { useAddFavorite, useDeleteFavorite } from "@/hooks/useFavorites";
+import { useAtom } from "jotai";
+import { tokenStorage } from "@/store/token";
+import { useState } from "react";
 
 type Props = {
   product: any;
   authorized: boolean | undefined | IUser;
   type: "cars" | "buses" | "trucks" | "motos" | "spec_technics";
+  isFavorite: boolean;
 };
 
-const ProductCard = ({ product, authorized = false, type = "cars" }: Props) => {
-  const onClick = (e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
-    alert("saved");
+const ProductCard = ({
+  product,
+  authorized = false,
+  type = "cars",
+  isFavorite,
+}: Props) => {
+  const {
+    mutateAsync: addFavorite,
+    isPending: isPendingAdd,
+    isPaused: isPausedAdd,
+  } = useAddFavorite();
+  const {
+    mutateAsync: deleteFavorite,
+    isPending: isPendingDelete,
+    isPaused: isPausedDelete,
+  } = useDeleteFavorite();
+  const [token, _] = useAtom(tokenStorage);
+  const loading = isPendingAdd || isPendingDelete;
+  const [favorite, setFavorite] = useState(isFavorite);
+  const onClick = async () => {
+    if (!loading) {
+      if (!favorite) {
+        await addFavorite({
+          id: product.id,
+          type,
+          token,
+        })
+          .then(() => setFavorite(!favorite))
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        await deleteFavorite({
+          id: product.id,
+          type,
+          token,
+        })
+          .then(() => setFavorite(!favorite))
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
   };
   return (
     <Link
-      href={`/products/${type === "cars" ? "" : type === "motos" ? "" : "commercial/"}${type}/${
-        product.id
-      }`}
+      href={`/products/${
+        type === "cars" ? "" : type === "motos" ? "" : "commercial/"
+      }${type}/${product?.id}`}
       className="bg-white shadow-sm p-4"
-      key={product.id}
+      key={product?.id}
     >
       <div className="flex items-center justify-between">
         <p className="text-lg font-semibold text-primary">
@@ -33,8 +76,19 @@ const ProductCard = ({ product, authorized = false, type = "cars" }: Props) => {
             : `${product.manufacturer_name || ""} ${product.model || ""}`}
         </p>
         {authorized && (
-          <span onClick={onClick}>
-            <i className="pi pi-heart"></i>
+          <span
+            className="cursor-pointer w-8 h-8 flex items-center justify-center"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              !loading && onClick();
+            }}
+          >
+            <i
+              className={`pi ${
+                favorite ? "text-red-600 pi-heart-fill" : "pi-heart"
+              }`}
+            ></i>
           </span>
         )}
       </div>

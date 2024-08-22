@@ -12,13 +12,29 @@ import { carsInputs } from "@/helpers/filters";
 import { useAtom } from "jotai";
 import { pageAtom } from "@/store/page";
 import { EmptyList } from "@/components/Product/EmptyLitst";
+import { useGetFavorites } from "@/hooks/useFavorites";
+import { tokenStorage } from "@/store/token";
+import { isFavoriteVehicle } from "@/helpers/functions";
 
 const ProductCarsPage = () => {
+  const [token, _] = useAtom(tokenStorage);
   const router = useRouter();
   const [page, setPage] = useAtom(pageAtom);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const [carsResponse, setCarsResponse] = useState<ICarsResponse | null>(null);
+
+  const {
+    data: favoritesData,
+    isLoading: isLoadingFavorites,
+    error,
+    isError,
+  } = useGetFavorites({
+    params: { view: "with_vehicle", vehicle_type: "Car" },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const fetch = useCallback(async () => {
     try {
@@ -34,7 +50,10 @@ const ProductCarsPage = () => {
   useEffect(() => {
     setLoading(true);
     if (router.isReady) fetch();
-  }, [router.query, page, fetch, router.isReady]);
+    if (isError) {
+      alert("something went wrong on favorites - buses");
+    }
+  }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
 
   return (
     <DefaultLayout>
@@ -54,6 +73,7 @@ const ProductCarsPage = () => {
                     product={car}
                     key={car.id}
                     type="cars"
+                    isFavorite={isFavoriteVehicle(car.id, favoritesData?.data)}
                   />
                 ))}
                 {carsResponse?.data.length && (

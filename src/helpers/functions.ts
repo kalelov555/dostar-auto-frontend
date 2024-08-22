@@ -1,3 +1,5 @@
+import { IFavorite } from "@/interfaces/favorites";
+
 export function formatPrice(num: number): string {
   // Convert the number to a string and split it into an array of characters
   const numStr = num.toString();
@@ -25,3 +27,11 @@ export const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
   day: "numeric",
   month: "long",
 });
+
+export const isFavoriteVehicle = (
+  productId: number,
+  arr: IFavorite[] | undefined
+) => {
+  if (arr) return arr.map((fav) => fav.vehicle_id).includes(productId);
+  else return false;
+};

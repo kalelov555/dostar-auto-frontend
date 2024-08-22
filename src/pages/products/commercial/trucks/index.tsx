@@ -4,23 +4,39 @@ import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import Pagination from "@/components/shared/Pagination";
 import { busesInput } from "@/helpers/filters";
+import { isFavoriteVehicle } from "@/helpers/functions";
 import { useAuth } from "@/hooks/useAuth";
+import { useGetFavorites } from "@/hooks/useFavorites";
 import { IBusesResponse } from "@/interfaces/bus";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchTrucksByFilters } from "@/services/api/modules/trucks";
 import { pageAtom } from "@/store/page";
+import { tokenStorage } from "@/store/token";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
 const ProductTrucksPage = () => {
   const router = useRouter();
+  const [token, _] = useAtom(tokenStorage);
   const [page, setPage] = useAtom(pageAtom);
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const [trucksResponse, setTrucksResponse] = useState<IBusesResponse | null>(
     null
   );
+
+  const {
+    data: favoritesData,
+    isLoading: isLoadingFavorites,
+    error,
+    isError,
+  } = useGetFavorites({
+    params: { view: "with_vehicle", vehicle_type: "CommercialVehicle" },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   const fetch = useCallback(async () => {
     try {
@@ -39,7 +55,10 @@ const ProductTrucksPage = () => {
   useEffect(() => {
     setLoading(true);
     if (router.isReady) fetch();
-  }, [router.query, page, fetch, router.isReady]);
+    if (isError) {
+      alert("something went wrong on favorites - trucks");
+    }
+  }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
   return (
     <DefaultLayout>
       <ProductPageFilters dataInputs={busesInput} filtersLabel="Грузовики" />
@@ -58,6 +77,10 @@ const ProductTrucksPage = () => {
                     product={truck}
                     key={truck.id}
                     type="trucks"
+                    isFavorite={isFavoriteVehicle(
+                      truck.id,
+                      favoritesData?.data
+                    )}
                   />
                 ))}
                 {trucksResponse?.data.length && (
