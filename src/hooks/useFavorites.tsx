@@ -1,8 +1,7 @@
-import { IFavorite, IFavoriteResponse } from "@/interfaces/favorites";
+import { IFavorite } from "@/interfaces/favorites";
 import api from "@/services/api/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { headers } from "next/headers";
 
 type Params = {
   params?: {
@@ -15,6 +14,7 @@ type Params = {
 
 export const useGetFavorites = (params: Params) =>
   useQuery({
+    refetchOnMount: true,
     queryKey: ["favorites", params.headers.Authorization],
     queryFn: async () => {
       try {

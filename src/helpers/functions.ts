@@ -30,8 +30,7 @@ export const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
 
 export const isFavoriteVehicle = (
   productId: number,
-  arr: IFavorite[] | undefined
+  arr: IFavorite[] | undefined = []
 ) => {
-  if (arr) return arr.map((fav) => fav.vehicle_id).includes(productId);
-  else return false;
+  return arr.map((fav) => fav.vehicle_id).includes(productId);
 };

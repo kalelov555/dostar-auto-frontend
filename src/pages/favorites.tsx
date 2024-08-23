@@ -16,10 +16,10 @@ const FavoritesPage = () => {
   const type = (
     str: string
   ): "cars" | "buses" | "trucks" | "motos" | "spec_technics" => {
-    if (str === "Truck") return "trucks";
-    else if (str === "Bus") return "buses";
-    else if (str === "Car") return "cars";
-    else if (str === "Moto") return "motos";
+    if (str === "truck") return "trucks";
+    else if (str === "bus") return "buses";
+    else if (str === "car") return "cars";
+    else if (str === "moto") return "motos";
     else return "spec_technics";
   };
 
@@ -36,6 +36,8 @@ const FavoritesPage = () => {
       toast.current?.show({ severity: "error", summary: error.message });
     }
   }, [isLoading, isError]);
+
+  console.log(data);
 
   return (
     <DefaultLayout>

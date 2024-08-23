@@ -32,7 +32,7 @@ const ProductBusesPage = () => {
     error,
     isError,
   } = useGetFavorites({
-    params: { view: "with_vehicle", vehicle_type: "CommercialVehicle" },
+    params: { view: "with_vehicle", vehicle_type: "bus" },
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -63,7 +63,7 @@ const ProductBusesPage = () => {
     <DefaultLayout>
       <ProductPageFilters dataInputs={busesInput} filtersLabel="Автобусы" />
       <div className="mt-10 flex flex-col gap-3">
-        {loading ? (
+        {loading || isLoadingFavorites ? (
           <ProductsSkeleton />
         ) : (
           <>

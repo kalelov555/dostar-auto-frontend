@@ -31,7 +31,7 @@ const ProductSpecTechnicsPage = () => {
     error,
     isError,
   } = useGetFavorites({
-    params: { view: "with_vehicle", vehicle_type: "CommercialVehicle" },
+    params: { view: "with_vehicle", vehicle_type: "spectechnic" },
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -65,7 +65,7 @@ const ProductSpecTechnicsPage = () => {
         filtersLabel="Спец. Техника"
       />
       <div className="mt-10 flex flex-col gap-3">
-        {loading ? (
+        {loading || isLoadingFavorites ? (
           <ProductsSkeleton />
         ) : (
           <>

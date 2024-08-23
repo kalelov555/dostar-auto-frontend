@@ -30,7 +30,7 @@ const ProductCarsPage = () => {
     error,
     isError,
   } = useGetFavorites({
-    params: { view: "with_vehicle", vehicle_type: "Car" },
+    params: { view: "with_vehicle", vehicle_type: "car" },
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -51,7 +51,7 @@ const ProductCarsPage = () => {
     setLoading(true);
     if (router.isReady) fetch();
     if (isError) {
-      alert("something went wrong on favorites - buses");
+      alert("something went wrong on favorites - cars");
     }
   }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
 
@@ -59,7 +59,7 @@ const ProductCarsPage = () => {
     <DefaultLayout>
       <ProductPageFilters dataInputs={carsInputs} filtersLabel="Легковые" />
       <div className="mt-10 flex flex-col gap-3">
-        {loading ? (
+        {loading || isLoadingFavorites ? (
           <ProductsSkeleton />
         ) : (
           <>

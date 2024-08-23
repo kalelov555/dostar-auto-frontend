@@ -1,18 +1,18 @@
-import DefaultLayout from "@/layouts/DefaultLayout";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
-import ProductCard from "@/components/Product/ProductCard";
 import HomePageMenu from "@/components/HomePageMenu/HomePageMenu";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { Toast } from "primereact/toast";
-import { useAuth } from "@/hooks/useAuth";
-import { fetchAllCars } from "@/services/api/modules/cars";
-import { useInView } from "react-intersection-observer";
-import { useGetFavorites } from "@/hooks/useFavorites";
-import { useAtom } from "jotai";
-import { tokenStorage } from "@/store/token";
+import ProductCard from "@/components/Product/ProductCard";
+import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import { isFavoriteVehicle } from "@/helpers/functions";
+import { useAuth } from "@/hooks/useAuth";
+import { useGetFavorites } from "@/hooks/useFavorites";
+import DefaultLayout from "@/layouts/DefaultLayout";
+import { fetchAllCars } from "@/services/api/modules/cars";
+import { tokenStorage } from "@/store/token";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
+import { useRouter } from "next/router";
+import { Toast } from "primereact/toast";
+import { useEffect, useRef } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default function Home() {
   const router = useRouter();
@@ -50,7 +50,7 @@ export default function Home() {
     error,
     isError,
   } = useGetFavorites({
-    params: { view: "with_vehicle", vehicle_type: "Car" },
+    params: { view: "with_vehicle", vehicle_type: "car" },
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -65,26 +65,33 @@ export default function Home() {
     }
   }, [fetchNextPage, inView, isFetchingNextPage, isLoadingFavorites]);
 
+  const loading = isFetchingNextPage || isLoading || isLoadingFavorites;
+
   return (
     <DefaultLayout>
       <HomePageMenu />
       <Toast ref={toast} />
-      <div>
-        <div className="mt-4 flex flex-col gap-3">
-          {data?.pages.map((pageItems) =>
-            pageItems?.data.map((product) => (
-              <ProductCard
-                authorized={auth.user?.data}
-                key={product.id}
-                product={product}
-                type="cars"
-                isFavorite={isFavoriteVehicle(product.id, favoritesData?.data)}
-              />
-            ))
-          )}
+      {!(isLoading || isLoadingFavorites) && (
+        <div>
+          <div className="mt-4 flex flex-col gap-3">
+            {data?.pages.map((pageItems) =>
+              pageItems?.data.map((product) => (
+                <ProductCard
+                  authorized={auth.user?.data}
+                  key={product.id}
+                  product={product}
+                  type="cars"
+                  isFavorite={isFavoriteVehicle(
+                    product.id,
+                    favoritesData?.data
+                  )}
+                />
+              ))
+            )}
+          </div>
         </div>
-      </div>
-      {(isFetchingNextPage || status === "pending") && <ProductsSkeleton />}
+      )}
+      {loading && <ProductsSkeleton />}
       <div ref={ref}></div>
     </DefaultLayout>
   );
