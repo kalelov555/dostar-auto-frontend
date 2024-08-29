@@ -11,6 +11,7 @@
 
 :root {
   background-color: #f1f1f1;
+  --color-primary: #2a81dd;
 }
 
 body {
@@ -64,4 +65,19 @@ h3 {
 
 .mark-button .p-button-label {
   font-weight: 400;
+}
+
+.p-selectbutton .p-button {
+  padding: 8px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+.p-selectbutton .p-button.p-highlight {
+  background-color: var(--color-primary);
+}
+
+.p-selectbutton .p-button span {
+  font-size: 12px;
+  font-weight: 500;
 }

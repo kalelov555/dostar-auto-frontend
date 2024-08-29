@@ -47,3 +47,5 @@ export const serializeCarData = (response: ICar) => {
     ),
   };
 };
+
+export const formatfromPhoneMask = (phone: string) => {};

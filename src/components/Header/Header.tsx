@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <header className="h-[44px] flex items-center justify-between w-full bg-primary py-2 px-4 fixed top-0 max-w-[768px] mx-auto">
+    <header className="h-[44px] flex items-center justify-between w-full bg-primary py-2 px-4 fixed top-0 max-w-[768px] mx-auto z-[1500]">
       <div>
         <Link
           href={{ pathname: "/" }}
