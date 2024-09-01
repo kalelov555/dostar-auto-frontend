@@ -52,13 +52,11 @@ const RegisterPage = () => {
     mutationFn: (data: IRegisterDTO) => {
       return api.post("/signup", { user: data });
     },
-    onSuccess: (res: AxiosResponse) => {
+    onSuccess: async (res: AxiosResponse) => {
       let bearerToken: string = res.headers.authorization;
       setToken(bearerToken.replace("Bearer ", ""));
       showSuccessNotification();
-      setTimeout(() => {
-        router.push("/");
-      });
+      router.push("/");
     },
     onError: (err: AxiosError) => {
       localStorage.removeItem("token");

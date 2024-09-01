@@ -15,7 +15,7 @@ export const useAuth = () => {
     AuthResponse,
     AxiosError
   >({
-    queryKey: ["auth"],
+    queryKey: ["auth", token],
     // Cache for 5 minutes
     staleTime: 5 * 60 * 1000,
     refetchOnMount: false,

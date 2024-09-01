@@ -39,6 +39,9 @@ const ProfilePage = () => {
       <div>
         <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full  z-[1500]">
           <p>Мой кабинет</p>
+          <Link className="underline" href="/login">
+            Выйти
+          </Link>
         </div>
         {isLoading || isError ? (
           <LoadingScreen />
