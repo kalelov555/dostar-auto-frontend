@@ -66,7 +66,7 @@ const RequestsPage = () => {
                 value={carName(item.vehicle_type)}
                 severity="success"
               />
-              <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
                 <p className="text-lg font-semibold text-primary">
                   {!item.model
                     ? `${item.manufacturer_name || ""} ${
@@ -74,17 +74,19 @@ const RequestsPage = () => {
                       }`
                     : `${item.manufacturer_name || ""} ${item.model || ""}`}
                 </p>
+                {item.engine_capacity && (
+                  <Tag value={`${item.engine_capacity} л.`} severity="info" />
+                )}
               </div>
               <div>
                 <p>{formatPrice(item.budget)}</p>
               </div>
-              <Divider className="m-0 my-3" />
-              <div className="flex items-center gap-4 my-3">
-                {item.engine_capacity && (
-                  <Tag value={`${item.engine_capacity} л.`} severity="info" />
-                )}
-                <Tag value={`${item.manufacture_year} года`} />
+              <div>
+                <p className="underline text-sm text-gray-600">
+                  {item.manufacture_year} года
+                </p>
               </div>
+              <Divider className="m-0 my-3" />
               {item.description && (
                 <div>
                   <ExpandableText text={item.description} />
@@ -92,11 +94,12 @@ const RequestsPage = () => {
               )}
 
               <Button
-                className="w-24 h-8 p-0 gap-0 text-xs px-2 py-3 mx-auto"
+                className="w-28 h-10 p-0 gap-0 text-xs px-5 py-3 mx-auto"
                 onClick={() => confirm(item.id)}
-                icon="pi pi-times text-xs m-0 pr-2"
+                // icon="pi pi-times text-xs m-0 pr-2"
                 label="Удалить"
                 severity="danger"
+                outlined
               ></Button>
             </div>
           ))}

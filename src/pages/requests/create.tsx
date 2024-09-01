@@ -10,6 +10,7 @@ import { IMark } from "@/interfaces/marks";
 import { IRequestData, IRequestDTO } from "@/interfaces/requests";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import api from "@/services/api/client";
+import { createRequest } from "@/services/api/modules/request";
 import { tokenStorage } from "@/store/token";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -64,6 +65,13 @@ const RequestSchema = z
         code: z.ZodIssueCode.custom,
       });
     }
+    if (data.vehicle_type === "car" && !data.vehicle_model_id) {
+      ctx.addIssue({
+        path: ["vehicle_model_id"],
+        message: "Модель обязательна при выборе машины",
+        code: z.ZodIssueCode.custom,
+      });
+    }
   });
 
 const CreateRequestPage = () => {
@@ -110,13 +118,12 @@ const CreateRequestPage = () => {
       setValue("last_name", user.data.last_name);
       if (user.data.phone) setValue("phone", user.data.phone);
     }
-
-    console.log(getValues());
   }, [isLoading]);
 
   useEffect(() => {
     setValue("vehicle_model_id", "");
     setValue("model", "");
+    setValue("manufacturer_id", "");
   }, [type]);
 
   const fetchManufactures = useCallback(async () => {
@@ -173,15 +180,7 @@ const CreateRequestPage = () => {
     error: submitError,
   } = useMutation({
     mutationFn: async (data: IRequestDTO) => {
-      try {
-        return api.post(
-          "/rfqs",
-          { ...data },
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-      } catch (err) {
-        throw err;
-      }
+      return createRequest({ ...data }, token);
     },
     onSuccess: (res: AxiosResponse) => {
       showSuccessNotification("Запрос создан успешно!");
@@ -291,7 +290,6 @@ const CreateRequestPage = () => {
                               placeholder={input.placeholder}
                               className={`w-full`}
                               mask="+7(999)-999-99-99"
-                              onReset={() => console.log("resetted")}
                               autoClear={false}
                               name={input.name}
                               {...(field as any)}

@@ -7,6 +7,7 @@ import { useAddFavorite, useDeleteFavorite } from "@/hooks/useFavorites";
 import { useAtom } from "jotai";
 import { tokenStorage } from "@/store/token";
 import { useState } from "react";
+import { showErrorNotification } from "@/helpers/notifications";
 
 type Props = {
   product: any;
@@ -44,7 +45,7 @@ const ProductCard = ({
         })
           .then(() => setFavorite(!favorite))
           .catch((err) => {
-            console.log(err);
+            showErrorNotification(err.message || "");
           });
       } else {
         await deleteFavorite({
@@ -54,7 +55,7 @@ const ProductCard = ({
         })
           .then(() => setFavorite(!favorite))
           .catch((err) => {
-            console.log(err);
+            showErrorNotification(err.message || "");
           });
       }
     }

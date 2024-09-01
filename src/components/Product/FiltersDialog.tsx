@@ -150,7 +150,6 @@ const FiltersDialog = ({
     //     let mark = manufacturesData?.data.find(
     //       (item) => item.id == router.query.manufacturer_id
     //     );
-    //     console.log(manufacturesData);
     //     if (mark) setManufactureModelText(mark.name);
     //   }
     // }

@@ -1,4 +1,7 @@
-import { showErrorNotification } from "@/helpers/notifications";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "@/helpers/notifications";
 import { IRequestsResponse } from "@/interfaces/requests";
 import { deleteRequest, fetchRequests } from "@/services/api/modules/request";
 import { tokenStorage } from "@/store/token";
@@ -29,6 +32,7 @@ export const useDeleteRequest = () => {
     mutationFn: async (id: number) => {
       try {
         await deleteRequest(id, token);
+        showSuccessNotification("Запрос успешно удален!");
       } catch (err) {
         if (err instanceof AxiosError) showErrorNotification(err.message);
       }

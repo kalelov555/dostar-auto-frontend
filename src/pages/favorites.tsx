@@ -37,8 +37,6 @@ const FavoritesPage = () => {
     }
   }, [isLoading, isError]);
 
-  console.log(data);
-
   return (
     <DefaultLayout>
       <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full">
