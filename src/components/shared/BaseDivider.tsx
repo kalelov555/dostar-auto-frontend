@@ -3,3 +3,5 @@ const BaseDivider = () => {
 };
 
 export default BaseDivider;
+
+// refactor wuth prime react Divider

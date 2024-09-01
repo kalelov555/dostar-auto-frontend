@@ -64,7 +64,7 @@ export const dataInputs: IDataInput[] = [
     label: "Фамилия",
   },
   {
-    name: "phone_number",
+    name: "phone",
     type: "phone",
     placeholder: "Напишите номер телефона",
     floatingLabel: false,
@@ -162,7 +162,7 @@ export function transformData(input: any) {
     user: {
       first_name: cleanedInput.first_name,
       last_name: cleanedInput.last_name,
-      phone: cleanedInput.phone_number,
+      phone: cleanedInput.phone,
     },
   };
 }

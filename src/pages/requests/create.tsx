@@ -27,7 +27,7 @@ const RequestSchema = z
   .object({
     first_name: z.string().min(1, "Это поле обязательное"),
     last_name: z.string().min(1, "Это поле обязательное"),
-    phone_number: z
+    phone: z
       .string({
         required_error: "Это поле обязательное",
         invalid_type_error: "Неправильный формат телефона",
@@ -71,7 +71,7 @@ const CreateRequestPage = () => {
   const defaultValues: IRequestData = {
     first_name: "",
     last_name: "",
-    phone_number: "",
+    phone: "",
     manufacturer_id: "",
     model: "",
     budget: "",
@@ -119,12 +119,13 @@ const CreateRequestPage = () => {
       router.replace("/login");
     }
 
-    // setValue("phone_number", "+77762086923");
-
     if (user) {
       setValue("first_name", user.data.first_name);
       setValue("last_name", user.data.last_name);
+      if (user.data.phone) setValue("phone", user.data.phone);
     }
+
+    console.log(getValues());
   }, [isLoading]);
 
   useEffect(() => {
@@ -307,9 +308,11 @@ const CreateRequestPage = () => {
                               placeholder={input.placeholder}
                               className={`w-full`}
                               mask="+7(999)-999-99-99"
-                              defaultValue=""
+                              onReset={() => console.log("resetted")}
                               autoClear={false}
+                              name={input.name}
                               {...(field as any)}
+                              value={user?.data.phone || ""}
                             />
                             <InputErrorText
                               msg={fieldState.error?.message as string}
@@ -403,7 +406,7 @@ const CreateRequestPage = () => {
               <Button
                 severity="info"
                 className="w-full h-12 shadow-[0_8px_25px_0_rgba(42,129,221,.6)]"
-                label="Поиск..."
+                label="Создать запрос"
                 type="submit"
                 loading={isPending}
               />

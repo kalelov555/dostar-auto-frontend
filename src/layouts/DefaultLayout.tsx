@@ -46,7 +46,7 @@ const DefaultLayout = ({ children }: Props) => {
             <p className="text-sm text-primary">Подать</p>
           </div>
         ),
-        url: "/create-request",
+        url: "/requests/create",
       },
       {
         id: 3,

@@ -33,3 +33,11 @@ export type IDataInput = {
   label?: string;
   children?: IDataInput[];
 };
+
+export type IVehicleType =
+  | "car"
+  | "bus"
+  | "truck"
+  | "moto"
+  | "spectechnic"
+  | "";
