@@ -1,6 +1,7 @@
 import ExpandableText from "@/components/shared/ExpandableText";
 import LoadingScreen from "@/components/shared/LoadingScrenn";
 import { formatPrice } from "@/helpers/functions";
+import { showErrorNotification } from "@/helpers/notifications";
 import { useDeleteRequest, useRequests } from "@/hooks/useRequests";
 import { IVehicleType } from "@/interfaces";
 import DefaultLayout from "@/layouts/DefaultLayout";
@@ -19,22 +20,18 @@ const carName = (type: IVehicleType) => {
 };
 
 const RequestsPage = () => {
-  const { data, isLoading, isError, refetch } = useRequests();
+  const { data, isLoading, isError, refetch, error } = useRequests();
   const { mutateAsync, isPending, isError: isErrorDelete } = useDeleteRequest();
 
   useEffect(() => {
     if (isError) {
-      alert("error!");
+      showErrorNotification(error.message);
     }
   }, [isLoading, isError]);
 
   const accept = async (id: number) => {
     await mutateAsync(id);
     refetch();
-  };
-
-  const reject = () => {
-    alert("rejected");
   };
 
   const confirm = (id: number) => {
@@ -45,7 +42,6 @@ const RequestsPage = () => {
       defaultFocus: "reject",
       acceptClassName: "p-button-danger",
       accept: () => accept(id),
-      reject,
     });
   };
 

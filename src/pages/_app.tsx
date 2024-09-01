@@ -1,11 +1,13 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Lora, Poppins, Roboto } from "next/font/google";
+import { Roboto } from "next/font/google";
 import { PrimeReactProvider } from "primereact/api";
 import "primeicons/primeicons.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from "react";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +21,7 @@ const font = Roboto({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <StrictMode>
+      <ToastContainer />
       <div className={font.className}>
         <QueryClientProvider client={queryClient}>
           <PrimeReactProvider>

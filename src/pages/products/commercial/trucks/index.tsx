@@ -5,6 +5,7 @@ import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import Pagination from "@/components/shared/Pagination";
 import { busesInput } from "@/helpers/filters";
 import { isFavoriteVehicle } from "@/helpers/functions";
+import { showErrorNotification } from "@/helpers/notifications";
 import { useAuth } from "@/hooks/useAuth";
 import { useGetFavorites } from "@/hooks/useFavorites";
 import { IBusesResponse } from "@/interfaces/bus";
@@ -12,6 +13,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchTrucksByFilters } from "@/services/api/modules/trucks";
 import { pageAtom } from "@/store/page";
 import { tokenStorage } from "@/store/token";
+import { AxiosError } from "axios";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
@@ -46,7 +48,7 @@ const ProductTrucksPage = () => {
       });
       setTrucksResponse(response);
     } catch (err) {
-      alert(JSON.stringify(err));
+      if (err instanceof AxiosError) showErrorNotification(err.message);
     } finally {
       setLoading(false);
     }
@@ -56,7 +58,7 @@ const ProductTrucksPage = () => {
     setLoading(true);
     if (router.isReady) fetch();
     if (isError) {
-      alert("something went wrong on favorites - trucks");
+      showErrorNotification("something went wrong on favorites - trucks");
     }
   }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
   return (

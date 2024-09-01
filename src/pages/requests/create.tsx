@@ -1,5 +1,9 @@
 import InputErrorText from "@/components/shared/InputErrorText";
 import LoadingScreen from "@/components/shared/LoadingScrenn";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "@/helpers/notifications";
 import { dataInputs, transformData } from "@/helpers/request";
 import { useAuth } from "@/hooks/useAuth";
 import { IMark } from "@/interfaces/marks";
@@ -18,7 +22,6 @@ import { InputMask } from "primereact/inputmask";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { SelectButton } from "primereact/selectbutton";
-import { Toast } from "primereact/toast";
 import { useCallback, useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -66,7 +69,6 @@ const RequestSchema = z
 const CreateRequestPage = () => {
   const router = useRouter();
   const { user, isLoading, isError, error } = useAuth();
-  const toast = useRef<Toast>(null);
   const [token, _] = useAtom(tokenStorage);
   const defaultValues: IRequestData = {
     first_name: "",
@@ -94,22 +96,6 @@ const CreateRequestPage = () => {
     defaultValues,
     resolver: zodResolver(RequestSchema),
   });
-
-  const showSuccess = useCallback(() => {
-    toast.current?.show({
-      severity: "success",
-      summary: "Успешно!",
-      life: 3000,
-    });
-  }, []);
-  const showError = useCallback((msg: string) => {
-    toast.current?.show({
-      severity: "error",
-      summary: "Что-то пошло не так!",
-      detail: msg,
-      life: 3000,
-    });
-  }, []);
 
   const type = watch("vehicle_type");
   const manufacturer_id = watch("manufacturer_id");
@@ -139,7 +125,7 @@ const CreateRequestPage = () => {
         const response = await api.get(`/manufacturers?vehicle_type=${type}`);
         return response.data;
       } catch (err) {
-        alert("something went wronf");
+        if (err instanceof AxiosError) showErrorNotification(err.message);
         return err;
       }
     }
@@ -163,7 +149,7 @@ const CreateRequestPage = () => {
         );
         return response.data;
       } catch (err) {
-        alert("something went wronf");
+        if (err instanceof AxiosError) showErrorNotification(err.message);
         return err;
       }
     }
@@ -198,13 +184,11 @@ const CreateRequestPage = () => {
       }
     },
     onSuccess: (res: AxiosResponse) => {
-      showSuccess();
+      showSuccessNotification("Запрос создан успешно!");
     },
     onError: (err: AxiosError) => {
-      showError(
-        err.response?.data
-          ? String(err.response?.data)
-          : "Перепроверьте данные!"
+      showErrorNotification(
+        err.response?.data ? String(err.response?.data) : err.message
       );
     },
   });
@@ -219,7 +203,6 @@ const CreateRequestPage = () => {
       <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full  z-[1500]">
         <p>Форма для запроса</p>
       </div>
-      <Toast ref={toast} />
       {!(isLoading && isLoadingManufactures) ? (
         <div className="mt-8 py-2">
           <form

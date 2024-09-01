@@ -1,8 +1,13 @@
 import InputErrorText from "@/components/shared/InputErrorText";
 import { loginInputs } from "@/helpers/auth";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "@/helpers/notifications";
 import { ILoginDTO } from "@/interfaces/auth/auth.dto";
 import AuthPagesLayout from "@/layouts/AuthPagesLayout";
 import api from "@/services/api/client";
+import { authLogin } from "@/services/api/modules/auth";
 import { tokenStorage } from "@/store/token";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -13,10 +18,10 @@ import { useRouter } from "next/router";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { Toast } from "primereact/toast";
 import { classNames } from "primereact/utils";
 import React, { useCallback, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 const LoginSchema = z.object({
@@ -25,42 +30,22 @@ const LoginSchema = z.object({
 });
 
 const LoginPage = () => {
-  const toast = useRef<Toast>(null);
   const router = useRouter();
   const [_, setToken] = useAtom(tokenStorage);
 
-  const showSuccess = useCallback(() => {
-    toast.current?.show({
-      severity: "success",
-      summary: "Успешно!",
-      life: 3000,
-    });
-  }, []);
-  const showError = useCallback((msg: string) => {
-    toast.current?.show({
-      severity: "error",
-      summary: "Что-то пошло не так!",
-      detail: msg,
-      life: 3000,
-    });
-  }, []);
-
   const { mutate, isPending } = useMutation({
-    mutationFn: async (data: ILoginDTO) => {
-      return api.post("/login", { user: data });
-    },
+    mutationFn: authLogin,
     onSuccess: (res: AxiosResponse) => {
       let bearerToken: string = res.headers.authorization;
       setToken(bearerToken.replace("Bearer ", ""));
-      showSuccess();
+      showSuccessNotification();
       router.push("/");
     },
     onError: (err: AxiosError) => {
-      showError(
-        err.response?.data
-          ? String(err.response?.data)
-          : "Перепроверьте данные!"
+      showErrorNotification(
+        err.response?.data ? String(err.response?.data) : err.message
       );
+      localStorage.removeItem("token");
     },
   });
 
@@ -79,7 +64,6 @@ const LoginPage = () => {
 
   return (
     <AuthPagesLayout>
-      <Toast ref={toast} />
       <form
         className="flex flex-col max-w-sm w-full p-6 sm:p-5 gap-3 bg-white rounded-md shadow-xl"
         onSubmit={handleSubmit(onSubmit)}

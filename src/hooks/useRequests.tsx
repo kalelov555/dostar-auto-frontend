@@ -1,3 +1,4 @@
+import { showErrorNotification } from "@/helpers/notifications";
 import { IRequestsResponse } from "@/interfaces/requests";
 import { deleteRequest, fetchRequests } from "@/services/api/modules/request";
 import { tokenStorage } from "@/store/token";
@@ -29,7 +30,7 @@ export const useDeleteRequest = () => {
       try {
         await deleteRequest(id, token);
       } catch (err) {
-        alert("err");
+        if (err instanceof AxiosError) showErrorNotification(err.message);
       }
     },
   });

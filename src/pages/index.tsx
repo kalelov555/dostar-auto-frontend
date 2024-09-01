@@ -2,6 +2,7 @@ import HomePageMenu from "@/components/HomePageMenu/HomePageMenu";
 import ProductCard from "@/components/Product/ProductCard";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import { isFavoriteVehicle } from "@/helpers/functions";
+import { showErrorNotification } from "@/helpers/notifications";
 import { useAuth } from "@/hooks/useAuth";
 import { useGetFavorites } from "@/hooks/useFavorites";
 import DefaultLayout from "@/layouts/DefaultLayout";
@@ -19,8 +20,6 @@ export default function Home() {
   const auth = useAuth();
   const [token, _] = useAtom(tokenStorage);
 
-  const toast = useRef<Toast>(null);
-
   const { ref, inView } = useInView();
 
   const { data, status, fetchNextPage, isFetchingNextPage, isLoading } =
@@ -31,10 +30,7 @@ export default function Home() {
           pageParam,
           restParams: { ...router.query },
         }).catch((err) => {
-          toast.current?.show({
-            severity: "error",
-            summary: err.response.message,
-          });
+          showErrorNotification(err.response.message || err.message);
         }),
       initialPageParam: 0,
       getNextPageParam: (lastPage, allPages) => {
@@ -61,7 +57,7 @@ export default function Home() {
       fetchNextPage();
     }
     if (isError) {
-      toast.current?.show({ severity: "error", detail: error.message });
+      showErrorNotification(error.message);
     }
   }, [fetchNextPage, inView, isFetchingNextPage, isLoadingFavorites]);
 
@@ -70,7 +66,6 @@ export default function Home() {
   return (
     <DefaultLayout>
       <HomePageMenu />
-      <Toast ref={toast} />
       {!(isLoading || isLoadingFavorites) && (
         <div>
           <div className="mt-4 flex flex-col gap-3">

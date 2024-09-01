@@ -15,6 +15,8 @@ import { EmptyList } from "@/components/Product/EmptyLitst";
 import { useGetFavorites } from "@/hooks/useFavorites";
 import { tokenStorage } from "@/store/token";
 import { isFavoriteVehicle } from "@/helpers/functions";
+import { AxiosError } from "axios";
+import { showErrorNotification } from "@/helpers/notifications";
 
 const ProductCarsPage = () => {
   const [token, _] = useAtom(tokenStorage);
@@ -41,7 +43,7 @@ const ProductCarsPage = () => {
       const response = await fetchCarsByFilters({ ...router.query, page });
       setCarsResponse(response);
     } catch (err) {
-      alert(JSON.stringify(err));
+      if (err instanceof AxiosError) showErrorNotification(err.message);
     } finally {
       setLoading(false);
     }
@@ -51,7 +53,7 @@ const ProductCarsPage = () => {
     setLoading(true);
     if (router.isReady) fetch();
     if (isError) {
-      alert("something went wrong on favorites - cars");
+      showErrorNotification("something went wrong on favorites - cars");
     }
   }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
 

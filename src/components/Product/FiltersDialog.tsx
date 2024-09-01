@@ -20,6 +20,7 @@ import api from "@/services/api/client";
 import { useQuery } from "@tanstack/react-query";
 import { IMark } from "@/interfaces/marks";
 import { AxiosError } from "axios";
+import { showErrorNotification } from "@/helpers/notifications";
 
 type Props = {
   filtersModalOpened: boolean;
@@ -99,7 +100,7 @@ const FiltersDialog = ({
         const response = await api.get(`/manufacturers?vehicle_type=${type}`);
         return response.data;
       } catch (err) {
-        alert("something went wronf");
+        if (err instanceof AxiosError) showErrorNotification(err.message);
       }
     }
   }, [router.pathname, type, filtersModalOpened]);

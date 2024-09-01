@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import LoadingScreen from "../shared/LoadingScrenn";
 import { Button } from "primereact/button";
+import { showErrorNotification } from "@/helpers/notifications";
 
 type Props = {
   open: boolean;
@@ -37,7 +38,7 @@ const ManufactureModelsFiltersModal = ({
         );
         return response.data;
       } catch (err) {
-        alert("something went wronf");
+        if (err instanceof AxiosError) showErrorNotification(err.message);
       }
     }
   }, [router.pathname, open]);

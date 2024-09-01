@@ -1,4 +1,5 @@
 import LoadingScreen from "@/components/shared/LoadingScrenn";
+import { showErrorNotification } from "@/helpers/notifications";
 import { useAuth } from "@/hooks/useAuth";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import Link from "next/link";
@@ -24,21 +25,11 @@ const LabeledText = ({
 
 const ProfilePage = () => {
   const { user, isLoading, isError, isSuccess, error } = useAuth();
-  const toast = useRef<Toast>(null);
   const router = useRouter();
-
-  const showError = () => {
-    toast.current?.show({
-      severity: "error",
-      summary: "Error",
-      detail: String(error?.response?.data),
-      life: 3000,
-    });
-  };
 
   useEffect(() => {
     if (isError) {
-      showError();
+      showErrorNotification(error?.message as string);
       router.push("/login");
     }
   }, [isError]);
@@ -92,7 +83,6 @@ const ProfilePage = () => {
           </div>
         )}
       </div>
-      <Toast ref={toast} />
     </DefaultLayout>
   );
 };

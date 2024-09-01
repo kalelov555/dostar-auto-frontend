@@ -1,5 +1,6 @@
 import ProductCard from "@/components/Product/ProductCard";
 import LoadingScreen from "@/components/shared/LoadingScrenn";
+import { showErrorNotification } from "@/helpers/notifications";
 import { useGetFavorites } from "@/hooks/useFavorites";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import { tokenStorage } from "@/store/token";
@@ -10,7 +11,6 @@ import { useEffect, useRef } from "react";
 
 const FavoritesPage = () => {
   const [token, _] = useAtom(tokenStorage);
-  const toast = useRef<Toast>(null);
   const router = useRouter();
 
   const type = (
@@ -33,7 +33,7 @@ const FavoritesPage = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.current?.show({ severity: "error", summary: error.message });
+      showErrorNotification(error.message);
     }
   }, [isLoading, isError]);
 
@@ -41,7 +41,6 @@ const FavoritesPage = () => {
 
   return (
     <DefaultLayout>
-      <Toast ref={toast} />
       <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full">
         <p>Избранное</p>
       </div>

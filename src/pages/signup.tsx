@@ -5,7 +5,7 @@ import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { classNames } from "primereact/utils";
-import React, { useCallback, useRef, useState } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InputMask } from "primereact/inputmask";
 import { z } from "zod";
@@ -19,7 +19,10 @@ import { tokenStorage } from "@/store/token";
 import { IRegisterDTO } from "@/interfaces/auth/auth.dto";
 import { registerInputs } from "@/helpers/auth";
 import { useRouter } from "next/router";
-import { Toast } from "primereact/toast";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "@/helpers/notifications";
 
 const RegisterSchema = z.object({
   first_name: z.string(),
@@ -31,7 +34,6 @@ const RegisterSchema = z.object({
 
 const RegisterPage = () => {
   const [_, setToken] = useAtom(tokenStorage);
-  const toast = useRef<Toast>();
   const router = useRouter();
   const defaultValues: IRegisterDTO = {
     password: "",
@@ -40,22 +42,6 @@ const RegisterPage = () => {
     first_name: "",
     last_name: "",
   };
-
-  const showSuccess = useCallback(() => {
-    toast.current?.show({
-      severity: "success",
-      summary: "Успешно!",
-      life: 3000,
-    });
-  }, []);
-  const showError = useCallback((msg: string) => {
-    toast.current?.show({
-      severity: "error",
-      summary: "Что-то пошло не так!",
-      detail: msg,
-      life: 3000,
-    });
-  }, []);
 
   const { control, reset, watch, handleSubmit } = useForm({
     defaultValues,
@@ -69,11 +55,14 @@ const RegisterPage = () => {
     onSuccess: (res: AxiosResponse) => {
       let bearerToken: string = res.headers.authorization;
       setToken(bearerToken.replace("Bearer ", ""));
-      showSuccess();
-      router.push("/");
+      showSuccessNotification();
+      setTimeout(() => {
+        router.push("/");
+      });
     },
     onError: (err: AxiosError) => {
-      showError(
+      localStorage.removeItem("token");
+      showErrorNotification(
         err.response?.data ? String(err.response?.data) : "Что то пошло не так!"
       );
     },
