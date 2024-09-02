@@ -1,3 +1,4 @@
+import ApplicationModal from "@/components/Product/ApplicationModal";
 import ProductDescriptionTable from "@/components/Product/ProductDescriptionTable";
 import { formatPrice } from "@/helpers/functions";
 import { ICar } from "@/interfaces/car";
@@ -30,6 +31,8 @@ const ProductCarPage = ({ data }: ContextProps) => {
       <div className="w-full border-y-[1px] border-gray-primary py-2 mt-4 bg-white">
         <ProductDescriptionTable product={data} />
       </div>
+
+      <ApplicationModal />
     </DefaultLayout>
   );
 };

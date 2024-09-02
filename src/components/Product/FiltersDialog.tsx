@@ -203,10 +203,7 @@ const FiltersDialog = ({
       closable={false}
       content={
         <div className="border-0">
-          <div
-            style={{ padding: "0 1.5rem" }}
-            className="h-12 w-full bg-primary text-white flex items-center gap-4"
-          >
+          <div className="mt-[44px] h-12 w-full bg-primary text-white flex items-center gap-4 px-2">
             <i
               onClick={() => setFiltersModalOpened(false)}
               className="pi pi-plus pi-pw rotate-45 text-lg cursor-pointer"
