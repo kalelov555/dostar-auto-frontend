@@ -1,7 +1,7 @@
 import { IUser } from "@/interfaces/auth";
 import api from "@/services/api/client";
 import { tokenStorage } from "@/store/token";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useAtom } from "jotai";
 
@@ -37,3 +37,12 @@ export const useAuth = () => {
 
   return { user: data, isLoading, isError, isSuccess, error };
 };
+
+export const useAuthLogout = () =>
+  useMutation({
+    mutationFn: async (token: string) => {
+      return api.delete("/logout", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    },
+  });

@@ -1,7 +1,10 @@
 import LoadingScreen from "@/components/shared/LoadingScrenn";
 import { showErrorNotification } from "@/helpers/notifications";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth, useAuthLogout } from "@/hooks/useAuth";
 import DefaultLayout from "@/layouts/DefaultLayout";
+import { tokenStorage } from "@/store/token";
+import { AxiosError } from "axios";
+import { useAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
@@ -24,24 +27,42 @@ const LabeledText = ({
 };
 
 const ProfilePage = () => {
+  const [token, _] = useAtom(tokenStorage);
   const { user, isLoading, isError, isSuccess, error } = useAuth();
   const router = useRouter();
+
+  const { mutateAsync, isPending, isSuccess: isDeleted } = useAuthLogout();
 
   useEffect(() => {
     if (isError) {
       showErrorNotification(error?.message as string);
       router.push("/login");
     }
-  }, [isError]);
+    if (isDeleted) {
+      localStorage.removeItem("token");
+      router.push("/login");
+    }
+  }, [isError, isPending]);
+
+  const handleLogout = async () => {
+    try {
+      await mutateAsync(token);
+    } catch (err) {
+      if (err instanceof AxiosError) showErrorNotification(err.message);
+    }
+  };
 
   return (
     <DefaultLayout>
       <div>
         <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full  z-[1500]">
           <p>Мой кабинет</p>
-          <Link className="underline" href="/login">
+          <p
+            onClick={handleLogout}
+            className="underline hover:no-underline cursor-pointer"
+          >
             Выйти
-          </Link>
+          </p>
         </div>
         {isLoading || isError ? (
           <LoadingScreen />
