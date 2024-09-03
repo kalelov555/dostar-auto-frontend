@@ -6,7 +6,6 @@ import {
 } from "@/helpers/notifications";
 import { ILoginDTO } from "@/interfaces/auth/auth.dto";
 import AuthPagesLayout from "@/layouts/AuthPagesLayout";
-import api from "@/services/api/client";
 import { authLogin } from "@/services/api/modules/auth";
 import { tokenStorage } from "@/store/token";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,14 +18,19 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
 import { classNames } from "primereact/utils";
-import React, { useCallback, useRef } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import { z } from "zod";
 
 const LoginSchema = z.object({
-  email: z.string(),
-  password: z.string(),
+  email: z
+    .string()
+    .min(1, "Это поле обязательное")
+    .regex(
+      /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/,
+      "Неправильный формат телефона"
+    ),
+  password: z.string().min(1, "Это поле обязательное"),
 });
 
 const LoginPage = () => {
@@ -53,7 +57,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   };
-  const { control, reset, watch, handleSubmit } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues,
     resolver: zodResolver(LoginSchema),
   });
@@ -80,7 +84,6 @@ const LoginPage = () => {
                   render={({ field, fieldState }) => (
                     <>
                       <InputText
-                        required
                         id={field.name}
                         placeholder={input.placeholder}
                         className={`${
@@ -104,7 +107,6 @@ const LoginPage = () => {
                   render={({ field, fieldState }) => (
                     <>
                       <Password
-                        required
                         id={field.name}
                         {...field}
                         toggleMask

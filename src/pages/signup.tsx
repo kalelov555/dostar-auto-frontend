@@ -25,11 +25,16 @@ import {
 } from "@/helpers/notifications";
 
 const RegisterSchema = z.object({
-  first_name: z.string(),
-  last_name: z.string(),
-  password: z.string(),
-  // tel: z.string(),
-  email: z.string().email(),
+  first_name: z.string().min(1, "Это поле обязательное"),
+  last_name: z.string().min(1, "Это поле обязательное"),
+  password: z.string().min(1, "Это поле обязательное"),
+  email: z
+    .string()
+    .min(1, "Это поле обязательное")
+    .regex(
+      /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/,
+      "Неправильный формат телефона"
+    ),
 });
 
 const RegisterPage = () => {
@@ -102,7 +107,6 @@ const RegisterPage = () => {
                   render={({ field, fieldState }) => (
                     <>
                       <InputText
-                        required
                         id={field.name}
                         placeholder={input.placeholder}
                         className={`${
@@ -124,18 +128,23 @@ const RegisterPage = () => {
                   name={input.name}
                   control={control}
                   render={({ field, fieldState }) => (
-                    <Password
-                      id={field.name}
-                      {...field}
-                      toggleMask
-                      className={classNames({
-                        "p-invalid": fieldState.invalid,
-                      })}
-                      feedback={true}
-                      placeholder={input.placeholder}
-                      header={passwordHeader}
-                      footer={passwordFooter}
-                    />
+                    <>
+                      <Password
+                        id={field.name}
+                        toggleMask
+                        className={`${
+                          fieldState.invalid && "p-invalid"
+                        } w-full`}
+                        {...(field as any)}
+                        feedback={true}
+                        placeholder={input.placeholder}
+                        header={passwordHeader}
+                        footer={passwordFooter}
+                      />
+                      <InputErrorText
+                        msg={fieldState.error?.message as string}
+                      />
+                    </>
                   )}
                 />
               </div>
@@ -145,7 +154,6 @@ const RegisterPage = () => {
                   key={input.name}
                   name={input.name}
                   control={control}
-                  rules={{ required: true }}
                   render={({ field, fieldState }) => (
                     <>
                       <InputMask
@@ -154,7 +162,6 @@ const RegisterPage = () => {
                         className={`w-full `}
                         mask="+7(999)-999-99-99"
                         {...(field as any)}
-                        required
                       />
                       <InputErrorText
                         msg={fieldState.error?.message as string}
