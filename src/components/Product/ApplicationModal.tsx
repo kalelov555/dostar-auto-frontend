@@ -121,9 +121,9 @@ export default function ApplicationModal() {
   });
 
   useEffect(() => {
-    if (isError) {
-      router.replace("/login");
-    }
+    // if (isError) {
+    //   router.replace("/login");
+    // }
 
     if (user) {
       setValue("first_name", user.data.first_name);

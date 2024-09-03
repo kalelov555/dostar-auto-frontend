@@ -1,20 +1,26 @@
 import ApplicationModal from "@/components/Product/ApplicationModal";
 import ProductDescriptionTable from "@/components/Product/ProductDescriptionTable";
+import Gallery from "@/components/shared/Gallery";
 import { formatPrice } from "@/helpers/functions";
+import { GalleryImages } from "@/helpers/gallery";
 import { ICar } from "@/interfaces/car";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import api from "@/services/api/client";
 import { GetServerSidePropsContext } from "next";
+import { useRef } from "react";
 
 type ContextProps = {
   data: ICar;
 };
 
 const ProductCarPage = ({ data }: ContextProps) => {
+  const galleryRef = useRef(null);
   return (
     <DefaultLayout>
       <div className="bg-white">
-        <div className="h-72 w-full bg-red-300"></div>
+        <div className="h-72 w-full">
+          <Gallery photos={GalleryImages} galleriaRef={galleryRef} />
+        </div>
         <div className="flex items-center justify-between py-3 px-2">
           <div className="flex flex-col">
             <p>
