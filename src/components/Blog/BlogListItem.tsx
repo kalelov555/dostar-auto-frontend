@@ -13,7 +13,11 @@ const BlogListItem = ({ blog }: Props) => {
     <div className="bg-white py-4 rounded-xl pl-2 md:pr-12 group cursor-pointer">
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="w-full h-32 sm:h-[unset] sm:w-2/5 relative">
-          <Image fill src={blog.image_url} alt={blog.title} />
+          <Image
+            fill
+            src="https://picsum.photos/200/300?random=1"
+            alt={blog.title}
+          />
         </div>
         <div className="w-full sm:w-3/5">
           <h2 className="leading-tight group-hover:text-primary">
