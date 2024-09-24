@@ -11,11 +11,18 @@ import { InputMask } from "primereact/inputmask";
 import { SelectButton } from "primereact/selectbutton";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/useAuth";
-import { useAtom } from "jotai";
-import { tokenStorage } from "@/store/token";
 import { dataInputs } from "@/helpers/applications";
-import { IApplicationData } from "@/interfaces/applications";
+import {
+  IApplication,
+  IApplicationData,
+  IApplicationDto,
+} from "@/interfaces/applications";
 import { RadioButton } from "primereact/radiobutton";
+import { useCreateApplication } from "@/hooks/useApplications";
+import { IVehicleType } from "@/interfaces";
+import { showErrorNotification } from "@/helpers/notifications";
+import { AxiosError } from "axios";
+import ApplicationConfirmationModal from "../Applications/ApplicationConfirmationModal";
 
 const ApplicationSchema = z.object({
   first_name: z.string().min(1, "Это поле обязательное"),
@@ -35,7 +42,7 @@ const ApplicationSchema = z.object({
     })
     .min(1, "Это поле обязательное")
     .transform((value) => (value === null ? "" : value)),
-  worker: z
+  official_employee: z
     .string({
       required_error: "Это поле обязательное",
       invalid_type_error: "Это поле обязательное",
@@ -78,35 +85,24 @@ const ApplicationSchema = z.object({
     })
     .min(1, "Это поле обязательное"),
 });
-//   .superRefine((data, ctx) => {
-//     if (data.vehicle_type === "car" && !data.manufacturer_id) {
-//       ctx.addIssue({
-//         path: ["manufacturer_id"],
-//         message: "Марка обязательна при выборе машины",
-//         code: z.ZodIssueCode.custom,
-//       });
-//     }
-//     if (data.vehicle_type === "car" && !data.vehicle_model_id) {
-//       ctx.addIssue({
-//         path: ["vehicle_model_id"],
-//         message: "Модель обязательна при выборе машины",
-//         code: z.ZodIssueCode.custom,
-//       });
-//     }
-//   });
 
-export default function ApplicationModal() {
+type Props = {
+  id: number;
+};
+
+export default function ApplicationModal({ id }: Props) {
   const router = useRouter();
   const { user, isLoading, isError, error } = useAuth();
-  const [token, _] = useAtom(tokenStorage);
   const [visible, setVisible] = useState(false);
+  const [type, setType] = useState<IVehicleType>("");
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const defaultValues: IApplicationData = {
     first_name: "",
     last_name: "",
     phone: "",
-    worker: "",
-    application_type: "credit",
+    official_employee: "",
+    application_type: "lending",
     official_income: "",
     unofficial_income: "",
     current_credits_presence: "",
@@ -115,27 +111,74 @@ export default function ApplicationModal() {
     initial_fee: 0,
   };
 
-  const { control, handleSubmit, setValue } = useForm<IApplicationData>({
+  const { control, handleSubmit, setValue, reset } = useForm<IApplicationData>({
     defaultValues,
     resolver: zodResolver(ApplicationSchema),
   });
 
-  useEffect(() => {
-    // if (isError) {
-    //   router.replace("/login");
-    // }
+  const {
+    data: applicationData,
+    mutateAsync,
+    isPending,
+  } = useCreateApplication();
 
+  useEffect(() => {
     if (user) {
       setValue("first_name", user.data.first_name);
       setValue("last_name", user.data.last_name);
       if (user.data.phone) setValue("phone", user.data.phone);
     }
-  }, [isLoading]);
+    if (router.isReady) {
+      setType(
+        router.pathname.includes("car")
+          ? "car"
+          : router.pathname.includes("truck")
+          ? "truck"
+          : router.pathname.includes("bus")
+          ? "bus"
+          : router.pathname.includes("spec_technic")
+          ? "spectechnic"
+          : router.pathname.includes("motos")
+          ? "moto"
+          : ""
+      );
+    }
+  }, [isLoading, router, setValue, user, isPending]);
 
-  const onSubmit = (data: any) => {
-    setVisible(false);
-    console.log(data);
+  const onSubmit = async (data: IApplicationData) => {
+    const { phone, ...loan_application } = data;
+
+    const payload: IApplicationDto = {
+      loan_application,
+      user: {
+        phone,
+      },
+    };
+    try {
+      await mutateAsync({
+        vehicle_type: type,
+        id,
+        body: payload,
+      });
+      setOpenConfirmModal(true);
+      setVisible(false);
+      reset();
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log("ERROR", err);
+        showErrorNotification(
+          err.response?.status === 422
+            ? "Сумма оформления рассрочки должна быть больше 5 000 000 тг"
+            : err.message
+        );
+      }
+    }
   };
+
+  function closeDialogs() {
+    setOpenConfirmModal(false);
+    setVisible(false);
+  }
 
   return (
     <div className="bg-white py-4 text-center">
@@ -145,6 +188,12 @@ export default function ApplicationModal() {
         severity="info"
         onClick={() => setVisible(true)}
       />
+      <ApplicationConfirmationModal
+        open={openConfirmModal}
+        setOpen={setOpenConfirmModal}
+        application={applicationData?.data.data as IApplication}
+        closeModals={closeDialogs}
+      />
       <Dialog
         visible={visible}
         modal={true}
@@ -152,7 +201,7 @@ export default function ApplicationModal() {
           if (!visible) return;
           setVisible(false);
         }}
-        className="overflow-scroll bg-white w-4/5 py-4 px-8 relative mt-8 max-w-[768px]"
+        className="overflow-scroll bg-white w-[90%] py-4 px-4 md:px-8 relative mt-8 max-w-[768px]"
         position="center"
         content={({ hide }) => (
           <div className="flex flex-col rounded-lg">
@@ -342,8 +391,8 @@ export default function ApplicationModal() {
                   className="w-full h-12 shadow-[0_8px_25px_0_rgba(42,129,221,.6)]"
                   label="Подать заявку"
                   type="submit"
-                  //   onClick={(e) => hide(e)}
-                  //   loading={isPending}
+                  disabled={isPending}
+                  loading={isPending}
                 />
               </div>
             </form>

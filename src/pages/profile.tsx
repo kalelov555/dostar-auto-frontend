@@ -104,6 +104,18 @@ const ProfilePage = () => {
                 />
               </div>
             </div>
+
+            <div className="bg-white p-3">
+              <div className="flex flex-col">
+                <label className="text-xs font-bold">Мои заявки</label>
+                <Link href="/applications">
+                  <div className="flex w-full justify-between items-center cursor-pointer">
+                    <p>Посмотреть</p>
+                    <i className="pi pi-chevron-right text-xs"></i>
+                  </div>
+                </Link>
+              </div>
+            </div>
           </div>
         )}
       </div>

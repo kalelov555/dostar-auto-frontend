@@ -7,7 +7,7 @@ import { ICar } from "@/interfaces/car";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import api from "@/services/api/client";
 import { GetServerSidePropsContext } from "next";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ContextProps = {
   data: ICar;
@@ -15,6 +15,7 @@ type ContextProps = {
 
 const ProductCarPage = ({ data }: ContextProps) => {
   const galleryRef = useRef(null);
+
   return (
     <DefaultLayout>
       <div className="bg-white">
@@ -38,7 +39,7 @@ const ProductCarPage = ({ data }: ContextProps) => {
         <ProductDescriptionTable product={data} />
       </div>
 
-      <ApplicationModal />
+      <ApplicationModal id={Number(data.id)} />
     </DefaultLayout>
   );
 };

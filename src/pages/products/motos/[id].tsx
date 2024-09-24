@@ -33,7 +33,7 @@ const ProductMotoPage = ({ data }: ContextProps) => {
         <ProductDescriptionTable product={data} />
       </div>
 
-      <ApplicationModal />
+      <ApplicationModal id={Number(data.id)} />
     </DefaultLayout>
   );
 };

@@ -20,11 +20,11 @@ type IDataInput = {
 const applicationTypeOptions = [
   {
     name: "Кредит",
-    value: "credit",
+    value: "lending",
   },
   {
     name: "Рассрочка",
-    value: "rassrochka",
+    value: "installment",
   },
 ];
 
@@ -64,7 +64,7 @@ export const dataInputs: IDataInput[] = [
     label: "Тип",
   },
   {
-    name: "worker",
+    name: "official_employee",
     type: "radio",
     options: yesNoOptions,
     floatingLabel: false,

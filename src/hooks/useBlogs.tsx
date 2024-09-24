@@ -20,7 +20,7 @@ export const useGetBlogById = (id: string) => {
       if (id) {
         const response = await fetchBlogBySlug(id);
         return response.data;
-      }
+      } else throw new Error("Something went wrong with blogs");
     },
   });
 };
