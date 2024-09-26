@@ -8,6 +8,13 @@ const sortingFilters = [
   { name: "Сначала свежие объявления", value: "created_at-asc" },
   { name: "Сначала старые объявления", value: "created_at-desc" },
 ];
+
+const sortingFiltersMoto = [
+  { name: "По возрастанию цены", value: "price-asc" },
+  { name: "По убыванию цены", value: "price-desc" },
+  { name: "Сначала свежие объявления", value: "created_at-asc" },
+  { name: "Сначала старые объявления", value: "created_at-desc" },
+];
 export const transmissionFilters = [
   { name: "Автомат", value: "at" },
   { name: "Механика", value: "mt" },
@@ -376,6 +383,8 @@ export const specTechInputs: IDataInput[] = [
     label: "Страна производителя",
   },
 ];
+
+export const motoInputs: IDataInput[] = [];
 
 export const popularMarks = [
   {

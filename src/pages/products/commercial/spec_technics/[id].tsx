@@ -1,13 +1,14 @@
-import ApplicationModal from "@/components/Product/ApplicationModal";
+import ApplicationModal from "@/components/Applications/ApplicationModal";
 import ProductDescriptionTable from "@/components/Product/ProductDescriptionTable";
 import { formatPrice } from "@/helpers/functions";
 import { ICar } from "@/interfaces/car";
+import { ISpecTechnic } from "@/interfaces/spec-technics";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import api from "@/services/api/client";
 import { GetServerSidePropsContext } from "next";
 
 type ContextProps = {
-  data: ICar;
+  data: ISpecTechnic;
 };
 
 const ProductCarPage = ({ data }: ContextProps) => {
@@ -18,8 +19,7 @@ const ProductCarPage = ({ data }: ContextProps) => {
         <div className="flex items-center justify-between py-3 px-2">
           <div className="flex flex-col">
             <p>
-              {data.manufacturer_name} -{" "}
-              {data.model ? data.model : data.vehicle_model_name} -{" "}
+              {data.manufacturer_name} - {data.model ? data.model : ""} -{" "}
               {data.manufacture_year} года
             </p>
             <h2 className="mt-1">{formatPrice(data.price)}</h2>

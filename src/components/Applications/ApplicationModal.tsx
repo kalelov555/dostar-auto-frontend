@@ -22,7 +22,7 @@ import { useCreateApplication } from "@/hooks/useApplications";
 import { IVehicleType } from "@/interfaces";
 import { showErrorNotification } from "@/helpers/notifications";
 import { AxiosError } from "axios";
-import ApplicationConfirmationModal from "../Applications/ApplicationConfirmationModal";
+import ApplicationConfirmationModal from "./ApplicationConfirmationModal";
 
 const ApplicationSchema = z.object({
   first_name: z.string().min(1, "Это поле обязательное"),
@@ -215,7 +215,7 @@ export default function ApplicationModal({ id }: Props) {
             />
             <h1 className="text-center">Подать заявку на кредит</h1>
             <form
-              className="bg-white rounded-xl"
+              className="flex flex-col gap-2 bg-white rounded-xl"
               onSubmit={handleSubmit(onSubmit)}
             >
               {dataInputs.map((input) => (
@@ -313,7 +313,7 @@ export default function ApplicationModal({ id }: Props) {
                         />
                       </div>
                     ) : input.type === "radio" ? (
-                      <div className="w-full">
+                      <div className="w-full mt-1">
                         <Controller
                           key={input.name}
                           name={input.name}

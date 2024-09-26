@@ -56,9 +56,6 @@ export default function Home() {
     if (inView && !isFetchingNextPage) {
       fetchNextPage();
     }
-    if (isError) {
-      showErrorNotification(error.message);
-    }
   }, [fetchNextPage, inView, isError, isFetchingNextPage, isLoadingFavorites]);
 
   const loading = isFetchingNextPage || isLoading;

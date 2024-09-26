@@ -1,4 +1,4 @@
-import ApplicationModal from "@/components/Product/ApplicationModal";
+import ApplicationModal from "@/components/Applications/ApplicationModal";
 import ProductDescriptionTable from "@/components/Product/ProductDescriptionTable";
 import Gallery from "@/components/shared/Gallery";
 import { formatPrice } from "@/helpers/functions";
