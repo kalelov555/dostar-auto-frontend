@@ -3,7 +3,7 @@ import { Divider } from "primereact/divider";
 import { IApplicationExtended } from "@/interfaces/applications";
 import { Tag } from "primereact/tag";
 import { getApplicationParamsById } from "@/helpers/applications";
-import { IVehicleType } from "@/interfaces";
+import moment from "moment";
 
 interface Props {
   application: IApplicationExtended;
@@ -19,7 +19,7 @@ const carName = (type: string) => {
 
 const ApplicationsListItem = ({ application }: Props) => {
   return (
-    <div className="bg-white py-4 rounded-xl px-2 md:pr-12 group cursor-pointer relative">
+    <div className="bg-white py-4 rounded-xl px-2 md:px-4 group cursor-pointer relative">
       <Tag
         className={`absolute right-4 -top-4 ${
           getApplicationParamsById(application)?.bgColor
@@ -44,10 +44,6 @@ const ApplicationsListItem = ({ application }: Props) => {
             {application.vehicle_data.manufacture_year} года
           </p>
         </div>
-        {/* <p className="text-gray-600 leading-tight text-sm mt-1">
-            {blog.description.slice(0, 130)}{" "}
-            {blog.description.length > 130 && "..."}
-          </p> */}
         <Divider className="my-3" />
         <p className="text-right text-gray-400 text-sm">
           {dateFormatter.format(new Date(application.created_at))}
