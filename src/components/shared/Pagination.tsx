@@ -16,16 +16,30 @@ const Pagination = ({ page = 1, totalPages = 1, setPage }: Props) => {
     setPage(page - 1);
   };
   return (
-    <div className="flex flex-row items-center justify-between">
+    <div className="flex flex-row items-center justify-between px-4">
       <div className="w-1/3">
-        {page > 1 && <Button onClick={onPrevClick} label="Предыдущая" />}
+        {page > 1 && (
+          <Button
+            className="w-full h-10 text-sm p-0 m-0"
+            onClick={onPrevClick}
+            label="Предыдущая"
+            outlined
+            severity="info"
+          />
+        )}
       </div>
       <p className="w-1/3 text-center">
         {page || 1}/{totalPages}
       </p>
       <div className="w-1/3 text-right">
         {page < totalPages && (
-          <Button onClick={onNextClick} label="Следующая" />
+          <Button
+            className="w-full h-10 text-sm p-0 m-0"
+            onClick={onNextClick}
+            label="Следующая"
+            outlined
+            severity="info"
+          />
         )}
       </div>
     </div>

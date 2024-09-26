@@ -94,11 +94,13 @@ const RequestsPage = () => {
               )}
 
               <Button
-                className="w-28 h-10 p-0 gap-0 text-xs px-5 py-3 mx-auto"
+                className="h-8 p-0 gap-0 text-xs px-5 py-3 ml-auto mt-4"
                 onClick={() => confirm(item.id)}
                 // icon="pi pi-times text-xs m-0 pr-2"
                 label="Удалить"
                 severity="danger"
+                size="small"
+                text
                 outlined
               ></Button>
             </div>
