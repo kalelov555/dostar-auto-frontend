@@ -5,7 +5,8 @@ import { AxiosError } from "axios";
 
 export const useGetBlogs = () => {
   return useQuery<IBlogsResponse, AxiosError>({
-    queryKey: ["requests"],
+    retry: 1,
+    queryKey: ["blogs"],
     queryFn: async () => {
       const response = await fetchBlogs({});
       return response.data;
@@ -15,7 +16,8 @@ export const useGetBlogs = () => {
 
 export const useGetBlogById = (id: string) => {
   return useQuery<IBlogResponse, AxiosError>({
-    queryKey: ["requests", id],
+    retry: 1,
+    queryKey: ["blogs", id],
     queryFn: async () => {
       if (id) {
         const response = await fetchBlogBySlug(id);

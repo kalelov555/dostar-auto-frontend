@@ -14,6 +14,7 @@ const ProductMotosPage = () => {
   const [blogs, setBlogs] = useState<IBlog[]>();
 
   const { data, status, isLoading } = useQuery({
+    retry: 1,
     queryKey: ["blogs", page],
     queryFn: () =>
       fetchBlogs({ page }).catch((err) => {

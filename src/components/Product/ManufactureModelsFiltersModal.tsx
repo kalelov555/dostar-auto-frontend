@@ -47,6 +47,7 @@ const ManufactureModelsFiltersModal = ({
     queryKey: ["manufactures/models", mark.name],
     queryFn: fetchModels,
     staleTime: 5 * 60 * 1000,
+    retry: 1,
     refetchOnMount: false,
     gcTime: 10 * 60 * 1000,
   });

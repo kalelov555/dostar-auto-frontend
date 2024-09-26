@@ -15,6 +15,7 @@ type Params = {
 export const useGetFavorites = (params: Params) =>
   useQuery({
     refetchOnMount: true,
+    retry: false,
     queryKey: ["favorites", params.headers.Authorization],
     queryFn: async () => {
       try {

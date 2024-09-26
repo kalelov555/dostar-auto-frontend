@@ -1,4 +1,4 @@
-import { IMetaReponse } from ".";
+import { IMetaReponse, IProduct } from ".";
 import { IUser } from "./auth";
 
 export interface IApplicationData {
@@ -28,6 +28,10 @@ export interface IApplication {
   overdue_credits_presence: boolean;
   unofficial_income: number;
   vehicle_type: string;
+}
+
+export interface IApplicationExtended extends IApplication {
+  vehicle_data: IProduct;
 }
 
 export interface IApplicationsResponse {

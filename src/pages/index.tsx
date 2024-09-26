@@ -11,8 +11,7 @@ import { tokenStorage } from "@/store/token";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { Toast } from "primereact/toast";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 export default function Home() {
@@ -24,6 +23,7 @@ export default function Home() {
 
   const { data, status, fetchNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
+      retry: 2,
       queryKey: ["items"],
       queryFn: ({ pageParam }) =>
         fetchAllCars({
@@ -59,9 +59,9 @@ export default function Home() {
     if (isError) {
       showErrorNotification(error.message);
     }
-  }, [fetchNextPage, inView, isFetchingNextPage, isLoadingFavorites]);
+  }, [fetchNextPage, inView, isError, isFetchingNextPage, isLoadingFavorites]);
 
-  const loading = isFetchingNextPage || isLoading || isLoadingFavorites;
+  const loading = isFetchingNextPage || isLoading;
 
   return (
     <DefaultLayout>

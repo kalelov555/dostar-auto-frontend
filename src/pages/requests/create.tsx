@@ -184,6 +184,7 @@ const CreateRequestPage = () => {
     },
     onSuccess: (res: AxiosResponse) => {
       showSuccessNotification("Запрос создан успешно!");
+      router.push("/requests");
     },
     onError: (err: AxiosError) => {
       showErrorNotification(

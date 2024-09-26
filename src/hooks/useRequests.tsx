@@ -12,6 +12,7 @@ import { useAtom } from "jotai";
 export const useRequests = () => {
   const [token, _] = useAtom(tokenStorage);
   return useQuery<IRequestsResponse, AxiosError>({
+    retry: 1,
     queryKey: ["requests", token],
     queryFn: async () => {
       try {
