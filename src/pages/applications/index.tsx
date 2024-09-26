@@ -8,22 +8,15 @@ import { useState } from "react";
 
 const ApplicationsPage = () => {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError } = useGetApplications({ page });
+  const { data, isLoading, isError } = useGetApplications({ view: "extended" });
   return (
     <DefaultLayout>
       <Subheader label="Мои заявки" />
       {isLoading ? (
         <LoadingScreen />
       ) : (
-        <div className="mt-12 pb-8">
+        <div className="mt-16 pb-8">
           <ApplicationsList applications={data?.data.data} />
-          <div className="mt-4">
-            <Pagination
-              page={page}
-              setPage={setPage}
-              totalPages={data?.data?.meta?.total_pages}
-            />
-          </div>
         </div>
       )}
     </DefaultLayout>

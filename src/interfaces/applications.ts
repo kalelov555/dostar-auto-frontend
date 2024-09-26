@@ -1,5 +1,10 @@
 import { IMetaReponse, IProduct } from ".";
 import { IUser } from "./auth";
+import { IBus } from "./bus";
+import { ICar } from "./car";
+import { IMoto } from "./moto";
+import { ISpecTechnic } from "./spec-technics";
+import { ITruck } from "./trucks";
 
 export interface IApplicationData {
   first_name: string;
@@ -31,11 +36,11 @@ export interface IApplication {
 }
 
 export interface IApplicationExtended extends IApplication {
-  vehicle_data: IProduct;
+  vehicle_data: ICar & IBus & IMoto & ITruck & ISpecTechnic;
 }
 
 export interface IApplicationsResponse {
-  data: IApplication[];
+  data: IApplicationExtended[];
   meta: IMetaReponse;
 }
 

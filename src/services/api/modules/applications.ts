@@ -4,7 +4,9 @@ import { IVehicleType } from "@/interfaces";
 import { IApplicationDto } from "@/interfaces/applications";
 
 export const fetchMyApplications = (params: any, headers: any) =>
-  api.get(`/loan_applications?page=${params.page || 1}`, { headers });
+  api.get(`/loan_applications${params.view ? `?view=${params.view}` : ""}`, {
+    headers,
+  });
 
 export const createApplication = (
   vehicle_type: IVehicleType,

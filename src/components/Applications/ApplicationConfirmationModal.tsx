@@ -1,3 +1,4 @@
+import { getApplicationParamsById } from "@/helpers/applications";
 import { IApplication } from "@/interfaces/applications";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
@@ -24,31 +25,32 @@ const ApplicationConfirmationModal = ({
 
   useEffect(() => {
     if (application) {
-      if (application.decision == "1")
-        setDecision({
-          bgColor: "bg-red-600",
-          percentage: "0%",
-        });
-      else if (application.decision == "2")
-        setDecision({
-          bgColor: "bg-orange-600",
-          percentage: "25%",
-        });
-      else if (application.decision == "3")
-        setDecision({
-          bgColor: "bg-yellow-500",
-          percentage: "50%",
-        });
-      else if (application.decision == "4")
-        setDecision({
-          bgColor: "bg-lime-500",
-          percentage: "75%",
-        });
-      else if (application.decision == "5")
-        setDecision({
-          bgColor: "bg-green-600",
-          percentage: "100%",
-        });
+      setDecision(getApplicationParamsById(application));
+      // if (application.decision == "1")
+      //   setDecision({
+      //     bgColor: "bg-red-600",
+      //     percentage: "0%",
+      //   });
+      // else if (application.decision == "2")
+      //   setDecision({
+      //     bgColor: "bg-orange-600",
+      //     percentage: "25%",
+      //   });
+      // else if (application.decision == "3")
+      //   setDecision({
+      //     bgColor: "bg-yellow-500",
+      //     percentage: "50%",
+      //   });
+      // else if (application.decision == "4")
+      //   setDecision({
+      //     bgColor: "bg-lime-500",
+      //     percentage: "75%",
+      //   });
+      // else if (application.decision == "5")
+      //   setDecision({
+      //     bgColor: "bg-green-600",
+      //     percentage: "100%",
+      //   });
     }
   }, [application]);
 

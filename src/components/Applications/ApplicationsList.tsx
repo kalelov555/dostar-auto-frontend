@@ -1,14 +1,13 @@
-import { IApplication } from "@/interfaces/applications";
-import Link from "next/link";
+import { IApplicationExtended } from "@/interfaces/applications";
 import ApplicationsListItem from "./ApplicationsListItem";
 
 type Props = {
-  applications: IApplication[] | undefined;
+  applications: IApplicationExtended[] | undefined;
 };
 
 const ApplicationsList = ({ applications }: Props) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5">
       {applications?.map((application) => (
         <div key={application.id}>
           <ApplicationsListItem application={application} />
