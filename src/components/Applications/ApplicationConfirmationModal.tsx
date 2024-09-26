@@ -26,31 +26,6 @@ const ApplicationConfirmationModal = ({
   useEffect(() => {
     if (application) {
       setDecision(getApplicationParamsById(application));
-      // if (application.decision == "1")
-      //   setDecision({
-      //     bgColor: "bg-red-600",
-      //     percentage: "0%",
-      //   });
-      // else if (application.decision == "2")
-      //   setDecision({
-      //     bgColor: "bg-orange-600",
-      //     percentage: "25%",
-      //   });
-      // else if (application.decision == "3")
-      //   setDecision({
-      //     bgColor: "bg-yellow-500",
-      //     percentage: "50%",
-      //   });
-      // else if (application.decision == "4")
-      //   setDecision({
-      //     bgColor: "bg-lime-500",
-      //     percentage: "75%",
-      //   });
-      // else if (application.decision == "5")
-      //   setDecision({
-      //     bgColor: "bg-green-600",
-      //     percentage: "100%",
-      //   });
     }
   }, [application]);
 
@@ -62,6 +37,7 @@ const ApplicationConfirmationModal = ({
         if (!open) return;
         setOpen(false);
       }}
+      dismissableMask
       className={`${decision.bgColor} h-1/4 py-4 px-4 md:px-8 mt-8 w-full max-w-[768px] relative`}
       position="center"
       closable

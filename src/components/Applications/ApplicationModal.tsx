@@ -18,11 +18,15 @@ import {
   IApplicationDto,
 } from "@/interfaces/applications";
 import { RadioButton } from "primereact/radiobutton";
-import { useCreateApplication } from "@/hooks/useApplications";
+import {
+  useCreateApplication,
+  useGetApplications,
+} from "@/hooks/useApplications";
 import { IVehicleType } from "@/interfaces";
 import { showErrorNotification } from "@/helpers/notifications";
 import { AxiosError } from "axios";
 import ApplicationConfirmationModal from "./ApplicationConfirmationModal";
+import Link from "next/link";
 
 const ApplicationSchema = z.object({
   first_name: z.string().min(1, "Это поле обязательное"),
@@ -175,9 +179,35 @@ export default function ApplicationModal({ id }: Props) {
     }
   };
 
+  const {
+    data: dataApplications,
+    isLoading: isLoadingApplications,
+    isError: isErrorApplications,
+    fetchStatus,
+    status,
+    error: errorApplications,
+  } = useGetApplications({ view: "extended" });
+
   function closeDialogs() {
     setOpenConfirmModal(false);
     setVisible(false);
+  }
+
+  let text;
+  if (isError) {
+    text = isError ? (
+      <p className="text-sm">
+        <Link
+          className="text-primary underline hover:no-underline"
+          href="/login"
+        >
+          Авторизуйтесь
+        </Link>{" "}
+        перед отправкой заявку
+      </p>
+    ) : (
+      <p></p>
+    );
   }
 
   return (
@@ -186,8 +216,11 @@ export default function ApplicationModal({ id }: Props) {
         label="Подать заявку на кредит"
         icon="pi pi-credit-card"
         severity="info"
+        loading={isLoadingApplications}
+        disabled={isLoadingApplications || isError}
         onClick={() => setVisible(true)}
       />
+      <div className="mt-1">{text}</div>
       <ApplicationConfirmationModal
         open={openConfirmModal}
         setOpen={setOpenConfirmModal}

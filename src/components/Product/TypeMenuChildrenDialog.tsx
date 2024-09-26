@@ -25,6 +25,7 @@ const TypesMenuChildrenDialog = ({
       header="Выберите Категорию"
       visible={typeModalOpened}
       position={"bottom"}
+      dismissableMask
       style={{ maxWidth: "768px", width: "100%" }}
       onHide={() => {
         if (!typeModalOpened) return;

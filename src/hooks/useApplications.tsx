@@ -16,7 +16,7 @@ import { useAtom } from "jotai";
 export const useGetApplications = (params: any) => {
   const [token, _] = useAtom(tokenStorage);
   return useQuery<AxiosResponse<IApplicationsResponse, any>, Error>({
-    retry: 1,
+    retry: false,
     queryKey: ["applications"],
     queryFn: async () => {
       const response = await fetchMyApplications(params, {

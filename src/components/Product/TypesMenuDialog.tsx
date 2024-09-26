@@ -62,6 +62,7 @@ type Props = {
 const TypesMenuDialog = ({ typeModalOpened, setTypeModalOpened }: Props) => {
   const [isChildrenMenuOpened, setIsChildrenMenuOpened] = useState(false);
   const [selectedItem, setSelectedItem] = useState("");
+  const [blockClicked, setBlockClicked] = useState(false);
 
   return (
     <Dialog
@@ -75,6 +76,7 @@ const TypesMenuDialog = ({ typeModalOpened, setTypeModalOpened }: Props) => {
         if (!typeModalOpened) return;
         setTypeModalOpened(false);
       }}
+      dismissableMask
       className="bg-[#f1f1f1] min-h-[250px]"
       content={
         <div style={{ padding: "1.5rem" }}>
