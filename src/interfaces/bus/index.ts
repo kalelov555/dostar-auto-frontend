@@ -1,6 +1,6 @@
-import { IMetaReponse, IProduct } from "..";
+import { IMetaReponse, IProduct, IVehicle } from "..";
 
-export interface IBus extends IProduct {
+export interface IBus extends IVehicle {
   vehicle_purpose: string;
   owner_phone_number: string;
   model: string;

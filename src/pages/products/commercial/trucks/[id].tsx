@@ -18,7 +18,7 @@ const ProductCarPage = ({ data }: ContextProps) => {
         <div className="flex items-center justify-between py-3 px-2">
           <div className="flex flex-col">
             <p>
-              {data.manufacturer_name} - {data.model ? data.model : ""} -{" "}
+              {data.manufacturer_name || ""} {data.model || ""} -{" "}
               {data.manufacture_year} года
             </p>
             <h2 className="mt-1">{formatPrice(data.price)}</h2>
