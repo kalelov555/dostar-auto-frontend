@@ -14,6 +14,22 @@ export interface IProduct {
   mileage: number;
 }
 
+export interface IVehicle {
+  id: number;
+  created_at: string;
+  description: string;
+  discounted_price: number | null;
+  engine_capacity?: number; // Optional for vehicles that don't have it
+  fuel_type?: string;
+  image_urls: string[] | null;
+  info: string;
+  manufacture_year: number;
+  manufacturer_name: string;
+  mileage?: number; // Optional for vehicles that don't have it
+  price: number;
+  user_id: number | null;
+}
+
 export interface IMetaReponse {
   total_pages: number;
   current_page: number;

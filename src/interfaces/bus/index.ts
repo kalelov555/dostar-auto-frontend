@@ -1,10 +1,9 @@
 import { IMetaReponse, IProduct } from "..";
 
 export interface IBus extends IProduct {
-  created_at: string; // It's a date-time string in ISO 8601 format
-  manufacturer_id: number;
-  model: string;
   vehicle_purpose: string;
+  owner_phone_number: string;
+  model: string;
 }
 
 export interface IBusesResponse {
