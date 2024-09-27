@@ -1,83 +1,54 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Button } from "primereact/button";
-import { Galleria, GalleriaProps } from "primereact/galleria";
-import Image from "next/image";
-
-type Item = { itemImageSrc: string; alt: string; thumbnailImageSrc?: string };
+import { GalleryImages } from "@/helpers/gallery";
+import React, { useState } from "react";
+import ImageGallery from "react-image-gallery";
+import { ReactImageGalleryItem } from "react-image-gallery";
 
 type Props = {
-  galleriaRef: React.MutableRefObject<any>;
-  photos: Item[];
+  items: string[];
 };
 
-export default function Gallery({ galleriaRef, photos }: Props) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const responsiveOptions = [
-    {
-      breakpoint: "1500px",
-      numVisible: 5,
-    },
-    {
-      breakpoint: "1024px",
-      numVisible: 3,
-    },
-    {
-      breakpoint: "768px",
-      numVisible: 2,
-    },
-    {
-      breakpoint: "560px",
-      numVisible: 1,
-    },
-  ];
+export default function Gallery({ items }: Props) {
+  const [fullScrinned, setFullScrinned] = useState(false);
+  const images = items?.map((url) => ({
+    original: url,
+    thumbnail: url,
+  }));
 
-  const itemTemplate = (item: Item) => {
-    return (
-      <img
-        src={item.itemImageSrc}
-        alt={item.alt}
-        style={{ width: "100%", display: "block" }}
-      />
-    );
+  const onClickFullScreen = (cb: () => void, isFullScreen: boolean) => {
+    cb();
+    if (isFullScreen) setFullScrinned(false);
+    else setFullScrinned(false);
   };
-
-  const thumbnailTemplate = (item: Item) => {
-    return (
-      <img
-        src={item.itemImageSrc}
-        alt={item.alt}
-        style={{ width: "50px", display: "block" }}
-      />
-    );
-  };
-
   return (
-    <div className="card flex justify-content-center">
-      <Galleria
-        className="mt-10"
-        ref={galleriaRef}
-        value={photos}
-        responsiveOptions={responsiveOptions}
-        numVisible={9}
-        style={{ maxWidth: "100%" }}
-        circular
-        fullScreen
-        showItemNavigators
-        item={itemTemplate}
-        showThumbnails={false}
-        activeIndex={activeIndex}
-        thumbnail={thumbnailTemplate}
-      />
-
-      <div className="w-full">
-        <img
-          src={photos[activeIndex].itemImageSrc}
-          onClick={() => {
-            setActiveIndex(0);
-            galleriaRef.current.show();
-          }}
-        />
-      </div>
-    </div>
+    <ImageGallery
+      additionalClass="flex lg:block jusitify-center items-center"
+      showPlayButton={false}
+      items={images}
+      showThumbnails={false}
+      renderItem={(item) => {
+        return (
+          <div
+            className={`w-full ${
+              fullScrinned ? "h-unset" : "h-[200px]"
+            } flex items-center justify-center`}
+          >
+            <img src={item.original} alt={item.original} />
+          </div>
+        );
+      }}
+      renderFullscreenButton={(onClick, isFullscreen) => (
+        <div
+          onClick={() => onClickFullScreen(onClick as () => void, isFullscreen)}
+          className="w-10 h-10 bottom-0 right-0 absolute flex items-center justify-center z-50 shadow-2xl"
+        >
+          <i
+            style={{ textShadow: "0 0 black" }}
+            className={`text-white pi ${
+              isFullscreen ? "pi-window-minimize" : "pi-window-maximize"
+            }`}
+          ></i>
+        </div>
+      )}
+    />
   );
 }

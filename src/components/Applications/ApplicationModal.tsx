@@ -150,8 +150,6 @@ export default function ApplicationModal({ id }: Props) {
     }
   }, [isLoading, router, setValue, user, isPending]);
 
-  console.log("TYPE", type);
-
   const onSubmit = async (data: IApplicationData) => {
     const { phone, ...loan_application } = data;
 
