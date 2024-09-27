@@ -11,7 +11,7 @@ const ProductDescriptionTable = ({ product }: { product: any }) => {
               key={item[0]}
               className="flex w-full justify-between items-center"
             >
-              <p className="w-1/2 text-xs text-gray-400">{item[0]}</p>
+              <p className="w-1/2 text-sm text-gray-400">{item[0]}</p>
               <p className="w-1/2 text-sm">{item[1]}</p>
             </div>
           )

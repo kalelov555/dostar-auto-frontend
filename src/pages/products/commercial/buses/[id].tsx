@@ -1,10 +1,12 @@
 import ApplicationModal from "@/components/Applications/ApplicationModal";
 import ProductDescriptionTable from "@/components/Product/ProductDescriptionTable";
 import { formatPrice } from "@/helpers/functions";
+import { GalleryImages } from "@/helpers/gallery";
 import { IBus } from "@/interfaces/bus";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import api from "@/services/api/client";
 import { GetServerSidePropsContext } from "next";
+import ImageGallery from "react-image-gallery";
 
 type ContextProps = {
   data: IBus;
@@ -14,10 +16,17 @@ const ProductCarPage = ({ data }: ContextProps) => {
   return (
     <DefaultLayout>
       <div className="bg-white">
-        <div className="h-72 w-full bg-red-300"></div>
+        <div className="w-full">
+          <ImageGallery
+            additionalClass="flex lg:block jusitify-center items-center"
+            showPlayButton={false}
+            items={GalleryImages}
+            showThumbnails={false}
+          />
+        </div>
         <div className="flex items-center justify-between py-3 px-2">
           <div className="flex flex-col">
-            <p>
+            <p className="text-lg font-semibold text-primary">
               {data.manufacturer_name || ""} {data.model || ""} -{" "}
               {data.manufacture_year} года
             </p>

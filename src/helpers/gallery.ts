@@ -1,34 +1,16 @@
-type Item = { itemImageSrc: string; alt: string; thumbnailImageSrc?: string };
+type Item = { original: string; alt?: string; thumbnail?: string };
 
 export const GalleryImages: Item[] = [
   {
-    itemImageSrc:
-      "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?cs=srgb&dl=pexels-mikebirdy-170811.jpg&fm=jpg",
-    alt: "smth1",
+    original: "https://picsum.photos/id/1018/1000/600/",
+    thumbnail: "https://picsum.photos/id/1018/250/150/",
   },
   {
-    itemImageSrc:
-      "https://images.pexels.com/photos/210019/pexels-photo-210019.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    alt: "smth2",
+    original: "https://picsum.photos/id/1015/1000/600/",
+    thumbnail: "https://picsum.photos/id/1015/250/150/",
   },
   {
-    itemImageSrc:
-      "https://images.pexels.com/photos/1007410/pexels-photo-1007410.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    alt: "smth3",
-  },
-  {
-    itemImageSrc:
-      "https://images.pexels.com/photos/12920616/pexels-photo-12920616.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    alt: "smth4",
-  },
-  {
-    itemImageSrc:
-      "https://images.pexels.com/photos/4062442/pexels-photo-4062442.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    alt: "smth5",
-  },
-  {
-    itemImageSrc:
-      "https://images.pexels.com/photos/6573336/pexels-photo-6573336.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    alt: "smth6",
+    original: "https://picsum.photos/id/1019/1000/600/",
+    thumbnail: "https://picsum.photos/id/1019/250/150/",
   },
 ];
