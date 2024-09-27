@@ -1,4 +1,6 @@
 import { IFavorite } from "@/interfaces/favorites";
+import moment from "moment";
+import "moment/locale/ru"; // Import Russian locale
 
 export function formatPrice(num: number): string {
   // Convert the number to a string and split it into an array of characters
@@ -27,6 +29,20 @@ export const dateFormatter = new Intl.DateTimeFormat("ru-RU", {
   day: "numeric",
   month: "long",
 });
+
+export const humanReadableDateFormat = (date: Date) => {
+  // Проверяем, прошло ли меньше 2 дней
+  const diffInDays = moment().diff(date, "days");
+
+  moment.locale("ru");
+
+  const formattedDate =
+    diffInDays < 2
+      ? moment(date).fromNow() // Если меньше 2 дней, показываем "1 день назад"
+      : moment(date).format("LL"); // Если больше 2 дней, показываем обычную дату
+
+  return formattedDate;
+};
 
 export const isFavoriteVehicle = (
   productId: number,

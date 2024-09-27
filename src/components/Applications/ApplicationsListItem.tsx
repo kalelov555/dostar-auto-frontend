@@ -1,9 +1,8 @@
-import { dateFormatter } from "@/helpers/functions";
 import { Divider } from "primereact/divider";
 import { IApplicationExtended } from "@/interfaces/applications";
 import { Tag } from "primereact/tag";
 import { getApplicationParamsById } from "@/helpers/applications";
-import moment from "moment";
+import { humanReadableDateFormat } from "@/helpers/functions";
 
 interface Props {
   application: IApplicationExtended;
@@ -46,7 +45,7 @@ const ApplicationsListItem = ({ application }: Props) => {
         </div>
         <Divider className="my-3" />
         <p className="text-right text-gray-400 text-sm">
-          {dateFormatter.format(new Date(application.created_at))}
+          {humanReadableDateFormat(new Date(application.created_at))}
         </p>
       </div>
     </div>

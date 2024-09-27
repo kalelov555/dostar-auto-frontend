@@ -1,7 +1,6 @@
-import { dateFormatter } from "@/helpers/functions";
+import { humanReadableDateFormat } from "@/helpers/functions";
 import { IBlog } from "@/interfaces/blog";
 import Image from "next/image";
-import BaseDivider from "../shared/BaseDivider";
 import { Divider } from "primereact/divider";
 
 interface Props {
@@ -10,7 +9,7 @@ interface Props {
 
 const BlogListItem = ({ blog }: Props) => {
   return (
-    <div className="bg-white py-4 rounded-xl pl-2 md:pr-12 group cursor-pointer">
+    <div className="bg-white py-4 rounded-xl px-2 md:pr-12 group cursor-pointer">
       <div className="flex flex-col sm:flex-row gap-2">
         <div className="w-full h-32 sm:h-[unset] sm:w-2/5 relative">
           <Image
@@ -29,7 +28,7 @@ const BlogListItem = ({ blog }: Props) => {
           </p>
           <Divider className="my-3" />
           <p className="text-right text-gray-400 text-sm">
-            {dateFormatter.format(new Date(blog.created_at))}
+            {humanReadableDateFormat(new Date(blog.created_at))}
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import BaseDivider from "../shared/BaseDivider";
-import { dateFormatter, formatPrice } from "@/helpers/functions";
+import { formatPrice, humanReadableDateFormat } from "@/helpers/functions";
 import { IUser } from "@/interfaces/auth";
 import { useAddFavorite, useDeleteFavorite } from "@/hooks/useFavorites";
 import { useAtom } from "jotai";
@@ -126,7 +126,7 @@ const ProductCard = ({
         <BaseDivider />
       </div>
       <div className="flex gap-4 text-xs text-gray-400">
-        <p>{dateFormatter.format(new Date(product.created_at))}</p>
+        <p>{humanReadableDateFormat(new Date(product.created_at))}</p>
         <div className="flex items-center gap-1">
           <i className="pi pi-eye text-[12px]"></i>
           <p>40</p>

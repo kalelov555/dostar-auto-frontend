@@ -1,6 +1,6 @@
 import Subheader from "@/components/Header/Subheader";
 import LoadingScreen from "@/components/shared/LoadingScrenn";
-import { dateFormatter } from "@/helpers/functions";
+import { humanReadableDateFormat } from "@/helpers/functions";
 import { useGetBlogById } from "@/hooks/useBlogs";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import Image from "next/image";
@@ -44,7 +44,9 @@ const NewsViewPage = () => {
           <div className="container p-3 bg-white">
             <h1>{data?.data.title}</h1>
             <p className="text-right text-gray-400 text-sm">
-              {dateFormatter.format(new Date(data?.data.created_at as string))}
+              {humanReadableDateFormat(
+                new Date(data?.data.created_at as string)
+              )}
             </p>
             <p className="text-sm mt-3">{data?.data.description}</p>
           </div>
