@@ -56,11 +56,6 @@ const ProductSpecTechnicsPage = () => {
   useEffect(() => {
     setLoading(true);
     if (router.isReady) fetch();
-    if (isError) {
-      showErrorNotification(
-        "something went wrong on favorites - spec technics"
-      );
-    }
   }, [router.query, page, fetch, router.isReady]);
   return (
     <DefaultLayout>

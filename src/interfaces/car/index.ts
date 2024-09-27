@@ -10,6 +10,7 @@ export interface ICar extends IVehicle {
   transmission: string;
   vehicle_model_id: number;
   vehicle_model_name: string;
+  vehicle_purpose: string;
 }
 
 export interface ICarsResponse {

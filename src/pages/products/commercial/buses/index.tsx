@@ -57,9 +57,6 @@ const ProductBusesPage = () => {
   useEffect(() => {
     setLoading(true);
     if (router.isReady) fetch();
-    if (isError) {
-      showErrorNotification("something went wrong on favorites - buses");
-    }
   }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
   return (
     <DefaultLayout>

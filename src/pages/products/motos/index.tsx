@@ -3,7 +3,7 @@ import ProductCard from "@/components/Product/ProductCard";
 import ProductPageFilters from "@/components/Product/ProductPageFilters";
 import ProductsSkeleton from "@/components/Product/ProductsSkeleton";
 import Pagination from "@/components/shared/Pagination";
-import { busesInput } from "@/helpers/filters";
+import { busesInput, motoInputs } from "@/helpers/filters";
 import { isFavoriteVehicle } from "@/helpers/functions";
 import { showErrorNotification } from "@/helpers/notifications";
 import { useAuth } from "@/hooks/useAuth";
@@ -57,13 +57,10 @@ const ProductMotosPage = () => {
   useEffect(() => {
     setLoading(true);
     if (router.isReady) fetch();
-    if (isError) {
-      showErrorNotification("something went wrong on favorites - motos");
-    }
   }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
   return (
     <DefaultLayout>
-      <ProductPageFilters dataInputs={busesInput} filtersLabel="Мото" />
+      <ProductPageFilters dataInputs={motoInputs} filtersLabel="Мото" />
       <div className="mt-10 flex flex-col gap-3">
         {loading || isLoadingFavorites ? (
           <ProductsSkeleton />

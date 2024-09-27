@@ -15,6 +15,21 @@ const sortingFiltersMoto = [
   { name: "Сначала свежие объявления", value: "created_at-asc" },
   { name: "Сначала старые объявления", value: "created_at-desc" },
 ];
+
+const motoStateFilters = [
+  { name: "Очистить фильтр", value: "" },
+  { name: "С пробегом", value: "with_mileage" },
+  { name: "Без пробега", value: "no_mileage" },
+];
+
+const motoTypeFilters = [
+  { name: "Очистить фильтр", value: "" },
+  { name: "Мотоциклы", value: "motorcycle" },
+  { name: "Мопеды-скутеры", value: "mopeds_scooters" },
+  { name: "Багги", value: "atvs_buggies" },
+  { name: "Снегоходы", value: "snowmobile" },
+  { name: "Остальное", value: "snowmobile" },
+];
 export const transmissionFilters = [
   { name: "Автомат", value: "at" },
   { name: "Механика", value: "mt" },
@@ -384,7 +399,84 @@ export const specTechInputs: IDataInput[] = [
   },
 ];
 
-export const motoInputs: IDataInput[] = [];
+export const motoInputs: IDataInput[] = [
+  {
+    name: "sort",
+    type: "select",
+    options: sortingFiltersMoto,
+    placeholder: "Выбрать",
+    floatingLabel: false,
+    label: "Сортировать по",
+  },
+  {
+    name: "key_words",
+    type: "text",
+    placeholder: "Ключевые слова",
+    floatingLabel: false,
+    label: "Что ищите?",
+  },
+  {
+    name: "moto_type",
+    type: "select",
+    options: motoTypeFilters,
+    placeholder: "Выбрать",
+    floatingLabel: true,
+    label: "Тип",
+  },
+  {
+    name: "price_from",
+    type: "range",
+    floatingLabel: false,
+    label: "Цена, ₸",
+    children: [
+      {
+        name: "price_from",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "от",
+        floatingLabel: false,
+      },
+      {
+        name: "price_to",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "до",
+        floatingLabel: false,
+      },
+    ],
+  },
+  {
+    name: "manufacture_year_from",
+    type: "range",
+    floatingLabel: false,
+    label: "Год выпуска",
+    children: [
+      {
+        name: "manufacture_year_from",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "с",
+        floatingLabel: false,
+      },
+      {
+        name: "manufacture_year_to",
+        type: "text",
+        keyfilter: "pnum",
+        placeholder: "по",
+        floatingLabel: false,
+      },
+    ],
+  },
+
+  {
+    name: "moto_state",
+    type: "select",
+    options: motoStateFilters,
+    placeholder: "Выбрать",
+    floatingLabel: true,
+    label: "Состояние",
+  },
+];
 
 export const popularMarks = [
   {

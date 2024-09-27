@@ -49,6 +49,8 @@ export interface IFilter {
   sort: string;
   vehicle_purpose: string;
   key_words: string;
+  moto_state: string;
+  moto_type: string;
 }
 
 const FiltersDialog = ({
@@ -82,6 +84,8 @@ const FiltersDialog = ({
     vehicle_purpose: "",
     key_words: "",
     manufacture_country: "",
+    moto_state: "",
+    moto_type: "",
   };
   const {
     control,

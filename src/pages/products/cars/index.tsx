@@ -52,9 +52,6 @@ const ProductCarsPage = () => {
   useEffect(() => {
     setLoading(true);
     if (router.isReady) fetch();
-    if (isError) {
-      showErrorNotification("something went wrong on favorites - cars");
-    }
   }, [router.query, page, fetch, router.isReady, isLoadingFavorites]);
 
   return (

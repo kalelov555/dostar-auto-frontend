@@ -29,7 +29,7 @@ export const serializeCarData = (response: ICar) => {
     "Объем двигателя": `${response.engine_capacity} L`,
     "Тип топлива": findInFiltersObjectAndReturnName(
       fuelTypeFilters,
-      response.fuel_type
+      response.fuel_type as string
     ),
     "Год выпуска": response.manufacture_year,
     Пробег: `${response.mileage} km`,
