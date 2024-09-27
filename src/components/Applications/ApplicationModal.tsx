@@ -124,6 +124,7 @@ export default function ApplicationModal({ id }: Props) {
     data: applicationData,
     mutateAsync,
     isPending,
+    isSuccess,
   } = useCreateApplication();
 
   useEffect(() => {
@@ -149,6 +150,8 @@ export default function ApplicationModal({ id }: Props) {
     }
   }, [isLoading, router, setValue, user, isPending]);
 
+  console.log("TYPE", type);
+
   const onSubmit = async (data: IApplicationData) => {
     const { phone, ...loan_application } = data;
 
@@ -169,7 +172,6 @@ export default function ApplicationModal({ id }: Props) {
       reset();
     } catch (err) {
       if (err instanceof AxiosError) {
-        console.log("ERROR", err);
         showErrorNotification(
           err.response?.status === 422
             ? "Сумма оформления рассрочки должна быть больше 5 000 000 тг"
@@ -206,9 +208,19 @@ export default function ApplicationModal({ id }: Props) {
         перед отправкой заявку
       </p>
     ) : (
-      <p></p>
+      <></>
     );
   }
+
+  const findVehicle = (vehicleType: IVehicleType, vehicleId: number) => {
+    return dataApplications?.data.data.some(
+      (obj) =>
+        obj?.vehicle_type === vehicleType && obj?.vehicle_data?.id === vehicleId
+    );
+  };
+
+  if (findVehicle(type, id))
+    text = <p className="text-sm">У вас уже есть заявка на эту модель</p>;
 
   return (
     <div className="bg-white py-4 text-center">
@@ -217,7 +229,9 @@ export default function ApplicationModal({ id }: Props) {
         icon="pi pi-credit-card"
         severity="info"
         loading={isLoadingApplications}
-        disabled={isLoadingApplications || isError}
+        disabled={
+          isLoadingApplications || isError || isSuccess || findVehicle(type, id)
+        }
         onClick={() => setVisible(true)}
       />
       <div className="mt-1">{text}</div>

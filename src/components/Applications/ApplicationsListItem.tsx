@@ -29,19 +29,19 @@ const ApplicationsListItem = ({ application }: Props) => {
       <div className="w-full">
         <div className="flex items-center gap-2">
           <p className="text-lg font-semibold text-primary">
-            {!application.vehicle_data.model
-              ? `${application.vehicle_data.manufacturer_name || ""} ${
-                  application.vehicle_data.vehicle_model_name || ""
+            {!application?.vehicle_data?.model
+              ? `${application?.vehicle_data?.manufacturer_name || ""} ${
+                  application?.vehicle_data?.vehicle_model_name || ""
                 }`
-              : `${application.vehicle_data.manufacturer_name || ""} ${
-                  application.vehicle_data.model || ""
+              : `${application?.vehicle_data?.manufacturer_name || ""} ${
+                  application?.vehicle_data?.model || ""
                 }`}
           </p>
           <Tag value={carName(application.vehicle_type)} severity="info" />
         </div>
         <div>
           <p className="underline text-sm text-gray-600">
-            {application.vehicle_data.manufacture_year} года
+            {application?.vehicle_data?.manufacture_year} года
           </p>
         </div>
         <Divider className="my-3" />
