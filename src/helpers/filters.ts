@@ -17,13 +17,11 @@ const sortingFiltersMoto = [
 ];
 
 const motoStateFilters = [
-  { name: "Очистить фильтр", value: "" },
   { name: "С пробегом", value: "with_mileage" },
   { name: "Без пробега", value: "no_mileage" },
 ];
 
 const motoTypeFilters = [
-  { name: "Очистить фильтр", value: "" },
   { name: "Мотоциклы", value: "motorcycle" },
   { name: "Мопеды-скутеры", value: "mopeds_scooters" },
   { name: "Багги", value: "atvs_buggies" },

@@ -84,8 +84,7 @@ const ManufactureFiltersModal = ({
         <div className="border-0 min-h-screen">
           <div
             onClick={() => setOpen(false)}
-            style={{ padding: "0 1.5rem" }}
-            className="h-12 w-full bg-primary text-white flex items-center gap-4 cursor-pointer"
+            className="px-2 mt-[44px] h-12 w-full bg-primary text-white flex items-center gap-4 cursor-pointer"
           >
             <i className="pi pi-arrow-left pi-pw text-base"></i>
             <p className="text-base font-normal">Марка</p>
