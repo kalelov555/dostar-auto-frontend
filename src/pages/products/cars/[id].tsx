@@ -6,6 +6,7 @@ import { formatPrice } from "@/helpers/functions";
 import { ICar } from "@/interfaces/car";
 import DefaultLayout from "@/layouts/DefaultLayout";
 import api from "@/services/api/client";
+import Head from "next/head";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -28,6 +29,11 @@ const ProductCarPage = () => {
   }, [params, router]);
   return (
     <DefaultLayout>
+      <Head>
+        <title>
+          Dostar-auto - {data?.manufacturer_name} {data?.vehicle_model_name}
+        </title>
+      </Head>
       {loading || !data ? (
         <LoadingScreen />
       ) : (

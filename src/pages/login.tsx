@@ -21,6 +21,7 @@ import { classNames } from "primereact/utils";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import Head from "next/head";
 
 const LoginSchema = z.object({
   email: z
@@ -68,6 +69,9 @@ const LoginPage = () => {
 
   return (
     <AuthPagesLayout>
+      <Head>
+        <title>Dostar-auto - Логин</title>
+      </Head>
       <form
         className="flex flex-col max-w-sm w-full p-6 sm:p-5 gap-3 bg-white rounded-md shadow-xl"
         onSubmit={handleSubmit(onSubmit)}

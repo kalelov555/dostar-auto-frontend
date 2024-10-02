@@ -8,8 +8,8 @@ import { useAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button } from "primereact/button";
-import { Toast } from "primereact/toast";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import Head from "next/head";
 
 const LabeledText = ({
   label,
@@ -54,6 +54,9 @@ const ProfilePage = () => {
 
   return (
     <DefaultLayout>
+      <Head>
+        <title>Мой профиль</title>
+      </Head>
       <div>
         <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full  z-[1500]">
           <p>Мой кабинет</p>

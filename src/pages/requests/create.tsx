@@ -26,6 +26,7 @@ import { SelectButton } from "primereact/selectbutton";
 import { useCallback, useEffect, useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import Head from "next/head";
 
 const RequestSchema = z
   .object({
@@ -200,6 +201,9 @@ const CreateRequestPage = () => {
 
   return (
     <DefaultLayout>
+      <Head>
+        <title>Создание запросов</title>
+      </Head>
       <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full  z-[1500]">
         <p>Форма для запроса</p>
       </div>

@@ -4,7 +4,6 @@ import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
-import { classNames } from "primereact/utils";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { InputMask } from "primereact/inputmask";
@@ -23,6 +22,7 @@ import {
   showErrorNotification,
   showSuccessNotification,
 } from "@/helpers/notifications";
+import Head from "next/head";
 
 const RegisterSchema = z.object({
   first_name: z.string().min(1, "Это поле обязательное"),
@@ -91,6 +91,9 @@ const RegisterPage = () => {
 
   return (
     <AuthPagesLayout>
+      <Head>
+        <title>Dostar-auto - Регистрация</title>
+      </Head>
       <form
         className="flex flex-col max-w-sm w-full p-6 sm:p-5 gap-3 bg-white rounded-md shadow-xl"
         onSubmit={handleSubmit(onSubmit)}

@@ -9,6 +9,7 @@ import api from "@/services/api/client";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 const ProductCarPage = () => {
   const [data, setData] = useState<ITruck>();
@@ -28,6 +29,11 @@ const ProductCarPage = () => {
   }, [params, router]);
   return (
     <DefaultLayout>
+      <Head>
+        <title>
+          Dostar-auto - {data?.manufacturer_name || ""} {data?.model || ""}
+        </title>
+      </Head>
       {loading || !data ? (
         <LoadingScreen />
       ) : (

@@ -10,6 +10,7 @@ import { fetchAllCars } from "@/services/api/modules/cars";
 import { tokenStorage } from "@/store/token";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -62,6 +63,9 @@ export default function Home() {
 
   return (
     <DefaultLayout>
+      <Head>
+        <title>Dostar-auto - сервис по поиску авто</title>
+      </Head>
       <HomePageMenu />
       {!(isLoading || isLoadingFavorites) && (
         <div>

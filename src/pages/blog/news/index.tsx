@@ -8,6 +8,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { fetchBlogs } from "@/services/api/modules/blogs";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
+import Head from "next/head";
 
 const ProductMotosPage = () => {
   const [page, setPage] = useState(1);
@@ -28,6 +29,9 @@ const ProductMotosPage = () => {
 
   return (
     <DefaultLayout>
+      <Head>
+        <title>Dostar-auto - Новости</title>
+      </Head>
       <Subheader label="Новости" />
 
       {isLoading ? (

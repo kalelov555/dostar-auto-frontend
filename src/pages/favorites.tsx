@@ -6,8 +6,8 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import { tokenStorage } from "@/store/token";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
-import { Toast } from "primereact/toast";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import Head from "next/head";
 
 const FavoritesPage = () => {
   const [token, _] = useAtom(tokenStorage);
@@ -39,6 +39,9 @@ const FavoritesPage = () => {
 
   return (
     <DefaultLayout>
+      <Head>
+        <title>Избранные модели</title>
+      </Head>
       <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full">
         <p>Избранное</p>
       </div>

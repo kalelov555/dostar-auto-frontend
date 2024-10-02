@@ -6,6 +6,7 @@ import DefaultLayout from "@/layouts/DefaultLayout";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Head from "next/head";
 
 const NewsViewPage = () => {
   const router = useRouter();
@@ -19,6 +20,9 @@ const NewsViewPage = () => {
   }, [isLoading, fetchStatus, error, isError, router]);
   return (
     <DefaultLayout>
+      <Head>
+        <title>Dostar-auto - Новости {data?.data.title}</title>
+      </Head>
       <Subheader
         label="Новости"
         action={

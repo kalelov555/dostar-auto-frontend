@@ -10,6 +10,7 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
 import { useEffect } from "react";
+import Head from "next/head";
 
 const carName = (type: IVehicleType) => {
   if (type === "car") return "Машина";
@@ -47,6 +48,9 @@ const RequestsPage = () => {
 
   return (
     <DefaultLayout>
+      <Head>
+        <title>Мои запросы</title>
+      </Head>
       <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full  z-[1500]">
         <p>Мои запросы</p>
       </div>

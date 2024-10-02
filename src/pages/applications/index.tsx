@@ -1,16 +1,17 @@
 import ApplicationsList from "@/components/Applications/ApplicationsList";
 import Subheader from "@/components/Header/Subheader";
 import LoadingScreen from "@/components/shared/LoadingScrenn";
-import Pagination from "@/components/shared/Pagination";
 import { useGetApplications } from "@/hooks/useApplications";
 import DefaultLayout from "@/layouts/DefaultLayout";
-import { useState } from "react";
+import Head from "next/head";
 
 const ApplicationsPage = () => {
-  const [page, setPage] = useState(1);
   const { data, isLoading, isError } = useGetApplications({ view: "extended" });
   return (
     <DefaultLayout>
+      <Head>
+        <title>Dostar-auto - Мои заявки</title>
+      </Head>
       <Subheader label="Мои заявки" />
       {isLoading ? (
         <LoadingScreen />
