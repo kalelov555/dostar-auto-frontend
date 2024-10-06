@@ -1,39 +1,40 @@
 import Link from "next/link";
 import { Dialog } from "primereact/dialog";
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import TypesMenuChildrenDialog from "./TypeMenuChildrenDialog";
 import { useRouter } from "next/router";
+import { Bus, FireTruck, Motorcycle, Truck } from "@phosphor-icons/react";
 
 const mainMenuItems: TypeMenuItem[] = [
   {
     name: "cars",
     pathname: "/products/cars",
     label: "Лекговые",
-    icon: "pi pi-car",
+    icon: <i className={`pi pi-car text-primary`}></i>,
   },
   {
     name: "commercial",
     pathname: "/products/commercial",
     label: "Коммерческие",
-    icon: "pi pi-truck",
+    icon: <i className={`pi pi-truck text-primary`}></i>,
     children: [
       {
         name: "buses",
         pathname: "/products/commercial/buses",
         label: "Автобусы",
-        icon: "pi pi-car",
+        icon: <Bus size={16} weight="fill" className="text-primary" />,
       },
       {
         name: "trucks",
         pathname: "/products/commercial/trucks",
         label: "Грузовики",
-        icon: "pi pi-truck",
+        icon: <Truck size={16} weight="fill" className="text-primary" />,
       },
       {
         name: "spec_technics",
         pathname: "/products/commercial/spec_technics",
         label: "Спец. техника",
-        icon: "pi pi-car",
+        icon: <FireTruck size={16} weight="fill" className="text-primary" />,
       },
     ],
   },
@@ -41,7 +42,7 @@ const mainMenuItems: TypeMenuItem[] = [
     name: "motos",
     pathname: "/products/motos",
     label: "Мото",
-    icon: "pi pi-car",
+    icon: <Motorcycle weight="fill" className="text-primary" size={16} />,
   },
 ];
 
@@ -49,7 +50,7 @@ export type TypeMenuItem = {
   name: string;
   pathname: string;
   label: string;
-  icon: string;
+  icon: string | ReactNode;
   command?: () => void;
   children?: TypeMenuItem[];
 };
@@ -124,9 +125,10 @@ const TypesMenuDialog = ({ typeModalOpened, setTypeModalOpened }: Props) => {
                     tabIndex={hasChildren ? -1 : undefined}
                   >
                     <div className="flex gap-3 items-center">
-                      <i
+                      {/* <i
                         className={`${item.icon} pi-pw text-lg text-primary`}
-                      ></i>
+                      ></i> */}
+                      {item.icon}
                       <p>{item.label}</p>
                     </div>
                     <span>

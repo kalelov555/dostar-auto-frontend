@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo, useState } from "react";
 import TypesMenuDialog from "../Product/TypesMenuDialog";
+import { Motorcycle } from "@phosphor-icons/react";
 
 const HomePageMenu = () => {
   const router = useRouter();
@@ -10,28 +11,28 @@ const HomePageMenu = () => {
     return [
       {
         label: "Машины",
-        icon: "pi pi-car",
+        icon: <i className={`pi pi-car text-primary`}></i>,
         command: () => {
           router.push({ pathname: "/products/cars" });
         },
       },
       {
         label: "Коммерческие",
-        icon: "pi pi-truck",
+        icon: <i className={`pi pi-truck text-primary`}></i>,
         command: () => {
           setTypeMenuOpened(true);
         },
       },
       {
         label: "Мототехника",
-        icon: "pi pi-car",
+        icon: <Motorcycle weight="fill" className="text-primary" size={16} />,
         command: () => {
           router.push({ pathname: "/products/motos" });
         },
       },
       {
         label: "Cпец. офферы",
-        icon: "pi pi-bolt",
+        icon: <i className={`pi pi-bolt text-primary`}></i>,
         command: () => {},
       },
     ];
@@ -49,7 +50,7 @@ const HomePageMenu = () => {
             className="p-3 flex items-center justify-center gap-2 flex-col border border-[0.5px] border-gray-primary h-24 cursor-pointer"
             onClick={() => item.command()}
           >
-            <i className={`${item.icon} pi-pw text-primary`}></i>
+            {item.icon}
 
             <p className="text-xs text-center">{item.label}</p>
           </div>

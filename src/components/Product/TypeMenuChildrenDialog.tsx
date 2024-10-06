@@ -61,9 +61,7 @@ const TypesMenuChildrenDialog = ({
                   href={{ pathname: item.pathname }}
                 >
                   <div className="flex gap-3 items-center">
-                    <i
-                      className={`${item.icon} pi-pw text-lg text-primary`}
-                    ></i>
+                    {item.icon}
                     <p>{item.label}</p>
                   </div>
                   <span>
