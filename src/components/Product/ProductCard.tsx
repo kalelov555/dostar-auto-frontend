@@ -15,7 +15,7 @@ import { ITruck } from "@/interfaces/trucks";
 import { ISpecTechnic } from "@/interfaces/spec-technics";
 
 type Props = {
-  product: ICar & IBus & IMoto & ITruck & ISpecTechnic;
+  product: any;
   authorized: boolean | undefined | IUser;
   type: "cars" | "buses" | "trucks" | "motos" | "spec_technics";
   isFavorite: boolean;
