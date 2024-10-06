@@ -66,7 +66,7 @@ const ProductPageFilters = ({ filtersLabel, dataInputs }: Props) => {
         filtersModalOpened={filtersModalOpened}
         setFiltersModalOpened={setFiltersModalOpened}
       />
-      <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full">
+      <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full z-[1500]">
         <div
           onClick={() => setTypeModalOpened(true)}
           className="flex items-center gap-2 cursor-pointer"

@@ -61,7 +61,7 @@ const ProductMotosPage = () => {
   return (
     <DefaultLayout>
       <ProductPageFilters dataInputs={motoInputs} filtersLabel="Мото" />
-      <div className="mt-10 flex flex-col gap-3">
+      <div className="mt-10 pb-10 flex flex-col gap-3">
         {loading || isLoadingFavorites ? (
           <ProductsSkeleton />
         ) : (

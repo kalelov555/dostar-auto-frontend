@@ -30,11 +30,11 @@ const HomePageMenu = () => {
           router.push({ pathname: "/products/motos" });
         },
       },
-      {
-        label: "Cпец. офферы",
-        icon: <i className={`pi pi-bolt text-primary`}></i>,
-        command: () => {},
-      },
+      // {
+      //   label: "Cпец. офферы",
+      //   icon: <i className={`pi pi-bolt text-primary`}></i>,
+      //   command: () => {},
+      // },
     ];
   }, []);
   return (
@@ -43,7 +43,7 @@ const HomePageMenu = () => {
         typeModalOpened={typeMenuOpened}
         setTypeModalOpened={setTypeMenuOpened}
       />
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-3">
         {items.map((item) => (
           <div
             key={item.label}

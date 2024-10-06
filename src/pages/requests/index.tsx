@@ -11,6 +11,8 @@ import { Divider } from "primereact/divider";
 import { Tag } from "primereact/tag";
 import { useEffect } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
+import { useAuth } from "@/hooks/useAuth";
 
 const carName = (type: IVehicleType) => {
   if (type === "car") return "Машина";
@@ -23,12 +25,17 @@ const carName = (type: IVehicleType) => {
 const RequestsPage = () => {
   const { data, isLoading, isError, refetch, error } = useRequests();
   const { mutateAsync, isPending, isError: isErrorDelete } = useDeleteRequest();
+  const auth = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (isError) {
       showErrorNotification(error.message);
     }
-  }, [isLoading, isError]);
+    if (auth.isError) {
+      router.replace("/login");
+    }
+  }, [isLoading, isError, auth.isLoading]);
 
   const accept = async (id: number) => {
     await mutateAsync(id);
@@ -60,6 +67,18 @@ const RequestsPage = () => {
       ) : (
         <div className="mt-16 flex flex-col gap-8">
           <ConfirmDialog acceptLabel="Да" rejectLabel="Нет" draggable={false} />
+          {data?.data?.length === 0 && (
+            <div className="min-h-[80vh] flex items-center justify-center">
+              <div className="text-center">
+                <h1>У вас нет активных запросов!</h1>
+                <Button
+                  onClick={() => router.push("/create")}
+                  severity="info"
+                  label="Создать запрос"
+                />
+              </div>
+            </div>
+          )}
           {data?.data.map((item) => (
             <div
               className="rounded-xl bg-white p-3 relative flex flex-col"
