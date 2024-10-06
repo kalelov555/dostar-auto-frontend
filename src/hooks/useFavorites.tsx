@@ -2,6 +2,7 @@ import { IFavorite } from "@/interfaces/favorites";
 import api from "@/services/api/client";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useAuth } from "./useAuth";
 
 type Params = {
   params?: {
@@ -12,11 +13,13 @@ type Params = {
   };
 };
 
-export const useGetFavorites = (params: Params) =>
-  useQuery({
-    refetchOnMount: true,
+export const useGetFavorites = (params: Params) => {
+  const auth = useAuth();
+  return useQuery({
+    refetchOnMount: "always",
     retry: false,
     queryKey: ["favorites", params.headers.Authorization],
+    enabled: auth.isSuccess,
     queryFn: async () => {
       try {
         const response = await api.get<IFavorite[]>("/favourite_vehicles", {
@@ -30,6 +33,7 @@ export const useGetFavorites = (params: Params) =>
       }
     },
   });
+};
 
 type PostParams = {
   id: number;

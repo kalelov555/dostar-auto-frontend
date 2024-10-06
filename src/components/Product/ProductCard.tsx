@@ -6,7 +6,7 @@ import { IUser } from "@/interfaces/auth";
 import { useAddFavorite, useDeleteFavorite } from "@/hooks/useFavorites";
 import { useAtom } from "jotai";
 import { tokenStorage } from "@/store/token";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { showErrorNotification } from "@/helpers/notifications";
 
 type Props = {
@@ -35,6 +35,12 @@ const ProductCard = ({
   const [token, _] = useAtom(tokenStorage);
   const loading = isPendingAdd || isPendingDelete;
   const [favorite, setFavorite] = useState(isFavorite);
+
+  useEffect(() => {
+    if (isFavorite) setFavorite(true);
+    else setFavorite(false);
+  }, [isFavorite]);
+
   const onClick = async () => {
     if (!loading) {
       if (!favorite) {
