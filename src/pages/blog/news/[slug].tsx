@@ -37,12 +37,15 @@ const NewsViewPage = () => {
       {isLoading ? (
         <LoadingScreen />
       ) : (
-        <div>
-          <div className="h-[50vh] w-full relative text-center">
-            <Image
-              fill
-              src="https://picsum.photos/200/300?random=1"
-              alt={data?.data.title as string}
+        <div className="mt-10">
+          <div className="h-[40vh] sm:h-[50vh] w-full relative text-center bg-slate-50">
+            <img
+              className="max-w-[100%] max-h-[100%] mx-auto"
+              src={
+                data?.data.image_url
+                  ? data.data.image_url
+                  : "https://picsum.photos/200/300?random=1"
+              }
             />
           </div>
           <div className="container p-3 bg-white">

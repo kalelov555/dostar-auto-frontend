@@ -8,9 +8,14 @@ import { useAtom } from "jotai";
 import { tokenStorage } from "@/store/token";
 import { useEffect, useState } from "react";
 import { showErrorNotification } from "@/helpers/notifications";
+import { IBus } from "@/interfaces/bus";
+import { ICar } from "@/interfaces/car";
+import { IMoto } from "@/interfaces/moto";
+import { ITruck } from "@/interfaces/trucks";
+import { ISpecTechnic } from "@/interfaces/spec-technics";
 
 type Props = {
-  product: any;
+  product: ICar & IBus & IMoto & ITruck & ISpecTechnic;
   authorized: boolean | undefined | IUser;
   type: "cars" | "buses" | "trucks" | "motos" | "spec_technics";
   isFavorite: boolean;
@@ -111,14 +116,18 @@ const ProductCard = ({
           </div>
         )}
       </div>
-      <div className="flex gap-4 mt-4">
-        <Image
-          width={150}
-          height={150}
-          src="https://hips.hearstapps.com/hmg-prod/images/a218141-medium-1635867809.jpg?crop=0.723xw:0.811xh;0.133xw,0.127xh&resize=768:*"
-          alt={product.vehicle_model_name || ""}
-        />
-        <div className="text-sm">
+      <div className="flex gap-4 mt-4 ">
+        <div className="w-1/3 sm:w-1/4 h-40 p-3 bg-slate-50">
+          <img
+            className="max-w-[100%] max-h-[100%] mx-auto"
+            src={
+              product.image_urls?.length
+                ? product.image_urls[0]
+                : "https://picsum.photos/200/300?random=1"
+            }
+          />
+        </div>
+        <div className="text-sm w-2/3 sm:w-3/4">
           <p
             style={{ overflowWrap: "break-word" }}
             className="h-16 text-ellipsis overflow-hidden ... w-full"
