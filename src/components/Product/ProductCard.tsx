@@ -117,9 +117,9 @@ const ProductCard = ({
         )}
       </div>
       <div className="flex gap-4 mt-4 ">
-        <div className="w-1/3 sm:w-1/4 h-40 p-3 bg-slate-50">
+        <div className="w-1/3 sm:w-1/4 h-40 bg-slate-50 flex items-center justify-center">
           <img
-            className="max-w-[100%] max-h-[100%] mx-auto"
+            className="max-w-[100%] max-h-[100%] mx-auto object-fill"
             src={
               product.image_urls?.length
                 ? product.image_urls[0]

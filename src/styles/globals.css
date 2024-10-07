@@ -82,6 +82,10 @@ h3 {
   font-weight: 500;
 }
 
+.image-gallery-content {
+  width: 100%;
+}
+
 .p-galleria-close {
   top: 30px;
 }
