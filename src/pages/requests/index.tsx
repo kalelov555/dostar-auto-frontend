@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useAuth } from "@/hooks/useAuth";
+import Subheader from "@/components/Header/Subheader";
 
 const carName = (type: IVehicleType) => {
   if (type === "car") return "Машина";
@@ -58,9 +59,7 @@ const RequestsPage = () => {
       <Head>
         <title>Мои запросы</title>
       </Head>
-      <div className="h-10 bg-primary flex items-center justify-between text-white text-sm px-4 fixed top-[44px] max-w-[768px] w-full  z-[1500]">
-        <p>Мои запросы</p>
-      </div>
+      <Subheader label="Мои запросы" />
 
       {isLoading ? (
         <LoadingScreen />
@@ -68,7 +67,7 @@ const RequestsPage = () => {
         <div className="mt-16 flex flex-col gap-8">
           <ConfirmDialog acceptLabel="Да" rejectLabel="Нет" draggable={false} />
           {data?.data?.length === 0 && (
-            <div className="min-h-[80vh] flex items-center justify-center">
+            <div className="min-h-[70vh] flex items-center justify-center">
               <div className="text-center">
                 <h1>У вас нет активных запросов!</h1>
                 <Button

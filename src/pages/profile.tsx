@@ -36,7 +36,7 @@ const ProfilePage = () => {
   useEffect(() => {
     if (isError) {
       showErrorNotification(error?.message as string);
-      router.push("/login");
+      router.replace("/login");
     }
     if (isDeleted) {
       localStorage.removeItem("token");

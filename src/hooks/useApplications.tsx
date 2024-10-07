@@ -12,12 +12,15 @@ import { tokenStorage } from "@/store/token";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { useAtom } from "jotai";
+import { useAuth } from "./useAuth";
 
 export const useGetApplications = (params: any) => {
+  const auth = useAuth();
   const [token, _] = useAtom(tokenStorage);
   return useQuery<AxiosResponse<IApplicationsResponse, any>, Error>({
     retry: false,
     queryKey: ["applications"],
+    enabled: auth.isSuccess,
     queryFn: async () => {
       const response = await fetchMyApplications(params, {
         Authorization: `Bearer ${token}`,

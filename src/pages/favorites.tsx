@@ -8,10 +8,14 @@ import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Head from "next/head";
+import { useAuth } from "@/hooks/useAuth";
+import Link from "next/link";
 
 const FavoritesPage = () => {
   const [token, _] = useAtom(tokenStorage);
   const router = useRouter();
+
+  const auth = useAuth();
 
   const type = (
     str: string
@@ -31,12 +35,6 @@ const FavoritesPage = () => {
       },
     });
 
-  useEffect(() => {
-    if (isError) {
-      showErrorNotification(error.message);
-    }
-  }, [isLoading, isError]);
-
   return (
     <DefaultLayout>
       <Head>
@@ -47,20 +45,32 @@ const FavoritesPage = () => {
       </div>
 
       <div className="mt-10">
-        {isLoading || isRefetching ? (
+        {isLoading || isRefetching || auth.isLoading ? (
           <LoadingScreen />
         ) : (
-          <div className="flex flex-col gap-1">
-            {data?.data.map((favorite) => (
-              <ProductCard
-                key={favorite.id}
-                product={favorite.vehicle_data}
-                type={type(favorite.vehicle_type)}
-                authorized={isSuccess}
-                isFavorite
-              />
-            ))}
-          </div>
+          <>
+            {auth.isError && (
+              <div className="min-h-[70vh] flex items-center justify-center w-full">
+                <h2 className="w-full text-center">
+                  <Link className="text-primary underline" href="/login">
+                    Авторизуйтесь
+                  </Link>{" "}
+                  для просмотра
+                </h2>
+              </div>
+            )}
+            <div className="flex flex-col gap-1">
+              {data?.data.map((favorite) => (
+                <ProductCard
+                  key={favorite.id}
+                  product={favorite.vehicle_data}
+                  type={type(favorite.vehicle_type)}
+                  authorized={isSuccess}
+                  isFavorite
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
     </DefaultLayout>

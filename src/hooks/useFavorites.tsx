@@ -20,18 +20,10 @@ export const useGetFavorites = (params: Params) => {
     retry: false,
     queryKey: ["favorites", params.headers.Authorization],
     enabled: auth.isSuccess,
-    queryFn: async () => {
-      try {
-        const response = await api.get<IFavorite[]>("/favourite_vehicles", {
-          ...params,
-        });
-        return response;
-      } catch (err) {
-        if (err instanceof AxiosError) {
-          throw err;
-        }
-      }
-    },
+    queryFn: () =>
+      api.get<IFavorite[]>("/favourite_vehicles", {
+        ...params,
+      }),
   });
 };
 
