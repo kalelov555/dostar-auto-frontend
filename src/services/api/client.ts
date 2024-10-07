@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://splendid-weekly-eft.ngrok-free.app",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
     "ngrok-skip-browser-warning": true,
     "Access-Control-Allow-Origin": "*",
