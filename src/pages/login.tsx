@@ -37,6 +37,7 @@ const LoginSchema = z.object({
 const LoginPage = () => {
   const router = useRouter();
   const [_, setToken] = useAtom(tokenStorage);
+  const { next: nextPage } = router.query;
 
   const { mutate, isPending } = useMutation({
     mutationFn: authLogin,
@@ -44,7 +45,7 @@ const LoginPage = () => {
       let bearerToken: string = res.headers.authorization;
       setToken(bearerToken.replace("Bearer ", ""));
       showSuccessNotification();
-      router.push("/");
+      router.push((nextPage as string) || "/");
     },
     onError: (err: AxiosError) => {
       showErrorNotification(
@@ -119,6 +120,7 @@ const LoginPage = () => {
                         })}
                         feedback={false}
                         placeholder={input.placeholder}
+                        autoComplete="true"
                       />
                       <InputErrorText
                         msg={fieldState.error?.message as string}
@@ -136,7 +138,7 @@ const LoginPage = () => {
         <div className="text-center">
           <Link
             className="text-xs text-primary hover:brightness-75"
-            href="/signup"
+            href={`/signup${nextPage ? `?next=${nextPage}` : ""}`}
           >
             Создайте аккаунт
           </Link>

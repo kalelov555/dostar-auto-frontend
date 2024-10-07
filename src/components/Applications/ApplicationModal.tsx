@@ -114,6 +114,7 @@ export default function ApplicationModal({ id }: Props) {
     overdue_credits_presence: "",
     initial_fee: 0,
   };
+  const nextPage = router.pathname.replace("[id]", String(id));
 
   const { control, handleSubmit, setValue, reset } = useForm<IApplicationData>({
     defaultValues,
@@ -199,7 +200,7 @@ export default function ApplicationModal({ id }: Props) {
       <p className="text-sm">
         <Link
           className="text-primary underline hover:no-underline"
-          href="/login"
+          href={`/login?next=${nextPage}`}
         >
           Авторизуйтесь
         </Link>{" "}

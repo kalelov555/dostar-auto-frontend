@@ -111,7 +111,7 @@ const CreateRequestPage = () => {
 
   useEffect(() => {
     if (isError) {
-      router.replace("/login");
+      router.replace(`/login?next=${router?.pathname}`);
     }
 
     if (user) {

@@ -40,6 +40,7 @@ const RegisterSchema = z.object({
 const RegisterPage = () => {
   const [_, setToken] = useAtom(tokenStorage);
   const router = useRouter();
+  const { next: nextPage } = router.query;
   const defaultValues: IRegisterDTO = {
     password: "",
     email: "",
@@ -61,7 +62,7 @@ const RegisterPage = () => {
       let bearerToken: string = res.headers.authorization;
       setToken(bearerToken.replace("Bearer ", ""));
       showSuccessNotification();
-      router.push("/");
+      router.push((nextPage as string) || "/");
     },
     onError: (err: AxiosError) => {
       localStorage.removeItem("token");
@@ -143,6 +144,7 @@ const RegisterPage = () => {
                         placeholder={input.placeholder}
                         header={passwordHeader}
                         footer={passwordFooter}
+                        autoComplete="true"
                       />
                       <InputErrorText
                         msg={fieldState.error?.message as string}
@@ -182,7 +184,7 @@ const RegisterPage = () => {
         <div className="text-center">
           <Link
             className="text-xs text-primary hover:brightness-75"
-            href="/login"
+            href={`/login${nextPage ? `?next=${nextPage}` : ""}`}
           >
             Есть аккаунт?
           </Link>
