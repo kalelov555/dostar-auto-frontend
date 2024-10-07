@@ -1,6 +1,5 @@
 import { humanReadableDateFormat } from "@/helpers/functions";
 import { IBlog } from "@/interfaces/blog";
-import Image from "next/image";
 import { Divider } from "primereact/divider";
 
 interface Props {
@@ -26,10 +25,10 @@ const BlogListItem = ({ blog }: Props) => {
           <h2 className="leading-tight group-hover:text-primary">
             {blog.title}
           </h2>
-          <p className="text-gray-600 leading-tight text-sm mt-1">
-            {blog.description.slice(0, 130)}{" "}
-            {blog.description.length > 130 && "..."}
-          </p>
+          <div
+            dangerouslySetInnerHTML={{ __html: blog.description }}
+            className="text-gray-600 leading-tight text-sm mt-1"
+          />
           <Divider className="my-3" />
           <p className="text-right text-gray-400 text-sm">
             {humanReadableDateFormat(new Date(blog.created_at))}

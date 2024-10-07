@@ -55,7 +55,12 @@ const NewsViewPage = () => {
                 new Date(data?.data.created_at as string)
               )}
             </p>
-            <p className="text-sm mt-3">{data?.data.description}</p>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: data?.data.description as string,
+              }}
+              className="leading-tight text-sm mt-3"
+            />
           </div>
         </div>
       )}
